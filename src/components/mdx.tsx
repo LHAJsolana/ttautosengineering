@@ -1,6 +1,6 @@
 // src/components/mdx.tsx
 import React from "react";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 
 /**
  * Clean MDX component mapping for next-mdx-remote/rsc compileMDX.

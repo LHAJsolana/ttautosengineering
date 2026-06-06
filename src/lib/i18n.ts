@@ -25,6 +25,8 @@ export const ui = {
     menu: "Menu",
     closeMenu: "Close menu",
     openMenu: "Open menu",
+    fallbackNotice:
+      "Some technical articles are still shown in English while this translation is being prepared.",
     nav: {
       insights: "Insights",
       blog: "Blog",
@@ -61,6 +63,8 @@ export const ui = {
     menu: "Menu",
     closeMenu: "Menu sluiten",
     openMenu: "Menu openen",
+    fallbackNotice:
+      "Sommige technische artikelen worden nog in het Engels getoond terwijl de Nederlandse vertaling wordt voorbereid.",
     nav: {
       insights: "Inzichten",
       blog: "Blog",
@@ -97,6 +101,8 @@ export const ui = {
     menu: "القائمة",
     closeMenu: "إغلاق القائمة",
     openMenu: "فتح القائمة",
+    fallbackNotice:
+      "تُعرض بعض المقالات التقنية باللغة الإنجليزية مؤقتاً إلى حين اكتمال الترجمة العربية.",
     nav: {
       insights: "التحليلات",
       blog: "المدونة",

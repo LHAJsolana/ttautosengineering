@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 
 export type BlogFrontmatter = {
   title: string;
@@ -22,12 +23,16 @@ export type BlogMeta = {
 
 export type BlogPost = {
   slug: string;
+  locale: Locale;
+  isFallback: boolean;
   frontmatter: BlogFrontmatter;
   content: string;
   meta: BlogMeta;
 };
 
-const BLOG_DIR = path.join(process.cwd(), "src", "content", "blog");
+function blogDir(locale: Locale) {
+  return path.join(process.cwd(), "src", "content", locale, "blog");
+}
 
 function safeDate(input?: string) {
   if (!input) return null;
@@ -116,30 +121,55 @@ function computeMeta(content: string): BlogMeta {
   };
 }
 
-function readBlogFile(filePath: string, slug: string): BlogPost {
+function readBlogFile(
+  filePath: string,
+  slug: string,
+  locale: Locale,
+  requestedLocale: Locale
+): BlogPost {
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   const frontmatter = validateFrontmatter(data, slug);
   return {
     slug,
+    locale,
+    isFallback: locale !== requestedLocale,
     frontmatter,
     content,
     meta: computeMeta(content),
   };
 }
 
-export function getAllBlogPosts(): BlogPost[] {
-  if (!fs.existsSync(BLOG_DIR)) return [];
+function contentFiles(locale: Locale) {
+  const dir = blogDir(locale);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+}
 
-  const files = fs
-    .readdirSync(BLOG_DIR)
-    .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+export function getAllBlogPosts(locale: Locale = defaultLocale): BlogPost[] {
+  const localized = new Map(
+    contentFiles(locale).map((filename) => [filename.replace(/\.mdx?$/, ""), filename])
+  );
+  const english = contentFiles(defaultLocale);
+  const slugs = new Set([
+    ...english.map((filename) => filename.replace(/\.mdx?$/, "")),
+    ...localized.keys(),
+  ]);
 
-  return files
-    .map((filename) => {
-      const slug = filename.replace(/\.mdx?$/, "");
-      return readBlogFile(path.join(BLOG_DIR, filename), slug);
+  return [...slugs]
+    .map((slug) => {
+      const localizedFilename = localized.get(slug);
+      const contentLocale = localizedFilename ? locale : defaultLocale;
+      const filename = localizedFilename ?? english.find((file) => file.replace(/\.mdx?$/, "") === slug);
+      if (!filename) return null;
+      return readBlogFile(
+        path.join(blogDir(contentLocale), filename),
+        slug,
+        contentLocale,
+        locale
+      );
     })
+    .filter((post): post is BlogPost => post !== null)
     .sort((a, b) => {
       const aKey =
         safeDate(a.frontmatter.updated) ??
@@ -153,16 +183,28 @@ export function getAllBlogPosts(): BlogPost[] {
     });
 }
 
-export function getBlogPostBySlug(slug: string): BlogPost | null {
-  const mdxPath = path.join(BLOG_DIR, `${slug}.mdx`);
-  const mdPath = path.join(BLOG_DIR, `${slug}.md`);
+export function getBlogPostBySlug(
+  slug: string,
+  locale: Locale = defaultLocale
+): BlogPost | null {
+  const localizedDir = blogDir(locale);
+  const fallbackDir = blogDir(defaultLocale);
+  const localizedMdx = path.join(localizedDir, `${slug}.mdx`);
+  const localizedMd = path.join(localizedDir, `${slug}.md`);
+  const fallbackMdx = path.join(fallbackDir, `${slug}.mdx`);
+  const fallbackMd = path.join(fallbackDir, `${slug}.md`);
 
-  const filePath = fs.existsSync(mdxPath)
-    ? mdxPath
-    : fs.existsSync(mdPath)
-      ? mdPath
+  const filePath = fs.existsSync(localizedMdx)
+    ? localizedMdx
+    : fs.existsSync(localizedMd)
+      ? localizedMd
+      : fs.existsSync(fallbackMdx)
+        ? fallbackMdx
+        : fs.existsSync(fallbackMd)
+          ? fallbackMd
       : null;
 
   if (!filePath) return null;
-  return readBlogFile(filePath, slug);
+  const contentLocale = filePath.startsWith(localizedDir) ? locale : defaultLocale;
+  return readBlogFile(filePath, slug, contentLocale, locale);
 }

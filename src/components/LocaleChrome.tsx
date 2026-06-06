@@ -1,21 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useSyncExternalStore } from "react";
+import Link from "@/components/LocalizedLink";
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import {
-  defaultLocale,
-  getUi,
-  isLocale,
-  localePath,
-  type Locale,
-} from "@/lib/i18n";
-
-function pathnameLocale(pathname: string): Locale {
-  const segment = pathname.split("/")[1];
-  return isLocale(segment) ? segment : defaultLocale;
-}
+import { getUi, localePath, type Locale } from "@/lib/i18n";
 
 function FooterLink({
   locale,
@@ -99,13 +87,14 @@ function SiteFooter({ locale }: { locale: Locale }) {
   );
 }
 
-export default function LocaleChrome({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const locale = useSyncExternalStore(
-    () => () => undefined,
-    () => pathnameLocale(pathname),
-    () => defaultLocale
-  );
+export default function LocaleChrome({
+  locale,
+  children,
+}: {
+  locale: Locale;
+  children: React.ReactNode;
+}) {
+  const copy = getUi(locale);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -115,6 +104,13 @@ export default function LocaleChrome({ children }: { children: React.ReactNode }
   return (
     <>
       <Navbar locale={locale} />
+      {locale !== "en" ? (
+        <div className="border-b border-amber-400/20 bg-amber-400/10">
+          <p className="mx-auto max-w-6xl px-6 py-2 text-xs text-amber-100">
+            {copy.fallbackNotice}
+          </p>
+        </div>
+      ) : null}
       {children}
       <SiteFooter locale={locale} />
     </>

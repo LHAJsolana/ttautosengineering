@@ -38,6 +38,22 @@ html[dir="rtl"] .prose {
   text-align: right;
 }
 
+html[dir="rtl"] .prose blockquote {
+  border-left-width: 0;
+  border-right-width: 0.25rem;
+  border-right-color: rgba(239, 68, 68, 0.7);
+}
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  text-align: right;
+}
+
+html[dir="rtl"] [data-directional-icon] {
+  transform: scaleX(-1);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

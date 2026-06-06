@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 
 export type InsightFrontmatter = {
   title: string;
@@ -50,6 +51,8 @@ export type InsightMeta = {
 
 export type Insight = {
   slug: string;
+  locale: Locale;
+  isFallback: boolean;
   frontmatter: InsightFrontmatter;
   content: string;
   meta?: InsightMeta;
@@ -75,7 +78,9 @@ export type InsightListItem = {
   readingMinutes: number;
 };
 
-const INSIGHTS_DIR = path.join(process.cwd(), "src", "content", "insights");
+function insightsDir(locale: Locale) {
+  return path.join(process.cwd(), "src", "content", locale, "insights");
+}
 
 function safeDate(input?: string) {
   if (!input) return null;
@@ -226,26 +231,56 @@ function computeMeta(content: string): InsightMeta {
   };
 }
 
-function readInsightFile(filePath: string, slug: string): Insight {
+function readInsightFile(
+  filePath: string,
+  slug: string,
+  locale: Locale,
+  requestedLocale: Locale
+): Insight {
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   const frontmatter = validateFrontmatter(data as Record<string, unknown>, slug);
   const meta = computeMeta(content);
-  return { slug, frontmatter, content, meta };
+  return {
+    slug,
+    locale,
+    isFallback: locale !== requestedLocale,
+    frontmatter,
+    content,
+    meta,
+  };
 }
 
-export function getAllInsights(): Insight[] {
-  if (!fs.existsSync(INSIGHTS_DIR)) return [];
+function contentFiles(locale: Locale) {
+  const dir = insightsDir(locale);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+}
 
-  const files = fs
-    .readdirSync(INSIGHTS_DIR)
-    .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+export function getAllInsights(locale: Locale = defaultLocale): Insight[] {
+  const localized = new Map(
+    contentFiles(locale).map((filename) => [filename.replace(/\.mdx?$/, ""), filename])
+  );
+  const english = contentFiles(defaultLocale);
+  const slugs = new Set([
+    ...english.map((filename) => filename.replace(/\.mdx?$/, "")),
+    ...localized.keys(),
+  ]);
 
-  const items = files.map((filename) => {
-    const slug = filename.replace(/\.mdx?$/, "");
-    const fullPath = path.join(INSIGHTS_DIR, filename);
-    return readInsightFile(fullPath, slug);
-  });
+  const items = [...slugs]
+    .map((slug) => {
+      const localizedFilename = localized.get(slug);
+      const contentLocale = localizedFilename ? locale : defaultLocale;
+      const filename = localizedFilename ?? english.find((file) => file.replace(/\.mdx?$/, "") === slug);
+      if (!filename) return null;
+      return readInsightFile(
+        path.join(insightsDir(contentLocale), filename),
+        slug,
+        contentLocale,
+        locale
+      );
+    })
+    .filter((post): post is Insight => post !== null);
 
   // Sort by updated (if exists) else date, newest first
   return items.sort((a, b) => {
@@ -261,8 +296,8 @@ export function getAllInsights(): Insight[] {
   });
 }
 
-export function getAllInsightsList(): InsightListItem[] {
-  const all = getAllInsights();
+export function getAllInsightsList(locale: Locale = defaultLocale): InsightListItem[] {
+  const all = getAllInsights(locale);
   return all.map((p) => ({
     slug: p.slug,
     title: p.frontmatter.title,
@@ -284,24 +319,39 @@ export function getAllInsightsList(): InsightListItem[] {
   }));
 }
 
-export function getInsightBySlug(slug: string): Insight | null {
-  const mdxPath = path.join(INSIGHTS_DIR, `${slug}.mdx`);
-  const mdPath = path.join(INSIGHTS_DIR, `${slug}.md`);
+export function getInsightBySlug(
+  slug: string,
+  locale: Locale = defaultLocale
+): Insight | null {
+  const localizedDir = insightsDir(locale);
+  const fallbackDir = insightsDir(defaultLocale);
+  const localizedMdx = path.join(localizedDir, `${slug}.mdx`);
+  const localizedMd = path.join(localizedDir, `${slug}.md`);
+  const fallbackMdx = path.join(fallbackDir, `${slug}.mdx`);
+  const fallbackMd = path.join(fallbackDir, `${slug}.md`);
 
-  const filePath = fs.existsSync(mdxPath)
-    ? mdxPath
-    : fs.existsSync(mdPath)
-      ? mdPath
+  const filePath = fs.existsSync(localizedMdx)
+    ? localizedMdx
+    : fs.existsSync(localizedMd)
+      ? localizedMd
+      : fs.existsSync(fallbackMdx)
+        ? fallbackMdx
+        : fs.existsSync(fallbackMd)
+          ? fallbackMd
       : null;
 
   if (!filePath) return null;
 
-  return readInsightFile(filePath, slug);
+  const contentLocale = filePath.startsWith(localizedDir) ? locale : defaultLocale;
+  return readInsightFile(filePath, slug, contentLocale, locale);
 }
 
-export function getInsightsByBrand(brand: string): Insight[] {
+export function getInsightsByBrand(
+  brand: string,
+  locale: Locale = defaultLocale
+): Insight[] {
   const normalized = normalizeBrand(brand) ?? brand;
-  const all = getAllInsights();
+  const all = getAllInsights(locale);
   return all.filter(
     (p) => (p.frontmatter.brand ?? "").toLowerCase() === normalized.toLowerCase()
   );

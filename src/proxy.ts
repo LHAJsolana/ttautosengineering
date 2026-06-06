@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
 
 const PUBLIC_FILE = /\.[^/]+$/;
+const SITE_URL = "https://ttautosengineering.com";
 
 function preferredLocale(request: NextRequest): Locale {
   const saved = request.cookies.get("tt-locale")?.value;
@@ -15,11 +16,6 @@ function preferredLocale(request: NextRequest): Locale {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const internalLocale = request.nextUrl.searchParams.get("__tt_locale") ?? undefined;
-
-  if (isLocale(internalLocale)) {
-    return NextResponse.next();
-  }
 
   if (
     pathname.startsWith("/_next") ||
@@ -38,12 +34,17 @@ export function proxy(request: NextRequest) {
   const localeSegment = segments[1];
 
   if (isLocale(localeSegment)) {
-    const internalPath = `/${segments.slice(2).join("/")}`.replace(/\/$/, "") || "/";
-    const url = request.nextUrl.clone();
-    url.pathname = internalPath;
-    url.searchParams.set("__tt_locale", localeSegment);
-
-    const response = NextResponse.rewrite(url);
+    const response = NextResponse.next();
+    const localizedPath = `/${segments.slice(2).join("/")}`.replace(/\/$/, "") || "/";
+    const links = [
+      `<${SITE_URL}${pathname}>; rel="canonical"`,
+      ...(["en", "nl", "ar"] as Locale[]).map(
+        (locale) =>
+          `<${SITE_URL}/${locale}${localizedPath === "/" ? "" : localizedPath}>; rel="alternate"; hreflang="${locale}"`
+      ),
+      `<${SITE_URL}/en${localizedPath === "/" ? "" : localizedPath}>; rel="alternate"; hreflang="x-default"`,
+    ];
+    response.headers.set("Link", links.join(", "));
     response.cookies.set("tt-locale", localeSegment, {
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
