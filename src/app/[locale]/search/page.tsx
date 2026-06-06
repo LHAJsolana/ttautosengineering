@@ -4,6 +4,7 @@ import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { canonical } from "@/lib/site";
 import { getSearchIndex, searchSite, type SearchType } from "@/lib/search";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/search";
@@ -91,17 +92,24 @@ function ResultBadge({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function SearchPage({
+export default async function SearchPage({
+  params,
   searchParams,
 }: {
-  searchParams?: { q?: string; type?: string };
+  params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ q?: string; type?: string }>;
 }) {
-  const q = (searchParams?.q ?? "").trim();
-  const selectedType = types.includes(searchParams?.type as SearchType)
-    ? searchParams?.type ?? "All"
+  const [{ locale: localeParam }, query] = await Promise.all([
+    params,
+    searchParams ?? Promise.resolve({} as { q?: string; type?: string }),
+  ]);
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const q = (query.q ?? "").trim();
+  const selectedType = types.includes(query.type as SearchType)
+    ? query.type ?? "All"
     : "All";
-  const results = searchSite(q, selectedType);
-  const totalItems = getSearchIndex().length;
+  const results = searchSite(q, selectedType, locale);
+  const totalItems = getSearchIndex(locale).length;
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-20 text-white">

@@ -1,6 +1,8 @@
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import { powertrains } from "@/lib/powertrains";
+import { defaultLocale, type Locale } from "@/lib/i18n";
+import { translateValue } from "@/lib/translate";
 
 export type SearchType = "Insight" | "Blog" | "Powertrain" | "Guide" | "Brand" | "Page";
 
@@ -88,7 +90,7 @@ const staticItems: SearchItem[] = [
 ];
 
 function normalize(text: string) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  return text.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 }
 
 function itemText(item: SearchItem) {
@@ -128,8 +130,8 @@ function scoreItem(item: SearchItem, terms: string[]) {
   return score;
 }
 
-export function getSearchIndex(): SearchItem[] {
-  const insightItems = getAllInsights().map<SearchItem>((post) => ({
+export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
+  const insightItems = getAllInsights(locale).map<SearchItem>((post) => ({
     title: post.frontmatter.title,
     description: post.frontmatter.description,
     href: `/insights/${post.slug}`,
@@ -148,7 +150,7 @@ export function getSearchIndex(): SearchItem[] {
     ].filter((value): value is string => Boolean(value)),
   }));
 
-  const blogItems = getAllBlogPosts().map<SearchItem>((post) => ({
+  const blogItems = getAllBlogPosts(locale).map<SearchItem>((post) => ({
     title: post.frontmatter.title,
     description: post.frontmatter.description,
     href: `/blog/${post.slug}`,
@@ -186,13 +188,24 @@ export function getSearchIndex(): SearchItem[] {
     ],
   }));
 
-  return [...insightItems, ...blogItems, ...powertrainItems, ...staticItems];
+  return translateValue(locale, [
+    ...insightItems,
+    ...blogItems,
+    ...powertrainItems,
+    ...staticItems,
+  ]);
 }
 
-export function searchSite(query: string, type?: string) {
+export function searchSite(
+  query: string,
+  type?: string,
+  locale: Locale = defaultLocale
+) {
   const terms = normalize(query).split(" ").filter(Boolean);
   const selectedType = type && type !== "All" ? type : undefined;
-  const items = getSearchIndex().filter((item) => !selectedType || item.type === selectedType);
+  const items = getSearchIndex(locale).filter(
+    (item) => !selectedType || item.type === selectedType
+  );
 
   if (!terms.length) return items.map((item) => ({ ...item, score: 0 }));
 

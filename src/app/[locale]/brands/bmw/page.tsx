@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BrandHubPage from "@/components/BrandHubPage";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 import { canonical } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -34,9 +35,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BMWPage() {
+export default async function BMWPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+
   return (
     <BrandHubPage
+      locale={locale}
       brandName={BRAND_NAME}
       brandPath={BRAND_PATH}
       title={TITLE}

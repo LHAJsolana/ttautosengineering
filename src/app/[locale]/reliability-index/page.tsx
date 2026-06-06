@@ -4,6 +4,7 @@ import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 import { canonical } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -142,7 +143,13 @@ function ContentCard({
   );
 }
 
-export default function ReliabilityIndexPage() {
+export default async function ReliabilityIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
   const leaderboard = [
     {
       brand: "BMW",
@@ -229,6 +236,13 @@ export default function ReliabilityIndexPage() {
     },
   ];
 
+  const localizedInsights = new Map(
+    getAllInsights(locale).map((post) => [post.slug, post])
+  );
+  const localizedBlogPosts = new Map(
+    getAllBlogPosts(locale).map((post) => [post.slug, post])
+  );
+
   const relatedInsights = getAllInsights()
     .filter((p) => {
       const haystack = [
@@ -249,7 +263,8 @@ export default function ReliabilityIndexPage() {
         haystack.includes("diesel")
       );
     })
-    .slice(0, 4);
+    .slice(0, 4)
+    .map((post) => localizedInsights.get(post.slug) ?? post);
 
   const relatedBlog = getAllBlogPosts()
     .filter((p) => {
@@ -259,7 +274,8 @@ export default function ReliabilityIndexPage() {
         .toLowerCase();
       return haystack.includes("ownership") || haystack.includes("buying");
     })
-    .slice(0, 3);
+    .slice(0, 3)
+    .map((post) => localizedBlogPosts.get(post.slug) ?? post);
 
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",

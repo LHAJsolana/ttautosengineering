@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllInsights } from "@/lib/insights";
-import { modelPages } from "@/lib/models";
+import type { Locale } from "@/lib/i18n";
+import { getLocalizedModelPages } from "@/lib/models";
 import type { PowertrainData } from "@/lib/powertrains";
 
 function Badge({ children }: { children: React.ReactNode }) {
@@ -29,7 +30,13 @@ function ListPanel({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-export default function PowertrainHubPage({ powertrain }: { powertrain: PowertrainData }) {
+export default function PowertrainHubPage({
+  powertrain,
+  locale,
+}: {
+  powertrain: PowertrainData;
+  locale: Locale;
+}) {
   const terms = [
     powertrain.name,
     ...powertrain.aliases,
@@ -37,7 +44,7 @@ export default function PowertrainHubPage({ powertrain }: { powertrain: Powertra
     ...powertrain.applications,
   ].map((term) => term.toLowerCase());
 
-  const relatedInsights = getAllInsights()
+  const relatedInsights = getAllInsights(locale)
     .filter((post) => {
       const haystack = [
         post.frontmatter.title,
@@ -55,7 +62,7 @@ export default function PowertrainHubPage({ powertrain }: { powertrain: Powertra
     })
     .slice(0, 4);
 
-  const relatedModels = modelPages.filter((model) =>
+  const relatedModels = getLocalizedModelPages(locale).filter((model) =>
     powertrain.relatedModels.includes(model.slug)
   );
 

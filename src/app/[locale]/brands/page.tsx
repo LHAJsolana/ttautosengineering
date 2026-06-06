@@ -4,6 +4,7 @@ import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 import { canonical } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -56,9 +57,15 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function BrandsPage() {
-  const insights = getAllInsights();
-  const blogPosts = getAllBlogPosts();
+export default async function BrandsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const insights = getAllInsights(locale);
+  const blogPosts = getAllBlogPosts(locale);
 
   const brands = [
     {

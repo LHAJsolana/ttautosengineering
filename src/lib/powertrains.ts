@@ -1,3 +1,6 @@
+import type { Locale } from "@/lib/i18n";
+import { translateValue } from "@/lib/translate";
+
 export type PowertrainRisk = "Lower" | "Medium" | "Higher";
 export type PowertrainKind = "Engine" | "Gearbox";
 export type FuelType = "Petrol" | "Diesel" | "Transmission";
@@ -333,4 +336,13 @@ export const powertrains: PowertrainData[] = [
 
 export function getPowertrain(slug: string) {
   return powertrains.find((item) => item.slug === slug);
+}
+
+export function getLocalizedPowertrains(locale: Locale) {
+  return powertrains.map((powertrain) => translateValue(locale, powertrain));
+}
+
+export function getLocalizedPowertrain(slug: string, locale: Locale) {
+  const powertrain = getPowertrain(slug);
+  return powertrain ? translateValue(locale, powertrain) : undefined;
 }

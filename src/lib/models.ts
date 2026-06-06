@@ -1,3 +1,6 @@
+import type { Locale } from "@/lib/i18n";
+import { translateValue } from "@/lib/translate";
+
 export type ModelPageData = {
   slug: string;
   name: string;
@@ -612,4 +615,13 @@ export const modelPages: ModelPageData[] = [
 
 export function getModelPage(slug: string) {
   return modelPages.find((model) => model.slug === slug) ?? null;
+}
+
+export function getLocalizedModelPages(locale: Locale) {
+  return modelPages.map((model) => translateValue(locale, model));
+}
+
+export function getLocalizedModelPage(slug: string, locale: Locale) {
+  const model = getModelPage(slug);
+  return model ? translateValue(locale, model) : null;
 }

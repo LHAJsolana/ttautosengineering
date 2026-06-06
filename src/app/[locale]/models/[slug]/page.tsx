@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ModelHubPage from "@/components/ModelHubPage";
-import { getModelPage, modelPages } from "@/lib/models";
+import { getLocalizedModelPage, modelPages } from "@/lib/models";
 import { canonical } from "@/lib/site";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 
@@ -13,20 +14,21 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const model = getModelPage(slug);
+  const { locale: localeParam, slug } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const model = getLocalizedModelPage(slug, locale);
   if (!model) return {};
 
   const path = `/models/${model.slug}`;
   return {
     title: model.title,
     description: model.description,
-    alternates: { canonical: canonical(path) },
+    alternates: { canonical: canonical(path, locale) },
     openGraph: {
       type: "website",
-      url: canonical(path),
+      url: canonical(path, locale),
       title: `${model.title} - ${SITE_NAME}`,
       description: model.description,
       siteName: SITE_NAME,
@@ -44,10 +46,11 @@ export async function generateMetadata({
 export default async function ModelPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const model = getModelPage(slug);
+  const { locale: localeParam, slug } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const model = getLocalizedModelPage(slug, locale);
   if (!model) notFound();
-  return <ModelHubPage model={model} />;
+  return <ModelHubPage model={model} locale={locale} />;
 }

@@ -4,6 +4,7 @@ import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 import { canonical } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -147,7 +148,20 @@ function ContentCard({
   );
 }
 
-export default function BuyingGuidesPage() {
+export default async function BuyingGuidesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const localizedInsights = new Map(
+    getAllInsights(locale).map((post) => [post.slug, post])
+  );
+  const localizedBlogPosts = new Map(
+    getAllBlogPosts(locale).map((post) => [post.slug, post])
+  );
+
   const insights = getAllInsights()
     .filter((p) => {
       const haystack = [
@@ -168,7 +182,8 @@ export default function BuyingGuidesPage() {
         haystack.includes("diesel")
       );
     })
-    .slice(0, 4);
+    .slice(0, 4)
+    .map((post) => localizedInsights.get(post.slug) ?? post);
 
   const blogPosts = getAllBlogPosts()
     .filter((p) => {
@@ -182,7 +197,8 @@ export default function BuyingGuidesPage() {
         .toLowerCase();
       return haystack.includes("buying") || haystack.includes("ownership");
     })
-    .slice(0, 3);
+    .slice(0, 3)
+    .map((post) => localizedBlogPosts.get(post.slug) ?? post);
 
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",

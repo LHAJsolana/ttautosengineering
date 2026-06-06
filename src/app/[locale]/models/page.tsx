@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { modelPages } from "@/lib/models";
+import { getLocalizedModelPages } from "@/lib/models";
 import { canonical } from "@/lib/site";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/models";
@@ -31,7 +32,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ModelsPage() {
+export default async function ModelsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const modelPages = getLocalizedModelPages(locale);
   return (
     <main className="mx-auto max-w-6xl px-6 py-20 text-white">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Models" }]} />

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PowertrainHubPage from "@/components/PowertrainHubPage";
-import { getPowertrain, powertrains } from "@/lib/powertrains";
+import { getLocalizedPowertrain, powertrains } from "@/lib/powertrains";
 import { canonical } from "@/lib/site";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 
 export function generateStaticParams() {
   return powertrains.map((item) => ({ slug: item.slug }));
@@ -11,10 +12,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const powertrain = getPowertrain(slug);
+  const { locale: localeParam, slug } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const powertrain = getLocalizedPowertrain(slug, locale);
   if (!powertrain) return {};
 
   const title = `${powertrain.name} Reliability and Buying Guide`;
@@ -22,10 +24,10 @@ export async function generateMetadata({
   return {
     title,
     description: powertrain.summary,
-    alternates: { canonical: canonical(path) },
+    alternates: { canonical: canonical(path, locale) },
     openGraph: {
       type: "article",
-      url: canonical(path),
+      url: canonical(path, locale),
       title,
       description: powertrain.summary,
       images: [{ url: powertrain.image }],
@@ -42,10 +44,11 @@ export async function generateMetadata({
 export default async function PowertrainPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const powertrain = getPowertrain(slug);
+  const { locale: localeParam, slug } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const powertrain = getLocalizedPowertrain(slug, locale);
   if (!powertrain) notFound();
-  return <PowertrainHubPage powertrain={powertrain} />;
+  return <PowertrainHubPage powertrain={powertrain} locale={locale} />;
 }

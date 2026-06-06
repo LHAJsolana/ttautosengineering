@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { powertrains } from "@/lib/powertrains";
+import { getLocalizedPowertrains } from "@/lib/powertrains";
 import { canonical } from "@/lib/site";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 
 const TITLE = "Engine and Gearbox Library";
 const DESCRIPTION =
@@ -28,7 +29,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PowertrainsPage() {
+export default async function PowertrainsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const powertrains = getLocalizedPowertrains(locale);
   const engines = powertrains.filter((item) => item.kind === "Engine");
   const gearboxes = powertrains.filter((item) => item.kind === "Gearbox");
 

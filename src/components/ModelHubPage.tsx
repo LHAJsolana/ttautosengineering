@@ -3,6 +3,7 @@ import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
+import type { Locale } from "@/lib/i18n";
 import type { ModelPageData } from "@/lib/models";
 
 function Pill({ children }: { children: React.ReactNode }) {
@@ -64,8 +65,14 @@ function ContentCard({
   );
 }
 
-export default function ModelHubPage({ model }: { model: ModelPageData }) {
-  const relatedInsights = getAllInsights()
+export default function ModelHubPage({
+  model,
+  locale,
+}: {
+  model: ModelPageData;
+  locale: Locale;
+}) {
+  const relatedInsights = getAllInsights(locale)
     .filter((post) => {
       const haystack = [
         post.frontmatter.title,
@@ -86,7 +93,7 @@ export default function ModelHubPage({ model }: { model: ModelPageData }) {
     })
     .slice(0, 4);
 
-  const relatedBlog = getAllBlogPosts()
+  const relatedBlog = getAllBlogPosts(locale)
     .filter((post) => {
       const haystack = [
         post.frontmatter.title,

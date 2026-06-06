@@ -3,6 +3,7 @@ import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getInsightsByBrand } from "@/lib/insights";
+import type { Locale } from "@/lib/i18n";
 import { canonical } from "@/lib/site";
 
 type Signal = {
@@ -23,6 +24,7 @@ type BrandHubProps = {
   models: string[];
   problemAreas: string[];
   bestFor: string;
+  locale: Locale;
 };
 
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -133,9 +135,10 @@ export default function BrandHubPage({
   models,
   problemAreas,
   bestFor,
+  locale,
 }: BrandHubProps) {
-  const posts = getInsightsByBrand(brandName).slice(0, 6);
-  const blogPosts = getAllBlogPosts()
+  const posts = getInsightsByBrand(brandName, locale).slice(0, 6);
+  const blogPosts = getAllBlogPosts(locale)
     .filter((p) => (p.frontmatter.brand ?? "").toLowerCase() === brandName.toLowerCase())
     .slice(0, 3);
 
