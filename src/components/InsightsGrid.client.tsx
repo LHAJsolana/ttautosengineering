@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "@/components/LocalizedLink";
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import Link from "@/components/LocalizedLink";
+import { useLocale } from "@/components/LocaleProvider";
 import { slugifyTaxonomy } from "@/lib/taxonomy";
 
 export type InsightGridItem = {
@@ -23,53 +24,63 @@ export type InsightGridItem = {
   meta?: { excerpt?: string; wordCount?: number; readingMinutes?: number };
 };
 
-function PillLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
+function PillLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="text-[11px] px-2 py-1 rounded-full border border-gray-700 bg-white/5 text-gray-200 hover:bg-white/10 hover:border-gray-500 transition"
+      className="rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1 text-[11px] text-gray-300 transition hover:border-white/20 hover:bg-white/10 hover:text-white"
     >
       {children}
     </Link>
   );
 }
 
-function taxonomyPills(p: InsightGridItem) {
+function taxonomyPills(post: InsightGridItem) {
   const pills: Array<{ label: string; href: string }> = [];
-
-  if (p.frontmatter.category) {
+  if (post.frontmatter.category) {
     pills.push({
-      label: p.frontmatter.category,
-      href: `/insights/category/${slugifyTaxonomy(p.frontmatter.category)}`,
+      label: post.frontmatter.category,
+      href: `/insights/category/${slugifyTaxonomy(post.frontmatter.category)}`,
     });
   }
-  if (p.frontmatter.platform) {
+  if (post.frontmatter.platform) {
     pills.push({
-      label: p.frontmatter.platform,
-      href: `/insights/platform/${slugifyTaxonomy(p.frontmatter.platform)}`,
+      label: post.frontmatter.platform,
+      href: `/insights/platform/${slugifyTaxonomy(post.frontmatter.platform)}`,
     });
   }
-
-  if (p.frontmatter.risk?.length) {
-    for (const r of p.frontmatter.risk.slice(0, 2)) {
-      // If you haven't created /insights/risk route yet, keep this as query:
-      pills.push({
-        label: r,
-        href: `/insights?q=${encodeURIComponent(r)}`,
-      });
-      // If you DO create the route later, switch to:
-      // href: `/insights/risk/${slugifyTaxonomy(r)}`
-    }
+  for (const risk of post.frontmatter.risk?.slice(0, 2) ?? []) {
+    pills.push({ label: risk, href: `/insights?q=${encodeURIComponent(risk)}` });
   }
-
   return pills.slice(0, 4);
 }
+
+const cardCopy = {
+  en: {
+    editorsPick: "Editor's Pick",
+    minRead: "min read",
+    words: "words",
+    read: "Read insight",
+    loadMore: "Load more",
+    end: "You have reached the end of the list.",
+  },
+  nl: {
+    editorsPick: "Keuze van de redactie",
+    minRead: "min lezen",
+    words: "woorden",
+    read: "Lees inzicht",
+    loadMore: "Meer laden",
+    end: "Je hebt het einde van de lijst bereikt.",
+  },
+  ar: {
+    editorsPick: "اختيار المحرر",
+    minRead: "دقائق قراءة",
+    words: "كلمة",
+    read: "اقرأ التحليل",
+    loadMore: "تحميل المزيد",
+    end: "لقد وصلت إلى نهاية القائمة.",
+  },
+} as const;
 
 export default function InsightsGridClient({
   items,
@@ -78,122 +89,113 @@ export default function InsightsGridClient({
   items: InsightGridItem[];
   pageSize?: number;
 }) {
+  const locale = useLocale();
+  const copy = cardCopy[locale];
   const [visible, setVisible] = useState(pageSize);
-
   const shown = useMemo(() => items.slice(0, visible), [items, visible]);
   const canLoadMore = visible < items.length;
 
   return (
     <>
-      <div className="grid md:grid-cols-2 gap-6">
-        {shown.map((p) => {
-          const dateLabel = p.frontmatter.updated ?? p.frontmatter.date;
-          const img = p.frontmatter.image ?? null;
-          const pills = taxonomyPills(p);
-          const brand = p.frontmatter.brand ?? "";
+      <div className="grid gap-6 md:grid-cols-2">
+        {shown.map((post) => {
+          const dateLabel = post.frontmatter.updated ?? post.frontmatter.date;
+          const pills = taxonomyPills(post);
+          const brand = post.frontmatter.brand;
 
           return (
-            <div
-              key={p.slug}
-              className="group bg-[#111827] rounded-2xl border border-gray-800 hover:border-red-500 hover:bg-white/5 transition overflow-hidden"
+            <article
+              key={post.slug}
+              className="group relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#101827] shadow-xl shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-950/20"
             >
-              <div className="p-6 flex gap-5">
-                <div className="flex-1 min-w-0">
-                  {/* Pills row (all are links, safe now) */}
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {p.frontmatter.featured ? (
-                      <span className="text-[11px] px-2 py-1 rounded-full border border-red-500/50 bg-red-500/10 text-red-100">
-                        Editor’s Pick
-                      </span>
-                    ) : null}
+              <span className="absolute inset-x-0 top-0 z-20 h-1 origin-left scale-x-0 bg-gradient-to-r from-red-600 via-red-400 to-amber-300 transition duration-500 group-hover:scale-x-100" />
 
-                    {brand ? (
-                      <PillLink href={`/insights?brand=${encodeURIComponent(brand)}`}>
-                        {brand}
-                      </PillLink>
-                    ) : null}
+              <Link href={`/insights/${post.slug}`} className="relative block h-52 overflow-hidden">
+                <Image
+                  src={post.frontmatter.image ?? "/opengraph-image"}
+                  alt={post.frontmatter.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 560px"
+                  className="object-cover opacity-80 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-[#101827]/15 to-transparent" />
+                <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-3">
+                  {brand ? (
+                    <span className="rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur">
+                      {brand}
+                    </span>
+                  ) : <span />}
+                  <span className="rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[11px] font-semibold text-gray-200 backdrop-blur">
+                    {post.meta?.readingMinutes ?? 1} {copy.minRead}
+                  </span>
+                </div>
+              </Link>
 
-                    {pills.map((t) => (
-                      <PillLink key={`${t.href}-${t.label}`} href={t.href}>
-                        {t.label}
-                      </PillLink>
-                    ))}
-                  </div>
-
-                  {/* Title link (main click target) */}
-                  <h3 className="text-white text-xl font-semibold leading-snug mt-3">
-                    <Link
-                      href={`/insights/${p.slug}`}
-                      className="hover:text-white underline decoration-transparent hover:decoration-red-500/70 transition"
-                    >
-                      {p.frontmatter.title}
-                    </Link>
-                  </h3>
-
-                  <p className="text-gray-300 mt-2">{p.frontmatter.description}</p>
-
-                  {p.meta?.excerpt ? (
-                    <p className="text-gray-400 mt-4 text-sm leading-relaxed line-clamp-3">
-                      {p.meta.excerpt}
-                    </p>
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex flex-wrap items-center gap-2">
+                  {post.frontmatter.featured ? (
+                    <span className="rounded-full border border-red-500/40 bg-red-500/10 px-2.5 py-1 text-[11px] font-semibold text-red-100">
+                      {copy.editorsPick}
+                    </span>
                   ) : null}
+                  {pills.map((pill) => (
+                    <PillLink key={`${pill.href}-${pill.label}`} href={pill.href}>
+                      {pill.label}
+                    </PillLink>
+                  ))}
+                </div>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-400">
+                <h3 className="mt-4 text-xl font-bold leading-snug text-white md:text-2xl">
+                  <Link
+                    href={`/insights/${post.slug}`}
+                    className="transition group-hover:text-red-100"
+                  >
+                    {post.frontmatter.title}
+                  </Link>
+                </h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gray-300">
+                  {post.frontmatter.description}
+                </p>
+
+                <div className="mt-6 flex items-end justify-between gap-4 border-t border-white/[0.07] pt-5 text-xs text-gray-500">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span>{dateLabel}</span>
-                    {p.meta ? (
+                    {post.meta?.wordCount ? (
                       <>
-                        <span className="text-gray-600">•</span>
-                        <span>{p.meta.readingMinutes ?? 1} min read</span>
-                        <span className="text-gray-600">•</span>
-                        <span>{(p.meta.wordCount ?? 0).toLocaleString()} words</span>
+                        <span className="text-gray-700">/</span>
+                        <span>{post.meta.wordCount.toLocaleString(locale)} {copy.words}</span>
                       </>
                     ) : null}
                   </div>
-
-                  {/* Read link */}
-                  <div className="text-sm text-gray-200 mt-6">
-                    <Link
-                      href={`/insights/${p.slug}`}
-                      className="group-hover:text-white transition"
-                    >
-                      Read →
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Thumb */}
-                <div className="hidden sm:block relative w-[160px] shrink-0">
-                  <div className="relative h-[140px] rounded-2xl overflow-hidden border border-gray-800 bg-white/5">
-                    <Image
-                      src={img ?? "/opengraph-image"}
-                      alt={p.frontmatter.title}
-                      fill
-                      sizes="160px"
-                      className="object-cover opacity-90"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/60 via-transparent to-transparent" />
-                  </div>
+                  <Link
+                    href={`/insights/${post.slug}`}
+                    className="inline-flex shrink-0 items-center gap-2 font-bold text-gray-200 transition group-hover:text-red-300"
+                  >
+                    {copy.read}
+                    <span data-directional-icon aria-hidden="true">-&gt;</span>
+                  </Link>
                 </div>
               </div>
-            </div>
+            </article>
           );
         })}
       </div>
 
-      {items.length === 0 ? null : (
+      {items.length > 0 ? (
         <div className="mt-10 flex items-center justify-center">
           {canLoadMore ? (
             <button
-              onClick={() => setVisible((v) => Math.min(v + pageSize, items.length))}
-              className="rounded-2xl border border-gray-700 bg-white/5 text-gray-100 px-6 py-3 text-sm hover:bg-white/10 transition"
+              type="button"
+              onClick={() => setVisible((value) => Math.min(value + pageSize, items.length))}
+              className="rounded-2xl border border-red-500/30 bg-red-500/10 px-6 py-3 text-sm font-bold text-red-100 transition hover:border-red-400/50 hover:bg-red-500/15"
             >
-              Load more ({Math.min(visible + pageSize, items.length)}/{items.length})
+              {copy.loadMore} ({Math.min(visible + pageSize, items.length)}/{items.length})
             </button>
           ) : (
-            <div className="text-xs text-gray-500">You’ve reached the end of the list.</div>
+            <p className="text-xs text-gray-500">{copy.end}</p>
           )}
         </div>
-      )}
+      ) : null}
     </>
   );
 }

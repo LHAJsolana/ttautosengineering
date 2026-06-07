@@ -13,6 +13,75 @@ const TITLE = "Blog";
 const DESCRIPTION =
   "Practical ownership notes, buying advice, maintenance thinking, and editorial updates from TT AUTO'S Engineering.";
 
+const BLOG_COPY = {
+  en: {
+    home: "Home",
+    eyebrow: "TT AUTO'S Journal",
+    title: "Practical notes for German car ownership",
+    description:
+      "Buying judgment, maintenance habits, ownership risk, and the engineering context behind the next repair bill.",
+    ownership: "Ownership notes",
+    buying: "Buying advice",
+    maintenance: "Maintenance thinking",
+    editorial: "Editorial",
+    search: "Search blog topics",
+    insights: "Read insights",
+    guides: "Buying guides",
+    brands: "Brand hubs",
+    featured: "Featured analysis",
+    featuredDescription: "A practical starting point selected by the editorial team.",
+    latest: "Latest from the workshop",
+    latestDescription: "Fresh ownership thinking, buyer judgment, and maintenance notes.",
+    minRead: "min read",
+    read: "Read article",
+    noPosts: "No blog posts are available yet.",
+  },
+  nl: {
+    home: "Thuis",
+    eyebrow: "TT AUTO'S Journaal",
+    title: "Praktische notities voor bezit van een Duitse auto",
+    description:
+      "Aankoopkeuzes, onderhoudsgewoonten, eigendomsrisico en de technische context achter de volgende reparatiefactuur.",
+    ownership: "Eigendomsnotities",
+    buying: "Aankoopadvies",
+    maintenance: "Onderhoud",
+    editorial: "Redactie",
+    search: "Zoek blogonderwerpen",
+    insights: "Lees inzichten",
+    guides: "Koopgidsen",
+    brands: "Merkenhubs",
+    featured: "Uitgelichte analyse",
+    featuredDescription: "Een praktisch startpunt geselecteerd door de redactie.",
+    latest: "Nieuw uit de werkplaats",
+    latestDescription: "Nieuwe inzichten over bezit, aankoopkeuzes en onderhoud.",
+    minRead: "min lezen",
+    read: "Lees artikel",
+    noPosts: "Er zijn nog geen blogberichten beschikbaar.",
+  },
+  ar: {
+    home: "الرئيسية",
+    eyebrow: "مجلة TT AUTO'S",
+    title: "ملاحظات عملية لامتلاك سيارة ألمانية",
+    description:
+      "قرارات الشراء وعادات الصيانة ومخاطر الملكية والسياق الهندسي وراء فاتورة الإصلاح القادمة.",
+    ownership: "ملاحظات الملكية",
+    buying: "نصائح الشراء",
+    maintenance: "الصيانة",
+    editorial: "التحرير",
+    search: "ابحث في مواضيع المدونة",
+    insights: "اقرأ التحليلات",
+    guides: "أدلة الشراء",
+    brands: "صفحات العلامات",
+    featured: "تحليل مميز",
+    featuredDescription: "نقطة بداية عملية اختارها فريق التحرير.",
+    latest: "الأحدث من الورشة",
+    latestDescription: "أفكار جديدة حول الملكية والشراء والصيانة.",
+    minRead: "دقائق قراءة",
+    read: "اقرأ المقال",
+    noPosts: "لا توجد مقالات متاحة بعد.",
+  },
+} as const;
+
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
@@ -88,6 +157,7 @@ export default async function BlogPage({
 }) {
   const { locale: localeParam } = await params;
   const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  const copy = BLOG_COPY[locale];
   const posts = getAllBlogPosts(locale);
   const featured = posts.find((p) => p.frontmatter.featured) ?? posts[0];
   const rest = featured ? posts.filter((p) => p.slug !== featured.slug) : posts;
@@ -133,13 +203,13 @@ export default async function BlogPage({
   );
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-20 text-white">
+    <main className="mx-auto max-w-6xl px-6 py-14 text-white md:py-16">
       <JsonLd data={[breadcrumbsJsonLd, collectionPageJsonLd, itemListJsonLd]} />
 
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+      <Breadcrumbs items={[{ label: copy.home, href: "/" }, { label: "Blog" }]} />
 
       <section className="mt-6 mb-10">
-        <div className="relative overflow-hidden rounded-3xl border border-gray-800 bg-gradient-to-br from-[#0B1220] via-[#0F1B33] to-[#0B1220] p-8 md:p-12">
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#0B1220] via-[#111f39] to-[#0B1220] p-8 shadow-2xl shadow-black/20 md:p-12">
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.10]"
             style={{
@@ -152,20 +222,20 @@ export default async function BlogPage({
 
           <div className="relative">
             <div className="flex flex-wrap gap-2 mb-6">
-              <Pill>Ownership notes</Pill>
-              <Pill>Buying advice</Pill>
-              <Pill>Maintenance thinking</Pill>
-              <Pill>Editorial</Pill>
+              <Pill>{copy.ownership}</Pill>
+              <Pill>{copy.buying}</Pill>
+              <Pill>{copy.maintenance}</Pill>
+              <Pill>{copy.editorial}</Pill>
             </div>
 
-            <p className="text-gray-300/80 text-sm">Blog</p>
-            <h1 className="text-white text-4xl md:text-5xl font-extrabold mt-2 mb-3">
-              Practical notes for German car ownership
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-300">
+              {copy.eyebrow}
+            </p>
+            <h1 className="mt-3 max-w-4xl text-4xl font-black leading-[1.05] tracking-[-0.04em] text-white md:text-6xl">
+              {copy.title}
             </h1>
-            <p className="text-gray-200/90 max-w-3xl leading-relaxed">
-              Shorter editorial posts that sit beside the deep technical insights:
-              buying judgment, maintenance habits, ownership risk, and what to
-              think about before the repair bill arrives.
+            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-gray-300">
+              {copy.description}
             </p>
 
             <div className="flex flex-wrap gap-3 mt-7">
@@ -173,25 +243,25 @@ export default async function BlogPage({
                 href="/search?q=buying"
                 className="rounded-2xl bg-red-600 text-white px-5 py-3 text-sm font-semibold hover:bg-red-700 transition"
               >
-                Search Blog Topics
+                {copy.search}
               </Link>
               <Link
                 href="/insights"
                 className="rounded-2xl border border-gray-700 bg-white/5 text-gray-100 px-5 py-3 text-sm hover:bg-white/10 transition"
               >
-                Read Insights
+                {copy.insights}
               </Link>
               <Link
                 href="/buying-guides"
                 className="rounded-2xl border border-gray-700 bg-white/5 text-gray-100 px-5 py-3 text-sm hover:bg-white/10 transition"
               >
-                Buying Guides
+                {copy.guides}
               </Link>
               <Link
                 href="/brands"
                 className="rounded-2xl border border-gray-700 bg-white/5 text-gray-100 px-5 py-3 text-sm hover:bg-white/10 transition"
               >
-                Brand Hubs
+                {copy.brands}
               </Link>
             </div>
           </div>
@@ -216,16 +286,17 @@ export default async function BlogPage({
       {featured ? (
         <section className="mb-12">
           <div className="mb-5">
-            <h2 className="text-white text-2xl font-bold">Featured</h2>
+            <h2 className="text-2xl font-bold text-white">{copy.featured}</h2>
             <p className="text-gray-300 mt-1">
-              A practical starting point from the blog.
+              {copy.featuredDescription}
             </p>
           </div>
 
           <Link
             href={`/blog/${featured.slug}`}
-            className="group block overflow-hidden rounded-3xl border border-gray-800 bg-[#111827] hover:border-red-500 hover:bg-white/5 transition"
+            className="group relative block overflow-hidden rounded-[2rem] border border-white/10 bg-[#101827] shadow-xl shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-950/20"
           >
+            <span className="absolute inset-y-0 start-0 z-20 w-1 bg-gradient-to-b from-red-500 via-red-600 to-amber-400" />
             <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
               <BlogThumb
                 src={featured.frontmatter.image}
@@ -239,7 +310,7 @@ export default async function BlogPage({
                   {featured.frontmatter.category ? <Pill>{featured.frontmatter.category}</Pill> : null}
                   {featured.frontmatter.brand ? <Pill>{featured.frontmatter.brand}</Pill> : null}
                   <Pill>{featured.frontmatter.updated ?? featured.frontmatter.date}</Pill>
-                  <Pill>{featured.meta.readingMinutes} min read</Pill>
+                  <Pill>{featured.meta.readingMinutes} {copy.minRead}</Pill>
                 </div>
 
                 <h3 className="text-white text-2xl md:text-3xl font-bold mt-4 leading-tight">
@@ -254,7 +325,7 @@ export default async function BlogPage({
                   </p>
                 ) : null}
                 <div className="text-sm text-gray-200 mt-6 group-hover:text-white">
-                  Read post -&gt;
+                  {copy.read} <span data-directional-icon>-&gt;</span>
                 </div>
               </div>
             </div>
@@ -265,17 +336,16 @@ export default async function BlogPage({
       <section>
         <div className="flex items-end justify-between gap-4 mb-5">
           <div>
-            <h2 className="text-white text-2xl font-bold">Latest Posts</h2>
+            <h2 className="text-2xl font-bold text-white">{copy.latest}</h2>
             <p className="text-gray-300 mt-1">
-              Editorial notes, ownership thinking, and practical buyer judgment.
+              {copy.latestDescription}
             </p>
           </div>
         </div>
 
         {posts.length === 0 ? (
           <div className="rounded-2xl border border-gray-800 bg-[#111827] p-6 text-gray-300">
-            No blog posts yet. Add MDX files in{" "}
-            <code className="text-gray-100">src/content/blog</code>.
+            {copy.noPosts}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
@@ -283,8 +353,9 @@ export default async function BlogPage({
               <Link
                 key={p.slug}
                 href={`/blog/${p.slug}`}
-                className="group overflow-hidden bg-[#111827] rounded-2xl border border-gray-800 hover:border-red-500 hover:bg-white/5 transition"
+                className="group relative flex min-h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#101827] shadow-xl shadow-black/10 transition duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-950/20"
               >
+                <span className="absolute inset-x-0 top-0 z-20 h-1 origin-left scale-x-0 bg-gradient-to-r from-red-600 via-red-400 to-amber-300 transition duration-500 group-hover:scale-x-100" />
                 <BlogThumb
                   src={p.frontmatter.image}
                   alt={p.frontmatter.title}
@@ -292,7 +363,7 @@ export default async function BlogPage({
                   className="h-48"
                 />
 
-                <div className="p-6">
+                <div className="flex flex-1 flex-col p-6">
                   <div className="flex flex-wrap gap-2">
                     {p.frontmatter.category ? <Pill>{p.frontmatter.category}</Pill> : null}
                     {p.frontmatter.brand ? <Pill>{p.frontmatter.brand}</Pill> : null}
@@ -305,14 +376,14 @@ export default async function BlogPage({
                     {p.frontmatter.description}
                   </p>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-gray-400">
+                  <div className="mt-auto flex flex-wrap items-center gap-3 border-t border-white/[0.07] pt-5 text-xs text-gray-400">
                     <span>{p.frontmatter.updated ?? p.frontmatter.date}</span>
                     <span className="text-gray-600">-</span>
-                    <span>{p.meta.readingMinutes} min read</span>
+                    <span>{p.meta.readingMinutes} {copy.minRead}</span>
                   </div>
 
-                  <div className="text-sm text-gray-200 mt-6 group-hover:text-white">
-                    Read post -&gt;
+                  <div className="mt-5 text-sm font-bold text-gray-200 transition group-hover:text-red-300">
+                    {copy.read} <span data-directional-icon>-&gt;</span>
                   </div>
                 </div>
               </Link>
