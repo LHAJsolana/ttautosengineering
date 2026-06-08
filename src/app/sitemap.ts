@@ -6,13 +6,12 @@ import { powertrains } from "@/lib/powertrains";
 import { locales, localePath, type Locale } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 
-const SITE_LASTMOD = new Date("2026-06-06T00:00:00.000Z");
+const SITE_LASTMOD = new Date("2026-06-08T00:00:00.000Z");
 
 const staticPaths = [
   "/",
   "/insights",
   "/blog",
-  "/search",
   "/models",
   "/powertrains",
   "/brands",
@@ -42,35 +41,56 @@ function url(locale: Locale, pathname: string) {
 }
 
 function languageAlternates(pathname: string) {
-  return Object.fromEntries(locales.map((locale) => [locale, url(locale, pathname)]));
+  return {
+    ...Object.fromEntries(locales.map((locale) => [locale, url(locale, pathname)])),
+    "x-default": url("en", pathname),
+  };
 }
 
 function localizedEntry(
   locale: Locale,
   pathname: string,
-  lastModified: Date
+  lastModified: Date,
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "monthly",
+  priority = 0.7
 ): MetadataRoute.Sitemap[number] {
   return {
     url: url(locale, pathname),
     lastModified,
+    changeFrequency,
+    priority,
     alternates: { languages: languageAlternates(pathname) },
   };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const newestContentDate = [...getAllInsights("en"), ...getAllBlogPosts("en")]
+    .map((post) => safeDate(post.frontmatter.updated ?? post.frontmatter.date))
+    .reduce((latest, date) => (date > latest ? date : latest), SITE_LASTMOD);
+
   const staticRoutes = locales.flatMap((locale) =>
-    staticPaths.map((pathname) => localizedEntry(locale, pathname, SITE_LASTMOD))
+    staticPaths.map((pathname) => {
+      const isHome = pathname === "/";
+      const isCollection = pathname === "/insights" || pathname === "/blog";
+      return localizedEntry(
+        locale,
+        pathname,
+        isCollection ? newestContentDate : SITE_LASTMOD,
+        isHome || isCollection ? "weekly" : "monthly",
+        isHome ? 1 : isCollection ? 0.9 : 0.7
+      );
+    })
   );
 
   const modelRoutes = locales.flatMap((locale) =>
     modelPages.map((model) =>
-      localizedEntry(locale, `/models/${model.slug}`, SITE_LASTMOD)
+      localizedEntry(locale, `/models/${model.slug}`, SITE_LASTMOD, "monthly", 0.8)
     )
   );
 
   const powertrainRoutes = locales.flatMap((locale) =>
     powertrains.map((item) =>
-      localizedEntry(locale, `/powertrains/${item.slug}`, SITE_LASTMOD)
+      localizedEntry(locale, `/powertrains/${item.slug}`, SITE_LASTMOD, "monthly", 0.8)
     )
   );
 
@@ -81,7 +101,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         localizedEntry(
           locale,
           `/insights/${post.slug}`,
-          safeDate(post.frontmatter.updated ?? post.frontmatter.date)
+          safeDate(post.frontmatter.updated ?? post.frontmatter.date),
+          "monthly",
+          0.85
         )
       )
   );
@@ -93,7 +115,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         localizedEntry(
           locale,
           `/blog/${post.slug}`,
-          safeDate(post.frontmatter.updated ?? post.frontmatter.date)
+          safeDate(post.frontmatter.updated ?? post.frontmatter.date),
+          "monthly",
+          0.8
         )
       )
   );
