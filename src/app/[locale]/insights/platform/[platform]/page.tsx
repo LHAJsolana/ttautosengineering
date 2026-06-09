@@ -2,7 +2,7 @@
 import Link from "@/components/LocalizedLink";
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 import { getAllInsights } from "@/lib/insights";
 import InsightsGridClient from "@/components/InsightsGrid.client";
 import { unslugifyTaxonomy, matchesTaxonomy } from "@/lib/taxonomy";
@@ -13,31 +13,15 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; platform: string }>;
 }): Promise<Metadata> {
-  const { platform } = await params;
+  const { locale: localeParam, platform } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
   const title = `${unslugifyTaxonomy(platform)} — Platform Insights`;
   const description =
     "Engineering notes grouped by platform: failure modes, diagnostics signals, and what to check.";
 
   const path = `/insights/platform/${platform}`;
 
-  return {
-    title,
-    description,
-    alternates: { canonical: canonical(path) },
-    openGraph: {
-      type: "website",
-      url: canonical(path),
-      title,
-      description,
-      images: [{ url: "/opengraph-image" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["/opengraph-image"],
-    },
-  };
+  return localizedPageMetadata({ locale, pathname: path, title, description });
 }
 
 export default async function PlatformArchivePage({

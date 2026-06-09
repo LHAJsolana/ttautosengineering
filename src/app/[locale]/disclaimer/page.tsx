@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 
-const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/disclaimer";
 const TITLE = "Disclaimer";
 const DESCRIPTION =
@@ -32,25 +32,20 @@ const sections = [
   },
 ];
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: canonical(PATH) },
-  openGraph: {
-    type: "website",
-    url: canonical(PATH),
-    title: `${TITLE} - ${SITE_NAME}`,
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  return localizedPageMetadata({
+    locale,
+    pathname: PATH,
+    title: TITLE,
     description: DESCRIPTION,
-    siteName: SITE_NAME,
-    images: [{ url: "/opengraph-image" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${TITLE} - ${SITE_NAME}`,
-    description: DESCRIPTION,
-    images: ["/opengraph-image"],
-  },
-};
+  });
+}
 
 export default function DisclaimerPage() {
   return (

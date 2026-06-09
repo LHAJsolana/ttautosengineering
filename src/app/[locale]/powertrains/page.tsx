@@ -3,31 +3,27 @@ import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getLocalizedPowertrains } from "@/lib/powertrains";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 
 const TITLE = "Engine and Gearbox Library";
 const DESCRIPTION =
   "Research German car engines and gearboxes by reliability risk, common faults, applications, service priorities, and pre-purchase checks.";
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: canonical("/powertrains") },
-  openGraph: {
-    type: "website",
-    url: canonical("/powertrains"),
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  return localizedPageMetadata({
+    locale,
+    pathname: "/powertrains",
     title: TITLE,
     description: DESCRIPTION,
-    images: [{ url: "/opengraph-image" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
-    images: ["/opengraph-image"],
-  },
-};
+  });
+}
 
 export default async function PowertrainsPage({
   params,

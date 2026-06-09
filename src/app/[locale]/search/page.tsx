@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 import { getSearchIndex, searchSite, type SearchType } from "@/lib/search";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 
-const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/search";
 const TITLE = "Search";
 const DESCRIPTION =
@@ -34,25 +33,21 @@ const quickSearches = [
   "ZF 8HP",
 ];
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: canonical(PATH) },
-  openGraph: {
-    type: "website",
-    url: canonical(PATH),
-    title: `${TITLE} - ${SITE_NAME}`,
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  return localizedPageMetadata({
+    locale,
+    pathname: PATH,
+    title: TITLE,
     description: DESCRIPTION,
-    siteName: SITE_NAME,
-    images: [{ url: "/opengraph-image" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${TITLE} - ${SITE_NAME}`,
-    description: DESCRIPTION,
-    images: ["/opengraph-image"],
-  },
-};
+    noIndex: true,
+  });
+}
 
 function TypeLink({
   type,

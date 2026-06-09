@@ -1,35 +1,30 @@
 import type { Metadata } from "next";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import BuyingChecklistTool from "@/components/BuyingChecklistTool.client";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 
-const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/buying-checklist";
 const TITLE = "Used German Car Risk Checker";
 const DESCRIPTION =
   "Interactive used German car buying checklist and risk checker for BMW, Mercedes-Benz, Audi, and Volkswagen.";
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: canonical(PATH) },
-  openGraph: {
-    type: "website",
-    url: canonical(PATH),
-    title: `${TITLE} - ${SITE_NAME}`,
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  return localizedPageMetadata({
+    locale,
+    pathname: PATH,
+    title: TITLE,
     description: DESCRIPTION,
-    siteName: SITE_NAME,
-    images: [{ url: "/opengraph-image" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${TITLE} - ${SITE_NAME}`,
-    description: DESCRIPTION,
-    images: ["/opengraph-image"],
-  },
-};
+  });
+}
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (

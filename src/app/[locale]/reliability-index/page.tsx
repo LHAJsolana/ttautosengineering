@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import { defaultLocale, isLocale } from "@/lib/i18n";
-import { canonical } from "@/lib/site";
+import { canonical, localizedPageMetadata } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/reliability-index";
@@ -14,25 +14,20 @@ const TITLE = "Reliability Index";
 const DESCRIPTION =
   "Engineering-based reliability scoring: signal-driven rankings and ownership-risk drivers for BMW, Mercedes-Benz, Audi, and Volkswagen.";
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: canonical(PATH) },
-  openGraph: {
-    type: "website",
-    url: canonical(PATH),
-    title: `${TITLE} - ${SITE_NAME}`,
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  return localizedPageMetadata({
+    locale,
+    pathname: PATH,
+    title: TITLE,
     description: DESCRIPTION,
-    siteName: SITE_NAME,
-    images: [{ url: "/opengraph-image" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${TITLE} - ${SITE_NAME}`,
-    description: DESCRIPTION,
-    images: ["/opengraph-image"],
-  },
-};
+  });
+}
 
 function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
   const arr = Array.isArray(data) ? data : [data];

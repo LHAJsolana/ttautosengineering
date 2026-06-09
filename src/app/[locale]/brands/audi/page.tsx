@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import BrandHubPage from "@/components/BrandHubPage";
 import { defaultLocale, isLocale } from "@/lib/i18n";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 
-const SITE_NAME = "TT AUTO'S Engineering";
 const BRAND_NAME = "Audi";
 const BRAND_PATH = "/brands/audi";
 const TITLE = "Audi Engineering Insights";
@@ -15,25 +14,21 @@ const OG_IMAGE = `/opengraph-image?brand=${encodeURIComponent(
   BRAND_NAME
 )}&title=${encodeURIComponent(TITLE)}&subtitle=${encodeURIComponent(DESCRIPTION)}`;
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: canonical(BRAND_PATH) },
-  openGraph: {
-    type: "website",
-    url: canonical(BRAND_PATH),
-    title: `${TITLE} - ${SITE_NAME}`,
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+  return localizedPageMetadata({
+    locale,
+    pathname: BRAND_PATH,
+    title: TITLE,
     description: DESCRIPTION,
-    siteName: SITE_NAME,
-    images: [{ url: OG_IMAGE }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${TITLE} - ${SITE_NAME}`,
-    description: DESCRIPTION,
-    images: [OG_IMAGE],
-  },
-};
+    image: OG_IMAGE,
+  });
+}
 
 export default async function AudiPage({
   params,

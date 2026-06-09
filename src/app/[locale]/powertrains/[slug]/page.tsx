@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PowertrainHubPage from "@/components/PowertrainHubPage";
 import { getLocalizedPowertrain, powertrains } from "@/lib/powertrains";
-import { canonical } from "@/lib/site";
+import { localizedPageMetadata } from "@/lib/site";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 
 export function generateStaticParams() {
@@ -20,25 +20,14 @@ export async function generateMetadata({
   if (!powertrain) return {};
 
   const title = `${powertrain.name} Reliability and Buying Guide`;
-  const path = `/powertrains/${powertrain.slug}`;
-  return {
+  return localizedPageMetadata({
+    locale,
+    pathname: `/powertrains/${powertrain.slug}`,
     title,
     description: powertrain.summary,
-    alternates: { canonical: canonical(path, locale) },
-    openGraph: {
-      type: "article",
-      url: canonical(path, locale),
-      title,
-      description: powertrain.summary,
-      images: [{ url: powertrain.image }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: powertrain.summary,
-      images: [powertrain.image],
-    },
-  };
+    image: powertrain.image,
+    type: "article",
+  });
 }
 
 export default async function PowertrainPage({
