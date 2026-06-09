@@ -19,7 +19,12 @@ export async function generateMetadata({
   const powertrain = getLocalizedPowertrain(slug, locale);
   if (!powertrain) return {};
 
-  const title = `${powertrain.name} Reliability and Buying Guide`;
+  const title =
+    locale === "nl"
+      ? `${powertrain.name} betrouwbaarheid en koopgids`
+      : locale === "ar"
+        ? `دليل موثوقية وشراء ${powertrain.name}`
+        : `${powertrain.name} Reliability and Buying Guide`;
   return localizedPageMetadata({
     locale,
     pathname: `/powertrains/${powertrain.slug}`,
