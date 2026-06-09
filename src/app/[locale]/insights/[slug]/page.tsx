@@ -106,6 +106,7 @@ export async function generateMetadata({
     });
 
   return {
+    metadataBase: new URL(SITE_URL),
     title,
     description,
     alternates: post.isFallback

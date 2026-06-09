@@ -51,6 +51,7 @@ export function localizedPageMetadata({
   const socialTitle = `${localizedTitle} - ${SITE_NAME}`;
 
   return {
+    metadataBase: new URL(SITE_URL),
     title: localizedTitle,
     description: localizedDescription,
     alternates: localizedAlternates(pathname, locale),
