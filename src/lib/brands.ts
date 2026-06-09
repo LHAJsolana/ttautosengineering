@@ -139,7 +139,7 @@ export const brands: BrandData[] = [
     highlights: ["Specialist inspection", "PDK behavior", "Model-specific risks"],
     tags: ["911", "Macan", "PDK", "Cooling"],
     bestFor: "Enthusiasts who can fund specialist inspection and preventive maintenance rather than buying the cheapest example.",
-    contentTerms: ["Porsche", "PDK", "cooling", "oil consumption", "misfire", "battery voltage"],
+    contentTerms: ["Porsche", "PDK", "turbo", "PCV", "cooling", "oil", "misfire", "battery"],
   },
   {
     name: "MINI",
