@@ -4,15 +4,16 @@ import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
+import { getLocalizedBrands } from "@/lib/brands";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { canonical, localizedPageMetadata } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 const BRAND_PATH = "/brands";
 
-const TITLE = "German Brands";
+const TITLE = "German Engineering Brands";
 const DESCRIPTION =
-  "Brand hubs for BMW, Mercedes-Benz, Audi, and Volkswagen: engineering insights, reliability analysis, and buying guidance.";
+  "Brand hubs for BMW, Mercedes-Benz, Audi, Volkswagen, Porsche, MINI, Škoda, and SEAT/CUPRA: reliability analysis and buying guidance.";
 
 export async function generateMetadata({
   params,
@@ -62,48 +63,7 @@ export default async function BrandsPage({
   const insights = getAllInsights(locale);
   const blogPosts = getAllBlogPosts(locale);
 
-  const brands = [
-    {
-      name: "BMW",
-      slug: "bmw",
-      logo: "/bmw.svg",
-      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1400&q=80",
-      blurb: "Engine families, cooling systems, turbo stress, and ownership-cost signals.",
-      highlights: ["N/B engine families", "Cooling + leaks", "Pre-purchase checks"],
-      tags: ["N47", "B47", "Oil leaks", "Cooling"],
-      score: "72/100",
-    },
-    {
-      name: "Mercedes-Benz",
-      slug: "mercedes-benz",
-      logo: "/mercedes.svg",
-      image: "https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?auto=format&fit=crop&w=1400&q=80",
-      blurb: "Engines, 7G/9G behavior, electronics, and long-term cost drivers.",
-      highlights: ["7G/9G patterns", "Electronics", "Diesel emissions"],
-      tags: ["OM651", "W205", "9G-Tronic", "Electronics"],
-      score: "70/100",
-    },
-    {
-      name: "Audi",
-      slug: "audi",
-      logo: "/audi.svg",
-      image: "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1400&q=80",
-      blurb: "TDI/TSI guidance, oil consumption, timing, cooling, and gearbox behavior.",
-      highlights: ["TDI/TSI risks", "Timing + oil", "DSG / S tronic"],
-      tags: ["EA888", "TDI", "DSG", "Oil use"],
-      score: "68/100",
-    },
-    {
-      name: "Volkswagen",
-      slug: "volkswagen",
-      logo: "/volkswagen.svg",
-      image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1400&q=80",
-      blurb: "TSI/TDI + DSG deep dives, cooling weak points, sensors, and maintenance sensitivity.",
-      highlights: ["DSG behavior", "Cooling weak points", "Service history"],
-      tags: ["MQB", "DSG", "TSI", "TDI"],
-      score: "67/100",
-    },
-  ];
+  const brands = getLocalizedBrands(locale);
 
   const withCounts = brands.map((brand) => {
     const insightCount = insights.filter(
@@ -278,17 +238,21 @@ export default async function BrandsPage({
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220] via-[#0B1220]/20 to-transparent" />
                 <div className="absolute left-5 bottom-5 flex items-center gap-4">
                   <div className="rounded-2xl border border-white/10 bg-black/30 p-3 backdrop-blur">
-                    <Image
-                      src={brand.logo}
-                      alt={`${brand.name} logo`}
-                      width={48}
-                      height={48}
-                      className="h-11 w-11 object-contain invert"
-                    />
+                    {brand.logo ? (
+                      <Image
+                        src={brand.logo}
+                        alt={`${brand.name} logo`}
+                        width={48}
+                        height={48}
+                        className="h-11 w-11 object-contain invert"
+                      />
+                    ) : (
+                      <span className="text-xs font-black tracking-wide text-white">{brand.name}</span>
+                    )}
                   </div>
                   <div>
                     <div className="text-xs text-gray-300">Reliability signal</div>
-                    <div className="text-white font-semibold">{brand.score}</div>
+                    <div className="text-white font-semibold">{brand.score}/100</div>
                   </div>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
-import { getInsightsByBrand } from "@/lib/insights";
+import { getAllInsights, getInsightsByBrand } from "@/lib/insights";
 import type { Locale } from "@/lib/i18n";
 import { canonical } from "@/lib/site";
 
@@ -17,13 +17,14 @@ type BrandHubProps = {
   title: string;
   description: string;
   heroImage: string;
-  logo: string;
+  logo?: string;
   intro: string;
   signals: Signal[];
   focusAreas: string[];
   models: string[];
   problemAreas: string[];
   bestFor: string;
+  contentTerms?: string[];
   locale: Locale;
 };
 
@@ -135,9 +136,28 @@ export default function BrandHubPage({
   models,
   problemAreas,
   bestFor,
+  contentTerms = [],
   locale,
 }: BrandHubProps) {
-  const posts = getInsightsByBrand(brandName, locale).slice(0, 6);
+  const exactPosts = getInsightsByBrand(brandName, locale);
+  const relatedPosts = getAllInsights(locale).filter((post) => {
+    const haystack = [
+      post.frontmatter.title,
+      post.frontmatter.description,
+      post.frontmatter.brand,
+      post.frontmatter.platform,
+      post.frontmatter.category,
+      ...(post.frontmatter.risk ?? []),
+      post.meta?.excerpt,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return contentTerms.some((term) => haystack.includes(term.toLowerCase()));
+  });
+  const posts = [...exactPosts, ...relatedPosts]
+    .filter((post, index, items) => items.findIndex((item) => item.slug === post.slug) === index)
+    .slice(0, 6);
   const blogPosts = getAllBlogPosts(locale)
     .filter((p) => (p.frontmatter.brand ?? "").toLowerCase() === brandName.toLowerCase())
     .slice(0, 3);
@@ -211,14 +231,20 @@ export default function BrandHubPage({
 
             <div className="relative p-8 md:p-12 max-w-3xl">
               <div className="mb-6 flex items-center gap-4">
-                <div className="rounded-2xl border border-white/10 bg-white/10 p-3">
-                  <Image
-                    src={logo}
-                    alt={`${brandName} logo`}
-                    width={52}
-                    height={52}
-                    className="h-12 w-12 object-contain invert"
-                  />
+                <div className="flex h-[76px] min-w-[76px] items-center justify-center rounded-2xl border border-white/10 bg-white/10 p-3">
+                  {logo ? (
+                    <Image
+                      src={logo}
+                      alt={`${brandName} logo`}
+                      width={52}
+                      height={52}
+                      className="h-12 w-12 object-contain invert"
+                    />
+                  ) : (
+                    <span className="text-center text-sm font-black tracking-[0.12em] text-white">
+                      {brandName}
+                    </span>
+                  )}
                 </div>
                 <div>
                   <p className="text-gray-300/90 text-sm">Brand Hub</p>

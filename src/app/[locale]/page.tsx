@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import { brands as brandRegistry } from "@/lib/brands";
 import Link from "@/components/LocalizedLink";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
@@ -198,16 +199,11 @@ export default async function Home({
     },
   ];
 
-  const brands = [
-    { name: "BMW", href: "/brands/bmw", detail: "N-series, B-series, cooling and oil leaks" },
-    {
-      name: "Mercedes-Benz",
-      href: "/brands/mercedes-benz",
-      detail: "Diesels, electronics, suspension and service history",
-    },
-    { name: "Audi", href: "/brands/audi", detail: "TFSI, TDI, quattro, timing and oil use" },
-    { name: "Volkswagen", href: "/brands/volkswagen", detail: "TSI, TDI, DSG and cost control" },
-  ];
+  const brands = brandRegistry.map((brand) => ({
+    name: brand.name,
+    href: `/brands/${brand.slug}`,
+    detail: brand.blurb,
+  }));
 
   const reliabilitySignals = [
     { label: "VW 1.9 TDI legacy engines", score: 9, note: "Strong when maintained" },

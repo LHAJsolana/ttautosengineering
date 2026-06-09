@@ -10,6 +10,7 @@ import type { InsightGridItem } from "@/components/InsightsGrid.client";
 import type { Insight } from "@/lib/insights";
 import { slugifyTaxonomy } from "@/lib/taxonomy";
 import { defaultLocale, isLocale } from "@/lib/i18n";
+import { brandNames } from "@/lib/brands";
 
 const SITE_NAME = "TT AUTO’S Engineering";
 const PATH = "/insights";
@@ -48,7 +49,7 @@ function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unkno
   );
 }
 
-const BRANDS = ["All", "BMW", "Mercedes-Benz", "Audi", "Volkswagen"] as const;
+const BRANDS = ["All", ...brandNames];
 
 function PillLink({
   href,

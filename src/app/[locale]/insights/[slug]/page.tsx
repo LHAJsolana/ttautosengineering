@@ -8,6 +8,7 @@ import { getAllInsights, getInsightBySlug } from "@/lib/insights";
 import { mdxComponents } from "@/components/mdx";
 import { defaultLocale, isLocale, localePath } from "@/lib/i18n";
 import { localizedAlternates } from "@/lib/site";
+import { getBrandByName } from "@/lib/brands";
 
 const SITE_URL = "https://ttautosengineering.com";
 const SITE_NAME = "TT AUTO’S Engineering";
@@ -45,13 +46,8 @@ function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unkno
 }
 
 function brandToHubPath(brand?: string) {
-  const b = (brand || "").toLowerCase();
-  if (b === "bmw") return "/brands/bmw";
-  if (b === "audi") return "/brands/audi";
-  if (b === "volkswagen" || b === "vw") return "/brands/volkswagen";
-  if (b === "mercedes-benz" || b === "mercedes benz" || b === "mercedes")
-    return "/brands/mercedes-benz";
-  return "/brands";
+  const match = getBrandByName(brand);
+  return match ? `/brands/${match.slug}` : "/brands";
 }
 
 function ogForPost(opts: { title: string; subtitle?: string; brand?: string }) {

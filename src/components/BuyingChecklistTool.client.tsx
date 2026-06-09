@@ -2,6 +2,7 @@
 
 import Link from "@/components/LocalizedLink";
 import { useMemo, useState } from "react";
+import { brandNames } from "@/lib/brands";
 
 type Choice = {
   label: string;
@@ -151,7 +152,7 @@ export default function BuyingChecklistTool() {
               onChange={(event) => setBrand(event.target.value)}
               className="rounded-2xl border border-gray-700 bg-[#0B1220] px-4 py-3 text-white outline-none focus:border-red-500"
             >
-              {["BMW", "Mercedes-Benz", "Audi", "Volkswagen"].map((item) => (
+              {brandNames.map((item) => (
                 <option key={item}>{item}</option>
               ))}
             </select>

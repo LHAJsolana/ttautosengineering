@@ -5,6 +5,7 @@ import { modelPages } from "@/lib/models";
 import { powertrains } from "@/lib/powertrains";
 import { locales, localePath, type Locale } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
+import { brands } from "@/lib/brands";
 
 const SITE_LASTMOD = new Date("2026-06-08T00:00:00.000Z");
 
@@ -15,10 +16,6 @@ const staticPaths = [
   "/models",
   "/powertrains",
   "/brands",
-  "/brands/bmw",
-  "/brands/mercedes-benz",
-  "/brands/audi",
-  "/brands/volkswagen",
   "/buying-guides",
   "/buying-checklist",
   "/reliability-index",
@@ -88,6 +85,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     )
   );
 
+  const brandRoutes = locales.flatMap((locale) =>
+    brands.map((brand) =>
+      localizedEntry(locale, `/brands/${brand.slug}`, SITE_LASTMOD, "monthly", 0.8)
+    )
+  );
+
   const powertrainRoutes = locales.flatMap((locale) =>
     powertrains.map((item) =>
       localizedEntry(locale, `/powertrains/${item.slug}`, SITE_LASTMOD, "monthly", 0.8)
@@ -124,6 +127,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
+    ...brandRoutes,
     ...modelRoutes,
     ...powertrainRoutes,
     ...insightRoutes,

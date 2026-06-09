@@ -17,6 +17,12 @@ const protectedTerms = [
   "Mercedes-Benz",
   "Audi",
   "Volkswagen",
+  "Porsche",
+  "MINI",
+  "Škoda",
+  "Skoda",
+  "SEAT",
+  "CUPRA",
   "AdBlue",
   "Haldex",
   "DSG",
@@ -222,6 +228,7 @@ async function collectSourcePhrases() {
     ...(await sourceFiles(path.join(ROOT, "src", "components"))),
     path.join(ROOT, "src", "lib", "models.ts"),
     path.join(ROOT, "src", "lib", "powertrains.ts"),
+    path.join(ROOT, "src", "lib", "brands.ts"),
     path.join(ROOT, "src", "lib", "search.ts"),
   ];
 

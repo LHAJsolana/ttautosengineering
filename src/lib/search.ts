@@ -3,6 +3,7 @@ import { getAllInsights } from "@/lib/insights";
 import { powertrains } from "@/lib/powertrains";
 import { defaultLocale, type Locale } from "@/lib/i18n";
 import { translateValue } from "@/lib/translate";
+import { brands } from "@/lib/brands";
 
 export type SearchType = "Insight" | "Blog" | "Powertrain" | "Guide" | "Brand" | "Page";
 
@@ -41,42 +42,6 @@ const staticItems: SearchItem[] = [
     type: "Guide",
     category: "Buying",
     keywords: ["buying", "used car", "inspection", "checklist", "pre purchase", "red flags"],
-  },
-  {
-    title: "BMW Brand Hub",
-    description:
-      "BMW reliability notes, common faults, buying risks, engines, cooling issues, oil leaks, and drivetrain concerns.",
-    href: "/brands/bmw",
-    type: "Brand",
-    brand: "BMW",
-    keywords: ["bmw", "n47", "b47", "n52", "zf 8hp", "cooling", "oil leak"],
-  },
-  {
-    title: "Mercedes-Benz Brand Hub",
-    description:
-      "Mercedes-Benz diesel, electronics, emissions, suspension, service history, and buying-guide topics.",
-    href: "/brands/mercedes-benz",
-    type: "Brand",
-    brand: "Mercedes-Benz",
-    keywords: ["mercedes", "mercedes-benz", "om651", "adblue", "nox", "diesel"],
-  },
-  {
-    title: "Audi Brand Hub",
-    description:
-      "Audi TFSI, TDI, quattro, Haldex, EA888, timing chain, oil consumption, and platform notes.",
-    href: "/brands/audi",
-    type: "Brand",
-    brand: "Audi",
-    keywords: ["audi", "ea888", "tfsi", "tdi", "quattro", "haldex", "timing chain"],
-  },
-  {
-    title: "Volkswagen Brand Hub",
-    description:
-      "Volkswagen TSI, TDI, DSG, Haldex, common reliability concerns, and cost-control notes.",
-    href: "/brands/volkswagen",
-    type: "Brand",
-    brand: "Volkswagen",
-    keywords: ["volkswagen", "vw", "tsi", "tdi", "dsg", "haldex", "golf"],
   },
   {
     title: "Contact TT AUTO'S Engineering",
@@ -131,6 +96,15 @@ function scoreItem(item: SearchItem, terms: string[]) {
 }
 
 export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
+  const brandItems = brands.map<SearchItem>((brand) => ({
+    title: `${brand.name} Brand Hub`,
+    description: brand.description,
+    href: `/brands/${brand.slug}`,
+    type: "Brand",
+    brand: brand.name,
+    image: brand.image,
+    keywords: [...brand.contentTerms, ...brand.models, ...brand.problemAreas],
+  }));
   const insightItems = getAllInsights(locale).map<SearchItem>((post) => ({
     title: post.frontmatter.title,
     description: post.frontmatter.description,
@@ -192,6 +166,7 @@ export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
     ...insightItems,
     ...blogItems,
     ...powertrainItems,
+    ...brandItems,
     ...staticItems,
   ]);
 }
