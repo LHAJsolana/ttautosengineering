@@ -18,6 +18,8 @@ const types: Array<"All" | SearchType> = [
   "Powertrain",
   "Guide",
   "Brand",
+  "Fault Code",
+  "Model Year",
   "Page",
 ];
 const quickSearches = [

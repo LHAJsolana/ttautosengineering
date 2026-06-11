@@ -4,8 +4,10 @@ import { powertrains } from "@/lib/powertrains";
 import { defaultLocale, type Locale } from "@/lib/i18n";
 import { translateValue } from "@/lib/translate";
 import { brands } from "@/lib/brands";
+import { faultCodes } from "@/lib/faultCodes";
+import { modelYears } from "@/lib/modelYears";
 
-export type SearchType = "Insight" | "Blog" | "Powertrain" | "Guide" | "Brand" | "Page";
+export type SearchType = "Insight" | "Blog" | "Powertrain" | "Guide" | "Brand" | "Fault Code" | "Model Year" | "Page";
 
 export type SearchItem = {
   title: string;
@@ -25,6 +27,33 @@ export type SearchResult = SearchItem & {
 };
 
 const staticItems: SearchItem[] = [
+  {
+    title: "Engineering Tools",
+    description:
+      "Compare vehicles, estimate annual maintenance costs, decode OBD faults, and explore model-year reliability.",
+    href: "/tools",
+    type: "Guide",
+    category: "Tools",
+    keywords: ["tools", "compare", "cost calculator", "fault codes", "model years"],
+  },
+  {
+    title: "Vehicle Comparison Tool",
+    description:
+      "Compare models and powertrains side by side using reliability scores, risks, and inspection priorities.",
+    href: "/compare",
+    type: "Guide",
+    category: "Tools",
+    keywords: ["compare", "comparison", "reliability score", "models", "engines"],
+  },
+  {
+    title: "Ownership Cost Calculator",
+    description:
+      "Estimate an annual maintenance, wear-item, and repair-reserve budget for German cars.",
+    href: "/maintenance-cost",
+    type: "Guide",
+    category: "Tools",
+    keywords: ["maintenance cost", "repair budget", "ownership cost", "calculator"],
+  },
   {
     title: "Reliability Index",
     description:
@@ -96,6 +125,23 @@ function scoreItem(item: SearchItem, terms: string[]) {
 }
 
 export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
+  const faultItems = faultCodes.map<SearchItem>((item) => ({
+    title: `${item.code}: ${item.title}`,
+    description: item.summary,
+    href: `/fault-codes/${item.code.toLowerCase()}`,
+    type: "Fault Code",
+    category: item.system,
+    keywords: [...item.keywords, ...item.symptoms, ...item.likelyCauses],
+  }));
+  const modelYearItems = modelYears.map<SearchItem>((item) => ({
+    title: item.title,
+    description: item.description,
+    href: `/model-years/${item.slug}`,
+    type: "Model Year",
+    brand: item.model.split(" ")[0],
+    category: item.generation,
+    keywords: [item.model, String(item.year), item.risk, ...item.highlights, ...item.inspection],
+  }));
   const brandItems = brands.map<SearchItem>((brand) => ({
     title: `${brand.name} Brand Hub`,
     description: brand.description,
@@ -167,6 +213,8 @@ export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
     ...blogItems,
     ...powertrainItems,
     ...brandItems,
+    ...faultItems,
+    ...modelYearItems,
     ...staticItems,
   ]);
 }

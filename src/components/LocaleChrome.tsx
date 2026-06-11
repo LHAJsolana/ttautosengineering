@@ -52,6 +52,7 @@ function SiteFooter({ locale }: { locale: Locale }) {
                 <FooterLink locale={locale} href="/insights">{copy.nav.insights}</FooterLink>
                 <FooterLink locale={locale} href="/search">{copy.nav.search}</FooterLink>
                 <FooterLink locale={locale} href="/brands">{copy.nav.brands}</FooterLink>
+                <FooterLink locale={locale} href="/tools">{copy.nav.tools}</FooterLink>
                 <FooterLink locale={locale} href="/buying-guides">{copy.nav.buyingGuides}</FooterLink>
                 <FooterLink locale={locale} href="/reliability-index">{copy.nav.reliability}</FooterLink>
               </div>

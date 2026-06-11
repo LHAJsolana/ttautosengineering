@@ -6,6 +6,8 @@ import { powertrains } from "@/lib/powertrains";
 import { locales, localePath, type Locale } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
 import { brands } from "@/lib/brands";
+import { faultCodes } from "@/lib/faultCodes";
+import { modelYears } from "@/lib/modelYears";
 
 const SITE_LASTMOD = new Date("2026-06-08T00:00:00.000Z");
 
@@ -18,6 +20,11 @@ const staticPaths = [
   "/brands",
   "/buying-guides",
   "/buying-checklist",
+  "/tools",
+  "/compare",
+  "/maintenance-cost",
+  "/fault-codes",
+  "/model-years",
   "/reliability-index",
   "/about",
   "/contact",
@@ -97,6 +104,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     )
   );
 
+  const faultCodeRoutes = locales.flatMap((locale) =>
+    faultCodes.map((item) =>
+      localizedEntry(
+        locale,
+        `/fault-codes/${item.code.toLowerCase()}`,
+        SITE_LASTMOD,
+        "monthly",
+        0.76
+      )
+    )
+  );
+
+  const modelYearRoutes = locales.flatMap((locale) =>
+    modelYears.map((item) =>
+      localizedEntry(
+        locale,
+        `/model-years/${item.slug}`,
+        SITE_LASTMOD,
+        "monthly",
+        0.82
+      )
+    )
+  );
+
   const insightRoutes = locales.flatMap((locale) =>
     getAllInsights(locale)
       .filter((post) => !post.isFallback)
@@ -130,6 +161,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...brandRoutes,
     ...modelRoutes,
     ...powertrainRoutes,
+    ...faultCodeRoutes,
+    ...modelYearRoutes,
     ...insightRoutes,
     ...blogRoutes,
   ];

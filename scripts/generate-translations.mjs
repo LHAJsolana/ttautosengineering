@@ -230,6 +230,8 @@ async function collectSourcePhrases() {
     path.join(ROOT, "src", "lib", "powertrains.ts"),
     path.join(ROOT, "src", "lib", "brands.ts"),
     path.join(ROOT, "src", "lib", "search.ts"),
+    path.join(ROOT, "src", "lib", "faultCodes.ts"),
+    path.join(ROOT, "src", "lib", "modelYears.ts"),
   ];
 
   for (const filePath of files) {

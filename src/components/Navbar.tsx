@@ -34,6 +34,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
       { label: copy.nav.brands, href: localePath(locale, "/brands") },
       { label: copy.nav.models, href: localePath(locale, "/models") },
       { label: copy.nav.powertrains, href: localePath(locale, "/powertrains") },
+      { label: copy.nav.tools, href: localePath(locale, "/tools") },
       { label: copy.nav.buyingGuides, href: localePath(locale, "/buying-guides") },
       { label: copy.nav.checklist, href: localePath(locale, "/buying-checklist") },
       { label: copy.nav.reliability, href: localePath(locale, "/reliability-index") },
