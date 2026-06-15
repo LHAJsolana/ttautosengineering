@@ -29,6 +29,12 @@ export default async function ComparePage({ params }: { params: Promise<{ locale
     problems: item.commonProblems,
     checks: item.inspectionChecklist,
     href: `/models/${item.slug}`,
+    metrics: {
+      reliability: item.score,
+      ownershipValue: Math.max(48, item.score - Math.round(item.commonProblems.length * 1.5)),
+      usability: Math.min(92, item.score + (item.name.includes("Golf") || item.name.includes("Passat") ? 10 : 4)),
+      inspectionConfidence: Math.min(90, 58 + item.inspectionChecklist.length * 5),
+    },
   }));
   const powertrains: ComparisonItem[] = getLocalizedPowertrains(locale).map((item) => ({
     id: `powertrain-${item.slug}`,
@@ -41,6 +47,12 @@ export default async function ComparePage({ params }: { params: Promise<{ locale
     problems: item.commonProblems,
     checks: item.inspectionChecks,
     href: `/powertrains/${item.slug}`,
+    metrics: {
+      reliability: item.score,
+      ownershipValue: Math.max(45, item.score - (item.risk === "Higher" ? 14 : item.risk === "Medium" ? 6 : 0)),
+      usability: item.kind === "Gearbox" ? Math.min(90, item.score + 5) : Math.min(88, item.score + 2),
+      inspectionConfidence: Math.min(92, 60 + item.inspectionChecks.length * 6),
+    },
   }));
 
   return (
