@@ -9,7 +9,7 @@ const TITLE = "Volkswagen Engineering Insights";
 const DESCRIPTION =
   "Volkswagen reliability analysis, common problems (TSI/TDI/DSG), buying guides, and engineering-driven ownership insights.";
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=80";
+  "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1600&q=80";
 const OG_IMAGE = `/opengraph-image?brand=${encodeURIComponent(
   BRAND_NAME
 )}&title=${encodeURIComponent(TITLE)}&subtitle=${encodeURIComponent(DESCRIPTION)}`;
