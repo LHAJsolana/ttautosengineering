@@ -98,7 +98,7 @@ export const brands: BrandData[] = [
     name: "Volkswagen",
     slug: "volkswagen",
     logo: "/volkswagen.svg",
-    image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=80",
+    image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1600&q=80",
     title: "Volkswagen Engineering Insights",
     description: "Volkswagen reliability analysis, common problems (TSI/TDI/DSG), buying guides, and engineering-driven ownership insights.",
     intro: "Engineering notes on Volkswagen platforms: TSI/TDI reliability, DSG behavior, cooling weak points, sensors, oil consumption, and maintenance sensitivity.",

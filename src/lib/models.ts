@@ -26,12 +26,27 @@ export type ModelPageData = {
 };
 
 const MODEL_HERO_IMAGES = {
-  bmw: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1800&q=80",
-  mercedes:
-    "https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?auto=format&fit=crop&w=1800&q=80",
-  audi: "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1800&q=80",
-  volkswagen:
-    "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
+  "bmw-3-series": "https://images.unsplash.com/photo-1630165695908-e68c9f2e8a29?auto=format&fit=crop&w=1800&q=80",
+  "bmw-5-series": "https://images.unsplash.com/photo-1652890041546-2de2829c43b5?auto=format&fit=crop&w=1800&q=80",
+  "bmw-x5": "https://images.unsplash.com/photo-1635990215241-4d2805d729bb?auto=format&fit=crop&w=1800&q=80",
+  "bmw-x3": "https://images.unsplash.com/photo-1677961019377-d45643fde74f?auto=format&fit=crop&w=1800&q=80",
+  "bmw-1-series": "https://images.unsplash.com/photo-1600268330186-76564be81357?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-c-class": "https://images.unsplash.com/photo-1589667679944-aa672d42dd76?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-e-class": "https://images.unsplash.com/photo-1624085568108-36410cfe4d24?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-a-class": "https://images.unsplash.com/photo-1593081727404-575eeb723999?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-glc": "https://images.unsplash.com/photo-1619466548431-54ffb2fe2674?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-s-class": "https://images.unsplash.com/photo-1610099610040-ab19f3a5ec35?auto=format&fit=crop&w=1800&q=80",
+  "audi-a4": "https://images.unsplash.com/photo-1611758433285-3ea014b434eb?auto=format&fit=crop&w=1800&q=80",
+  "audi-a3": "https://images.unsplash.com/photo-1561924563-d9ad0f32b23f?auto=format&fit=crop&w=1800&q=80",
+  "audi-q5": "https://images.unsplash.com/photo-1599912027806-cfec9f5944b6?auto=format&fit=crop&w=1800&q=80",
+  "audi-a6": "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1800&q=80",
+  "audi-a5": "https://images.unsplash.com/photo-1618849985511-7dbc48d7d2e4?auto=format&fit=crop&w=1800&q=80",
+  "audi-q7": "https://images.unsplash.com/photo-1532974143451-8162d38a1257?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-golf": "https://images.unsplash.com/photo-1605475300127-0a31e8273bc2?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-passat": "https://images.unsplash.com/photo-1607082615064-eb85a8c1f4cd?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-tiguan": "https://images.unsplash.com/photo-1760713164476-7eb5063b3d07?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-polo": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-touareg": "https://images.unsplash.com/photo-1623013274387-45cbcbc1725b?auto=format&fit=crop&w=1800&q=80",
 } as const;
 
 export const modelPages: ModelPageData[] = [
@@ -43,7 +58,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW 3 Series Used Buying Guide",
     description:
       "BMW 3 Series reliability, engine risks, common problems, and pre-purchase checks for used buyers.",
-    heroImage: MODEL_HERO_IMAGES.bmw,
+    heroImage: MODEL_HERO_IMAGES["bmw-3-series"],
     score: 72,
     verdict:
       "A strong used buy when the engine family is understood and service history is real. Cooling, oil leaks, timing risk, and gearbox service proof matter more than cosmetic condition.",
@@ -87,7 +102,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz C-Class Used Buying Guide",
     description:
       "Mercedes-Benz C-Class reliability, diesel emissions risks, electronics checks, gearbox behavior, and used buying advice.",
-    heroImage: MODEL_HERO_IMAGES.mercedes,
+    heroImage: MODEL_HERO_IMAGES["mercedes-c-class"],
     score: 70,
     verdict:
       "A comfortable used car when the drivetrain and electronics are healthy. Service history, scan quality, and emissions-system status are decisive on modern diesel examples.",
@@ -131,7 +146,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A4 Used Buying Guide",
     description:
       "Audi A4 reliability, TFSI/TDI engine risks, quattro and S tronic checks, oil consumption, timing, and used buying advice.",
-    heroImage: MODEL_HERO_IMAGES.audi,
+    heroImage: MODEL_HERO_IMAGES["audi-a4"],
     score: 68,
     verdict:
       "A refined used car with strong long-distance ability, but engine generation and gearbox history make a huge difference. Confirm the exact engine, not just the badge.",
@@ -175,7 +190,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Golf Used Buying Guide",
     description:
       "Volkswagen Golf reliability, TSI/TDI engine checks, DSG service history, Haldex notes, and used buying advice.",
-    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    heroImage: MODEL_HERO_IMAGES["volkswagen-golf"],
     score: 67,
     verdict:
       "A strong value choice when service history is complete. The Golf can be cheap to run or expensive to catch up depending on DSG, cooling, sensors, and engine-specific maintenance.",
@@ -219,7 +234,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW 5 Series Used Buying Guide",
     description:
       "BMW 5 Series reliability, diesel and petrol engine risks, ZF gearbox checks, suspension wear, and executive-car buying advice.",
-    heroImage: MODEL_HERO_IMAGES.bmw,
+    heroImage: MODEL_HERO_IMAGES["bmw-5-series"],
     score: 71,
     verdict:
       "A refined executive car that can handle high mileage well when servicing is disciplined. The risk is buying one that looks premium but has delayed cooling, gearbox, emissions, or suspension work.",
@@ -263,7 +278,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW X5 Used Buying Guide",
     description:
       "BMW X5 reliability, xDrive checks, diesel engine risks, air suspension, cooling, and used SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.bmw,
+    heroImage: MODEL_HERO_IMAGES["bmw-x5"],
     score: 64,
     verdict:
       "A capable premium SUV, but it is not a cheap car to rescue. Weight, xDrive hardware, tires, suspension, diesel emissions, and cooling systems all raise the cost of neglected ownership.",
@@ -307,7 +322,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz E-Class Used Buying Guide",
     description:
       "Mercedes-Benz E-Class reliability, diesel emissions checks, gearbox behavior, air suspension, electronics, and executive-car buying advice.",
-    heroImage: MODEL_HERO_IMAGES.mercedes,
+    heroImage: MODEL_HERO_IMAGES["mercedes-e-class"],
     score: 73,
     verdict:
       "A strong long-distance car when bought carefully. The E-Class can feel expensive to fix only when buyers ignore electronics, suspension, diesel emissions, or gearbox symptoms before purchase.",
@@ -351,7 +366,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz A-Class Used Buying Guide",
     description:
       "Mercedes-Benz A-Class reliability, compact Mercedes ownership costs, diesel and petrol checks, dual-clutch behavior, and buyer advice.",
-    heroImage: MODEL_HERO_IMAGES.mercedes,
+    heroImage: MODEL_HERO_IMAGES["mercedes-a-class"],
     score: 66,
     verdict:
       "A stylish compact car, but it needs a calmer inspection than the badge suggests. Gearbox behavior, electronics, diesel emissions, and trim condition separate good buys from expensive fashion choices.",
@@ -395,7 +410,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A3 Used Buying Guide",
     description:
       "Audi A3 reliability, TFSI/TDI checks, S tronic service, Haldex, oil consumption, timing, and compact premium buying advice.",
-    heroImage: MODEL_HERO_IMAGES.audi,
+    heroImage: MODEL_HERO_IMAGES["audi-a3"],
     score: 67,
     verdict:
       "A premium-feeling compact with Golf-family engineering underneath. It can be sensible, but S tronic service, TFSI oil behavior, diesel emissions, and Haldex maintenance need proof.",
@@ -439,7 +454,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi Q5 Used Buying Guide",
     description:
       "Audi Q5 reliability, quattro checks, TFSI/TDI risks, S tronic service, oil consumption, suspension, and SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.audi,
+    heroImage: MODEL_HERO_IMAGES["audi-q5"],
     score: 65,
     verdict:
       "A refined family SUV, but weight and drivetrain complexity make poor maintenance expensive. Confirm engine generation, gearbox history, quattro service, and tire condition.",
@@ -483,7 +498,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Passat Used Buying Guide",
     description:
       "Volkswagen Passat reliability, TDI checks, DSG service, emissions systems, suspension, and used family-car buying advice.",
-    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    heroImage: MODEL_HERO_IMAGES["volkswagen-passat"],
     score: 69,
     verdict:
       "A practical, comfortable family car that makes sense with complete service history. DSG, diesel emissions, cooling, and suspension condition are the big checks.",
@@ -527,7 +542,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Tiguan Used Buying Guide",
     description:
       "Volkswagen Tiguan reliability, TSI/TDI checks, DSG and Haldex service, cooling issues, emissions faults, and SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    heroImage: MODEL_HERO_IMAGES["volkswagen-tiguan"],
     score: 66,
     verdict:
       "A useful family SUV, but drivetrain service history matters. DSG, Haldex, cooling, TSI timing, and diesel emissions decide whether it is sensible or costly.",
@@ -571,7 +586,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A6 Used Buying Guide",
     description:
       "Audi A6 reliability, TDI and TFSI risks, quattro checks, gearbox service, electronics, air suspension, and executive-car buying advice.",
-    heroImage: MODEL_HERO_IMAGES.audi,
+    heroImage: MODEL_HERO_IMAGES["audi-a6"],
     score: 70,
     verdict:
       "A refined executive car with real long-distance ability. It becomes expensive when buyers overlook gearbox behavior, diesel emissions, quattro service, air suspension, or electronic faults.",
@@ -615,7 +630,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW X3 Used Buying Guide",
     description:
       "BMW X3 reliability, xDrive checks, B47/B48/N57 engine notes, transfer case risk, suspension wear, and used SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.bmw,
+    heroImage: MODEL_HERO_IMAGES["bmw-x3"],
     score: 68,
     verdict:
       "A useful premium SUV when drivetrain history is clean. The X3 needs the same BMW engine checks as the saloons, plus extra attention to xDrive, tires, suspension, and cooling load.",
@@ -659,7 +674,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW 1 Series Used Buying Guide",
     description:
       "BMW 1 Series reliability, N47/B47/B48 engine checks, timing risk, cooling, oil leaks, and compact BMW buying advice.",
-    heroImage: MODEL_HERO_IMAGES.bmw,
+    heroImage: MODEL_HERO_IMAGES["bmw-1-series"],
     score: 67,
     verdict:
       "A fun compact car when bought by engine and maintenance history, not just badge. Timing, cooling, oil leaks, and previous-owner use decide whether it feels clever or costly.",
@@ -703,7 +718,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz GLC Used Buying Guide",
     description:
       "Mercedes-Benz GLC reliability, OM651/OM654 diesel checks, 9G-Tronic behavior, 4Matic, suspension, electronics, and SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.mercedes,
+    heroImage: MODEL_HERO_IMAGES["mercedes-glc"],
     score: 68,
     verdict:
       "A comfortable premium SUV when electronics, emissions, gearbox, and suspension are healthy. The GLC is not hard to like, but neglected examples can hide expensive faults behind a clean cabin.",
@@ -747,7 +762,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz S-Class Used Buying Guide",
     description:
       "Mercedes-Benz S-Class reliability, air suspension, electronics, diesel and petrol engine checks, gearbox behavior, and luxury-car buying advice.",
-    heroImage: MODEL_HERO_IMAGES.mercedes,
+    heroImage: MODEL_HERO_IMAGES["mercedes-s-class"],
     score: 65,
     verdict:
       "A brilliant luxury car when maintained like one. The S-Class is rarely a cheap rescue: air suspension, electronics, emissions, cooling, and option-heavy interiors all need serious inspection.",
@@ -791,7 +806,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A5 Used Buying Guide",
     description:
       "Audi A5 reliability, EA888/TDI engine checks, S tronic, quattro, oil consumption, timing, and coupe or Sportback buying advice.",
-    heroImage: MODEL_HERO_IMAGES.audi,
+    heroImage: MODEL_HERO_IMAGES["audi-a5"],
     score: 67,
     verdict:
       "A stylish A4-family car that can be a strong used buy with the right engine and gearbox history. Oil behavior, timing, S tronic service, and quattro assumptions matter more than trim.",
@@ -835,7 +850,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi Q7 Used Buying Guide",
     description:
       "Audi Q7 reliability, 3.0 TDI checks, quattro, air suspension, gearbox behavior, electronics, and large SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.audi,
+    heroImage: MODEL_HERO_IMAGES["audi-q7"],
     score: 63,
     verdict:
       "A capable large SUV with real comfort, but poor maintenance is expensive. The Q7 needs heavy-SUV checks: tires, brakes, air suspension, quattro, gearbox, emissions, and electronics.",
@@ -879,7 +894,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Polo Used Buying Guide",
     description:
       "Volkswagen Polo reliability, TSI/TDI engine checks, DSG behavior, timing, cooling, city-car wear, and used buying advice.",
-    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    heroImage: MODEL_HERO_IMAGES["volkswagen-polo"],
     score: 70,
     verdict:
       "A sensible small car when service history is real. The Polo is cheap to run compared with larger German cars, but DSG, timing, cooling, and city-use wear still need inspection.",
@@ -923,7 +938,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Touareg Used Buying Guide",
     description:
       "Volkswagen Touareg reliability, 3.0 TDI checks, 4Motion, air suspension, gearbox behavior, electronics, and large SUV buying advice.",
-    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    heroImage: MODEL_HERO_IMAGES["volkswagen-touareg"],
     score: 64,
     verdict:
       "A capable large SUV that can be excellent value, but it carries premium-SUV repair exposure. The Touareg needs careful checks for diesel emissions, air suspension, tires, driveline, and electronics.",
