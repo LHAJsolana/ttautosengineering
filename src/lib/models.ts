@@ -25,6 +25,15 @@ export type ModelPageData = {
   searchTopics: string[];
 };
 
+const MODEL_HERO_IMAGES = {
+  bmw: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1800&q=80",
+  mercedes:
+    "https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?auto=format&fit=crop&w=1800&q=80",
+  audi: "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1800&q=80",
+  volkswagen:
+    "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1800&q=80",
+} as const;
+
 export const modelPages: ModelPageData[] = [
   {
     slug: "bmw-3-series",
@@ -34,8 +43,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW 3 Series Used Buying Guide",
     description:
       "BMW 3 Series reliability, engine risks, common problems, and pre-purchase checks for used buyers.",
-    heroImage:
-      "https://images.unsplash.com/photo-1523983388277-336a66bf9bcd?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.bmw,
     score: 72,
     verdict:
       "A strong used buy when the engine family is understood and service history is real. Cooling, oil leaks, timing risk, and gearbox service proof matter more than cosmetic condition.",
@@ -79,8 +87,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz C-Class Used Buying Guide",
     description:
       "Mercedes-Benz C-Class reliability, diesel emissions risks, electronics checks, gearbox behavior, and used buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1628711957321-c85a8042763f?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.mercedes,
     score: 70,
     verdict:
       "A comfortable used car when the drivetrain and electronics are healthy. Service history, scan quality, and emissions-system status are decisive on modern diesel examples.",
@@ -124,8 +131,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A4 Used Buying Guide",
     description:
       "Audi A4 reliability, TFSI/TDI engine risks, quattro and S tronic checks, oil consumption, timing, and used buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1540066019607-e5f69323a8dc?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.audi,
     score: 68,
     verdict:
       "A refined used car with strong long-distance ability, but engine generation and gearbox history make a huge difference. Confirm the exact engine, not just the badge.",
@@ -169,8 +175,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Golf Used Buying Guide",
     description:
       "Volkswagen Golf reliability, TSI/TDI engine checks, DSG service history, Haldex notes, and used buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1748607247405-b775d7c778b9?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.volkswagen,
     score: 67,
     verdict:
       "A strong value choice when service history is complete. The Golf can be cheap to run or expensive to catch up depending on DSG, cooling, sensors, and engine-specific maintenance.",
@@ -214,8 +219,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW 5 Series Used Buying Guide",
     description:
       "BMW 5 Series reliability, diesel and petrol engine risks, ZF gearbox checks, suspension wear, and executive-car buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1652890058094-a3fe8ead30fa?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.bmw,
     score: 71,
     verdict:
       "A refined executive car that can handle high mileage well when servicing is disciplined. The risk is buying one that looks premium but has delayed cooling, gearbox, emissions, or suspension work.",
@@ -259,8 +263,7 @@ export const modelPages: ModelPageData[] = [
     title: "BMW X5 Used Buying Guide",
     description:
       "BMW X5 reliability, xDrive checks, diesel engine risks, air suspension, cooling, and used SUV buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1635990716619-7710162ea073?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.bmw,
     score: 64,
     verdict:
       "A capable premium SUV, but it is not a cheap car to rescue. Weight, xDrive hardware, tires, suspension, diesel emissions, and cooling systems all raise the cost of neglected ownership.",
@@ -304,8 +307,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz E-Class Used Buying Guide",
     description:
       "Mercedes-Benz E-Class reliability, diesel emissions checks, gearbox behavior, air suspension, electronics, and executive-car buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1559167628-9394a8576f33?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.mercedes,
     score: 73,
     verdict:
       "A strong long-distance car when bought carefully. The E-Class can feel expensive to fix only when buyers ignore electronics, suspension, diesel emissions, or gearbox symptoms before purchase.",
@@ -349,8 +351,7 @@ export const modelPages: ModelPageData[] = [
     title: "Mercedes-Benz A-Class Used Buying Guide",
     description:
       "Mercedes-Benz A-Class reliability, compact Mercedes ownership costs, diesel and petrol checks, dual-clutch behavior, and buyer advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1753477300510-441dc5054d5b?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.mercedes,
     score: 66,
     verdict:
       "A stylish compact car, but it needs a calmer inspection than the badge suggests. Gearbox behavior, electronics, diesel emissions, and trim condition separate good buys from expensive fashion choices.",
@@ -394,8 +395,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A3 Used Buying Guide",
     description:
       "Audi A3 reliability, TFSI/TDI checks, S tronic service, Haldex, oil consumption, timing, and compact premium buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1717711081688-985a7a3e6a9f?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.audi,
     score: 67,
     verdict:
       "A premium-feeling compact with Golf-family engineering underneath. It can be sensible, but S tronic service, TFSI oil behavior, diesel emissions, and Haldex maintenance need proof.",
@@ -439,8 +439,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi Q5 Used Buying Guide",
     description:
       "Audi Q5 reliability, quattro checks, TFSI/TDI risks, S tronic service, oil consumption, suspension, and SUV buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.audi,
     score: 65,
     verdict:
       "A refined family SUV, but weight and drivetrain complexity make poor maintenance expensive. Confirm engine generation, gearbox history, quattro service, and tire condition.",
@@ -484,8 +483,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Passat Used Buying Guide",
     description:
       "Volkswagen Passat reliability, TDI checks, DSG service, emissions systems, suspension, and used family-car buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1741479897627-d98ff167f115?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.volkswagen,
     score: 69,
     verdict:
       "A practical, comfortable family car that makes sense with complete service history. DSG, diesel emissions, cooling, and suspension condition are the big checks.",
@@ -529,8 +527,7 @@ export const modelPages: ModelPageData[] = [
     title: "Volkswagen Tiguan Used Buying Guide",
     description:
       "Volkswagen Tiguan reliability, TSI/TDI checks, DSG and Haldex service, cooling issues, emissions faults, and SUV buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1566347287154-891d2eb25984?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.volkswagen,
     score: 66,
     verdict:
       "A useful family SUV, but drivetrain service history matters. DSG, Haldex, cooling, TSI timing, and diesel emissions decide whether it is sensible or costly.",
@@ -574,8 +571,7 @@ export const modelPages: ModelPageData[] = [
     title: "Audi A6 Used Buying Guide",
     description:
       "Audi A6 reliability, TDI and TFSI risks, quattro checks, gearbox service, electronics, air suspension, and executive-car buying advice.",
-    heroImage:
-      "https://images.unsplash.com/photo-1760550999996-111eadbac7f6?auto=format&fit=crop&w=1800&q=80",
+    heroImage: MODEL_HERO_IMAGES.audi,
     score: 70,
     verdict:
       "A refined executive car with real long-distance ability. It becomes expensive when buyers overlook gearbox behavior, diesel emissions, quattro service, air suspension, or electronic faults.",
@@ -610,6 +606,358 @@ export const modelPages: ModelPageData[] = [
       "Inspect tires, brakes, suspension arms, and service invoices.",
     ],
     searchTopics: ["Audi A6", "3.0 TDI", "quattro", "S tronic", "AdBlue", "air suspension"],
+  },
+  {
+    slug: "bmw-x3",
+    name: "BMW X3",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW X3 Used Buying Guide",
+    description:
+      "BMW X3 reliability, xDrive checks, B47/B48/N57 engine notes, transfer case risk, suspension wear, and used SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES.bmw,
+    score: 68,
+    verdict:
+      "A useful premium SUV when drivetrain history is clean. The X3 needs the same BMW engine checks as the saloons, plus extra attention to xDrive, tires, suspension, and cooling load.",
+    bestFor: "Buyers who want a compact premium SUV with BMW dynamics and can verify driveline maintenance.",
+    watchOut:
+      "Avoid mismatched tires, transfer case shudder, coolant loss, rough ZF shifts, diesel emissions warnings, and vague service records.",
+    marketPosition:
+      "The X3 sits in the sweet spot between daily usability and SUV running cost. It is sensible only when tire matching, xDrive behavior, and engine condition are checked properly.",
+    ownershipPlan: [
+      "Confirm all tires match in size, brand, tread depth, and load rating before judging xDrive behavior.",
+      "Baseline fluids, filters, coolant inspection, and a full module scan after purchase.",
+      "Plan suspension and brake inspection early because SUV weight hides wear well.",
+    ],
+    engines: [
+      { label: "B47 diesel", note: "Efficient and common; verify emissions, EGR, DPF, and service intervals.", risk: "Medium" },
+      { label: "N57 diesel", note: "Strong in larger versions, but timing, oil leaks, and emissions costs rise.", risk: "Medium" },
+      { label: "B48 petrol", note: "Good all-rounder; inspect cooling, PCV, oil leaks, and scan data.", risk: "Medium" },
+      { label: "M40i / M variants", note: "Desirable but tire, brake, cooling, and modification checks become stricter.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "xDrive transfer case wear from mismatched tires or old fluid.",
+      "Cooling-system plastics, coolant residue, and thermostat/water pump age.",
+      "Diesel EGR, DPF, AdBlue, and NOx faults on modern examples.",
+      "Oil leaks around common BMW gasket and housing areas.",
+      "Suspension arms, dampers, brakes, and tire wear from SUV weight.",
+    ],
+    inspectionChecklist: [
+      "Test tight low-speed turns for drivetrain shudder.",
+      "Inspect tire match, inner-edge wear, brakes, and suspension arms.",
+      "Scan engine, gearbox, transfer case, ABS, body, and emissions modules.",
+      "Check coolant level stability and oil leak evidence underneath.",
+      "Verify gearbox, transfer case, differential, and brake-fluid invoices where available.",
+    ],
+    searchTopics: ["BMW X3", "xDrive", "B47", "B48", "transfer case", "EGR"],
+  },
+  {
+    slug: "bmw-1-series",
+    name: "BMW 1 Series",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW 1 Series Used Buying Guide",
+    description:
+      "BMW 1 Series reliability, N47/B47/B48 engine checks, timing risk, cooling, oil leaks, and compact BMW buying advice.",
+    heroImage: MODEL_HERO_IMAGES.bmw,
+    score: 67,
+    verdict:
+      "A fun compact car when bought by engine and maintenance history, not just badge. Timing, cooling, oil leaks, and previous-owner use decide whether it feels clever or costly.",
+    bestFor: "Drivers who want compact size, BMW handling, and lower running costs than larger models.",
+    watchOut:
+      "Be careful with timing noise, tuned cars, poor tires, oil leaks, coolant loss, clutch/gearbox wear, and missing oil-service proof.",
+    marketPosition:
+      "The 1 Series attracts mixed ownership. The best cars are boringly documented; the risky ones are modified, under-serviced, or dressed up for sale.",
+    ownershipPlan: [
+      "Identify the exact engine family before applying reliability advice.",
+      "Use cold start, scan data, oil leak inspection, and coolant checks as the first filter.",
+      "Budget for tires, brakes, filters, fluids, and alignment after purchase.",
+    ],
+    engines: [
+      { label: "N47 diesel", note: "Timing chain evidence is essential before purchase.", risk: "Higher" },
+      { label: "B47 diesel", note: "Improved diesel option, but emissions and service history still matter.", risk: "Medium" },
+      { label: "B38/B48 petrol", note: "Good daily engines; inspect cooling, PCV, oil leaks, and misfires.", risk: "Medium" },
+      { label: "M135i / M140i", note: "Strong performance; inspect modifications, cooling, tires, brakes, and differential use.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Timing chain risk on specific diesel generations.",
+      "Oil filter housing, valve cover, and gasket leaks.",
+      "Cooling-system leaks, thermostat, and water pump faults.",
+      "Clutch, dual-mass flywheel, or automatic gearbox wear.",
+      "Suspension, tire, and alignment issues from hard use.",
+    ],
+    inspectionChecklist: [
+      "Listen from cold for chain rattle and rough idle.",
+      "Inspect oil leaks from above and underneath.",
+      "Scan engine, gearbox, ABS, and body modules.",
+      "Check tire quality, brake condition, suspension knocks, and alignment.",
+      "Verify oil service frequency and any timing or cooling invoices.",
+    ],
+    searchTopics: ["BMW 1 Series", "N47", "B47", "B48", "timing chain", "oil leak"],
+  },
+  {
+    slug: "mercedes-glc",
+    name: "Mercedes-Benz GLC",
+    brand: "Mercedes-Benz",
+    brandHref: "/brands/mercedes-benz",
+    title: "Mercedes-Benz GLC Used Buying Guide",
+    description:
+      "Mercedes-Benz GLC reliability, OM651/OM654 diesel checks, 9G-Tronic behavior, 4Matic, suspension, electronics, and SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES.mercedes,
+    score: 68,
+    verdict:
+      "A comfortable premium SUV when electronics, emissions, gearbox, and suspension are healthy. The GLC is not hard to like, but neglected examples can hide expensive faults behind a clean cabin.",
+    bestFor: "Families and commuters who want comfort, refinement, and a calmer SUV than sportier rivals.",
+    watchOut:
+      "Avoid AdBlue/NOx warnings, rough 9G shifts, battery-voltage faults, suspension knocks, mismatched tires, and incomplete service history.",
+    marketPosition:
+      "The GLC works best as a documented, steady-use car. A cheap one with warning history can cost more than buying the right car first.",
+    ownershipPlan: [
+      "Start with a Mercedes-capable full scan and battery/charging-system check.",
+      "Verify emissions readiness and gearbox behavior before negotiating.",
+      "Inspect tires, brakes, suspension, and all comfort electronics because SUV use adds wear.",
+    ],
+    engines: [
+      { label: "OM651 diesel", note: "Can be durable; check injectors, EGR, DPF, NOx, and service proof.", risk: "Medium" },
+      { label: "OM654 diesel", note: "Efficient modern diesel; emissions system health is decisive.", risk: "Medium" },
+      { label: "M274/M264 petrol", note: "Inspect timing, cooling, oil leaks, and misfire data.", risk: "Medium" },
+      { label: "AMG / plug-in hybrid", note: "Higher performance or hybrid complexity raises inspection cost.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "AdBlue, NOx, DPF, and EGR warning chains.",
+      "9G-Tronic low-speed shift complaints or service gaps.",
+      "Battery voltage creating misleading electronic faults.",
+      "Suspension bushings, dampers, tires, and brake wear.",
+      "Parking sensors, cameras, infotainment, and comfort electronics.",
+    ],
+    inspectionChecklist: [
+      "Run a full Mercedes-capable scan and confirm no emissions countdown history.",
+      "Test gearbox behavior cold, warm, in reverse, and in traffic.",
+      "Check every screen, camera, parking sensor, window, seat, and climate function.",
+      "Inspect tires, suspension knocks, brake wear, and underbody condition.",
+      "Review service records for gearbox, brake fluid, coolant, filters, and emissions repairs.",
+    ],
+    searchTopics: ["Mercedes GLC", "OM651", "OM654", "9G-Tronic", "AdBlue", "4Matic"],
+  },
+  {
+    slug: "mercedes-s-class",
+    name: "Mercedes-Benz S-Class",
+    brand: "Mercedes-Benz",
+    brandHref: "/brands/mercedes-benz",
+    title: "Mercedes-Benz S-Class Used Buying Guide",
+    description:
+      "Mercedes-Benz S-Class reliability, air suspension, electronics, diesel and petrol engine checks, gearbox behavior, and luxury-car buying advice.",
+    heroImage: MODEL_HERO_IMAGES.mercedes,
+    score: 65,
+    verdict:
+      "A brilliant luxury car when maintained like one. The S-Class is rarely a cheap rescue: air suspension, electronics, emissions, cooling, and option-heavy interiors all need serious inspection.",
+    bestFor: "Buyers who want luxury and long-distance comfort with budget for specialist diagnosis and preventive maintenance.",
+    watchOut:
+      "Walk carefully around suspension warnings, weak batteries, electrical faults, AdBlue/NOx issues, oil leaks, and cars with luxury options that do not work.",
+    marketPosition:
+      "Depreciation makes the S-Class tempting, but repair exposure stays flagship-level. The right car is the one with records, clean scans, and fully working equipment.",
+    ownershipPlan: [
+      "Pay for a specialist inspection before purchase, especially on air suspension and electronics.",
+      "Check battery health, charging stability, and every comfort feature before trusting the car.",
+      "Budget for fluids, filters, brake fluid, gearbox service, tires, and suspension diagnosis early.",
+    ],
+    engines: [
+      { label: "OM642/OM656 diesel", note: "Strong cruisers; emissions, oil leaks, and cooling need checks.", risk: "Medium" },
+      { label: "V6/V8 petrol", note: "Smooth but heat, oil leaks, ignition, and cooling costs rise.", risk: "Higher" },
+      { label: "Hybrid variants", note: "Check battery, charging, cooling, and high-voltage service history.", risk: "Higher" },
+      { label: "AMG variants", note: "Performance versions need specialist inspection and complete records.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Air suspension leaks, compressor fatigue, and ride-height faults.",
+      "Battery, alternator, and voltage-related electronic issues.",
+      "Command, sensors, cameras, soft-close, seats, and comfort-system faults.",
+      "Diesel AdBlue, NOx, DPF, and EGR warnings.",
+      "Oil leaks, coolant leaks, gearbox behavior, and heavy brake/tire wear.",
+    ],
+    inspectionChecklist: [
+      "Scan every module with Mercedes-capable diagnostics and save the report.",
+      "Check ride height after sitting, mode changes, compressor behavior, and suspension noises.",
+      "Test every luxury feature, seat function, camera, sensor, window, and infotainment control.",
+      "Drive cold and warm to assess gearbox, cooling stability, steering, and brake feel.",
+      "Verify invoices for suspension, gearbox, brake fluid, batteries, tires, and emissions repairs.",
+    ],
+    searchTopics: ["Mercedes S-Class", "Airmatic", "OM642", "OM656", "AdBlue", "electronics"],
+  },
+  {
+    slug: "audi-a5",
+    name: "Audi A5",
+    brand: "Audi",
+    brandHref: "/brands/audi",
+    title: "Audi A5 Used Buying Guide",
+    description:
+      "Audi A5 reliability, EA888/TDI engine checks, S tronic, quattro, oil consumption, timing, and coupe or Sportback buying advice.",
+    heroImage: MODEL_HERO_IMAGES.audi,
+    score: 67,
+    verdict:
+      "A stylish A4-family car that can be a strong used buy with the right engine and gearbox history. Oil behavior, timing, S tronic service, and quattro assumptions matter more than trim.",
+    bestFor: "Buyers who want Audi refinement and style without ignoring drivetrain details.",
+    watchOut:
+      "Be careful with oil consumption, timing rattle, rough S tronic shifts, neglected quattro service, and tuned or hard-used S models.",
+    marketPosition:
+      "The A5 often looks better kept than it is mechanically. Treat it like an A4 inspection with extra attention to tires, doors, trim, and previous-owner use.",
+    ownershipPlan: [
+      "Confirm engine code, gearbox type, and quattro system before applying generic advice.",
+      "Track oil level and coolant stability immediately after purchase.",
+      "Baseline S tronic, Haldex/quattro, brake fluid, and filters if records are unclear.",
+    ],
+    engines: [
+      { label: "EA888 TFSI", note: "Generation matters for oil consumption, timing, PCV, and cooling.", risk: "Medium" },
+      { label: "2.0 TDI", note: "Good with records; scan DPF, EGR, injectors, and NOx systems.", risk: "Medium" },
+      { label: "3.0 TDI", note: "Strong cruiser but emissions, timing, and repair costs rise.", risk: "Higher" },
+      { label: "S5 / RS5", note: "Performance models require specialist checks and clean modification history.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "EA888 timing, PCV, oil consumption, and carbon buildup.",
+      "S tronic service gaps, mechatronics symptoms, or rough engagement.",
+      "Cooling leaks, thermostat housing, and water pump issues.",
+      "Diesel emissions faults and injector correction concerns.",
+      "Quattro service assumptions and uneven tire wear.",
+    ],
+    inspectionChecklist: [
+      "Confirm engine and gearbox codes before the test drive.",
+      "Listen for cold-start rattle and check oil consumption evidence.",
+      "Scan engine, gearbox, AWD, ABS, and body modules.",
+      "Test low-speed shifts, reverse engagement, and steady acceleration.",
+      "Inspect tires, brakes, suspension, door operation, and service invoices.",
+    ],
+    searchTopics: ["Audi A5", "EA888", "TFSI", "S tronic", "quattro", "oil consumption"],
+  },
+  {
+    slug: "audi-q7",
+    name: "Audi Q7",
+    brand: "Audi",
+    brandHref: "/brands/audi",
+    title: "Audi Q7 Used Buying Guide",
+    description:
+      "Audi Q7 reliability, 3.0 TDI checks, quattro, air suspension, gearbox behavior, electronics, and large SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES.audi,
+    score: 63,
+    verdict:
+      "A capable large SUV with real comfort, but poor maintenance is expensive. The Q7 needs heavy-SUV checks: tires, brakes, air suspension, quattro, gearbox, emissions, and electronics.",
+    bestFor: "Families needing space, towing ability, comfort, and premium SUV capability with a realistic maintenance budget.",
+    watchOut:
+      "Avoid air suspension faults, cheap tires, diesel emissions warnings, rough gearbox behavior, coolant leaks, and weak-battery electronic oddities.",
+    marketPosition:
+      "Used Q7 prices can look tempting because running costs are not small. The best buy is the car with complete service proof and no hidden warning history.",
+    ownershipPlan: [
+      "Budget more than a saloon for tires, brakes, suspension, and fluid services.",
+      "Verify quattro/driveline service, air suspension condition, and gearbox behavior early.",
+      "Run a full scan before purchase because warning lights do not tell the whole story.",
+    ],
+    engines: [
+      { label: "3.0 TDI", note: "Mainstream choice; check emissions, timing evidence, oil leaks, and cooling.", risk: "Higher" },
+      { label: "2.0 TFSI / 3.0 TFSI", note: "Petrols need cooling, PCV, oil, ignition, and carbon checks.", risk: "Medium" },
+      { label: "Plug-in hybrid", note: "Check charging, battery health, cooling, and warranty history.", risk: "Higher" },
+      { label: "SQ7 / performance variants", note: "Very capable but specialist inspection and brake/tire budget are essential.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Air suspension leaks, compressor wear, and ride-height faults.",
+      "Diesel EGR, DPF, AdBlue, and NOx system issues.",
+      "Gearbox service gaps, harsh shifts, or driveline vibration.",
+      "MMI, sensors, cameras, battery voltage, and comfort electronics.",
+      "Heavy tire, brake, suspension, and alignment wear.",
+    ],
+    inspectionChecklist: [
+      "Check tire match, tread depth, load rating, and inner-edge wear.",
+      "Test air suspension height changes and look for overnight sag.",
+      "Scan engine, gearbox, suspension, AWD, parking, body, and emissions modules.",
+      "Drive in traffic and at motorway speed to check gearbox and vibration.",
+      "Review invoices for gearbox, differential, suspension, brakes, tires, and emissions repairs.",
+    ],
+    searchTopics: ["Audi Q7", "3.0 TDI", "quattro", "air suspension", "AdBlue", "Tiptronic"],
+  },
+  {
+    slug: "volkswagen-polo",
+    name: "Volkswagen Polo",
+    brand: "Volkswagen",
+    brandHref: "/brands/volkswagen",
+    title: "Volkswagen Polo Used Buying Guide",
+    description:
+      "Volkswagen Polo reliability, TSI/TDI engine checks, DSG behavior, timing, cooling, city-car wear, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    score: 70,
+    verdict:
+      "A sensible small car when service history is real. The Polo is cheap to run compared with larger German cars, but DSG, timing, cooling, and city-use wear still need inspection.",
+    bestFor: "Drivers wanting compact practicality, parts availability, and low running costs.",
+    watchOut:
+      "Avoid rough DSG behavior, timing noise, coolant loss, misfires, cheap tires, accident repairs, and interiors that do not match the mileage.",
+    marketPosition:
+      "The Polo is strongest as a simple, well-serviced car. Pay for condition and records, not for a shiny small car with no maintenance proof.",
+    ownershipPlan: [
+      "Confirm the exact TSI/TDI engine and gearbox before judging reliability.",
+      "Baseline oil, filters, brake fluid, coolant checks, and scan data after purchase.",
+      "Inspect for city-use damage: wheels, clutch, brakes, suspension, and parking repairs.",
+    ],
+    engines: [
+      { label: "1.0 MPI / TSI", note: "Good daily engines; check service intervals, misfires, and cooling.", risk: "Medium" },
+      { label: "1.2 / 1.4 TSI", note: "Generation matters for timing, oil behavior, and PCV faults.", risk: "Medium" },
+      { label: "1.4 / 1.6 TDI", note: "Efficient, but DPF/EGR health depends on driving profile.", risk: "Medium" },
+      { label: "GTI", note: "Fun, but inspect DSG, modifications, brakes, tires, and oil behavior.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "DSG service gaps or low-speed judder on equipped cars.",
+      "Timing chain/belt evidence depending on engine generation.",
+      "Cooling leaks, thermostat behavior, and water pump issues.",
+      "Misfires, coils, plugs, PCV, and carbon buildup on TSI engines.",
+      "Suspension knocks, tire wear, wheel damage, and accident repair clues.",
+    ],
+    inspectionChecklist: [
+      "Test clutch or DSG behavior in traffic, reverse, and hill starts.",
+      "Scan for misfires, gearbox faults, emissions readiness, and battery voltage issues.",
+      "Check coolant level, heater behavior, and timing-service evidence.",
+      "Inspect tires, wheels, brakes, suspension, and crash repair signs.",
+      "Verify oil service, brake fluid, filters, and DSG records where applicable.",
+    ],
+    searchTopics: ["Volkswagen Polo", "TSI", "TDI", "DSG", "timing", "misfire"],
+  },
+  {
+    slug: "volkswagen-touareg",
+    name: "Volkswagen Touareg",
+    brand: "Volkswagen",
+    brandHref: "/brands/volkswagen",
+    title: "Volkswagen Touareg Used Buying Guide",
+    description:
+      "Volkswagen Touareg reliability, 3.0 TDI checks, 4Motion, air suspension, gearbox behavior, electronics, and large SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES.volkswagen,
+    score: 64,
+    verdict:
+      "A capable large SUV that can be excellent value, but it carries premium-SUV repair exposure. The Touareg needs careful checks for diesel emissions, air suspension, tires, driveline, and electronics.",
+    bestFor: "Buyers needing towing ability, comfort, and long-distance SUV strength without paying Audi or Porsche badge money.",
+    watchOut:
+      "Avoid air suspension faults, diesel warning lights, rough gearbox shifts, mismatched tires, coolant leaks, and incomplete driveline service history.",
+    marketPosition:
+      "The Touareg is often underrated, which helps value. It only stays good value when the expensive systems are inspected before purchase.",
+    ownershipPlan: [
+      "Budget for large-SUV tires, brakes, suspension, gearbox, and driveline services.",
+      "Run a full VAG-capable scan and verify emissions readiness before buying.",
+      "Inspect air suspension and towing-related wear carefully if the car has been used hard.",
+    ],
+    engines: [
+      { label: "3.0 TDI", note: "Common and capable; check EGR, DPF, AdBlue, injectors, oil leaks, and cooling.", risk: "Higher" },
+      { label: "V6 petrol", note: "Less diesel emissions risk, but fuel cost, cooling, ignition, and oil leaks matter.", risk: "Medium" },
+      { label: "Hybrid variants", note: "Check battery, charging, cooling, and high-voltage service history.", risk: "Higher" },
+      { label: "Air suspension models", note: "Comfortable, but leaks and compressor wear can be costly.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Diesel EGR, DPF, AdBlue, NOx, and injector-related faults.",
+      "Air suspension leaks, compressor fatigue, and height-sensor issues.",
+      "Gearbox or driveline service gaps and vibration under load.",
+      "Cooling leaks, oil leaks, and boost/vacuum system faults.",
+      "Heavy brake, tire, bushing, and alignment wear.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, suspension, AWD, parking, body, and emissions modules.",
+      "Check tire match, load rating, tread depth, and inner-edge wear.",
+      "Raise and lower air suspension where fitted and check for overnight sag.",
+      "Test towing-speed acceleration, low-speed shifts, reverse, and tight turns.",
+      "Verify gearbox, differential, transfer case, brake, and emissions repair invoices.",
+    ],
+    searchTopics: ["Volkswagen Touareg", "3.0 TDI", "4Motion", "air suspension", "AdBlue", "DPF"],
   },
 ];
 
