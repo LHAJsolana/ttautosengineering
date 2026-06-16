@@ -31,7 +31,7 @@ const MODEL_HERO_IMAGES = {
     "https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?auto=format&fit=crop&w=1800&q=80",
   audi: "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1800&q=80",
   volkswagen:
-    "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1800&q=80",
+    "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
 } as const;
 
 export const modelPages: ModelPageData[] = [
