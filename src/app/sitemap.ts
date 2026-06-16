@@ -8,6 +8,7 @@ import { SITE_URL } from "@/lib/site";
 import { brands } from "@/lib/brands";
 import { faultCodes } from "@/lib/faultCodes";
 import { modelYears } from "@/lib/modelYears";
+import { directComparisons } from "@/lib/comparisons";
 
 const SITE_LASTMOD = new Date("2026-06-08T00:00:00.000Z");
 
@@ -128,6 +129,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     )
   );
 
+  const directComparisonRoutes = locales.flatMap((locale) =>
+    directComparisons.map((comparison) =>
+      localizedEntry(locale, `/compare/${comparison.slug}`, SITE_LASTMOD, "monthly", 0.78)
+    )
+  );
+
   const insightRoutes = locales.flatMap((locale) =>
     getAllInsights(locale)
       .filter((post) => !post.isFallback)
@@ -161,6 +168,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...brandRoutes,
     ...modelRoutes,
     ...powertrainRoutes,
+    ...directComparisonRoutes,
     ...faultCodeRoutes,
     ...modelYearRoutes,
     ...insightRoutes,

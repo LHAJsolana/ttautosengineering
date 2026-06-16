@@ -25,6 +25,8 @@ export function translateValue<T>(locale: Locale, value: T): T {
         [
           "slug",
           "href",
+          "leftHref",
+          "rightHref",
           "brandHref",
           "heroImage",
           "image",

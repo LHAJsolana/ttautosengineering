@@ -25,6 +25,21 @@ export type ModelPageData = {
   searchTopics: string[];
 };
 
+export type BestUsedBuyScores = {
+  reliability: number;
+  repairCost: number;
+  partsAvailability: number;
+  fuelEconomy: number;
+  resale: number;
+};
+
+export type ModelWarningSections = {
+  commonEngineProblems: string[];
+  gearboxIssues: string[];
+  mileageDangerZones: string[];
+  whatToCheckBeforeBuying: string[];
+};
+
 const MODEL_HERO_IMAGES = {
   "bmw-3-series": "https://images.unsplash.com/photo-1630165695908-e68c9f2e8a29?auto=format&fit=crop&w=1800&q=80",
   "bmw-5-series": "https://images.unsplash.com/photo-1652890041546-2de2829c43b5?auto=format&fit=crop&w=1800&q=80",
@@ -987,4 +1002,85 @@ export function getLocalizedModelPages(locale: Locale) {
 export function getLocalizedModelPage(slug: string, locale: Locale) {
   const model = getModelPage(slug);
   return model ? translateValue(locale, model) : null;
+}
+
+function includesAny(model: ModelPageData, terms: string[]) {
+  const haystack = [
+    model.name,
+    model.brand,
+    model.description,
+    model.verdict,
+    model.watchOut,
+    model.marketPosition,
+    ...model.engines.map((engine) => `${engine.label} ${engine.note}`),
+    ...model.commonProblems,
+    ...model.inspectionChecklist,
+    ...model.searchTopics,
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return terms.some((term) => haystack.includes(term));
+}
+
+export function getBestUsedBuyScores(model: ModelPageData): BestUsedBuyScores {
+  const isVolkswagen = model.brand === "Volkswagen";
+  const isAudi = model.brand === "Audi";
+  const isBmw = model.brand === "BMW";
+  const isMercedes = model.brand === "Mercedes-Benz";
+  const isSuv = includesAny(model, ["x3", "x5", "q5", "q7", "glc", "tiguan", "touareg", "suv"]);
+  const isLuxury = includesAny(model, ["s-class", "q7", "x5", "touareg", "air suspension", "luxury"]);
+  const isDieselHeavy = includesAny(model, ["diesel", "tdi", "dpf", "egr", "adblue", "nox"]);
+  const isCompact = includesAny(model, ["1 series", "a-class", "a3", "golf", "polo"]);
+
+  return {
+    reliability: model.score,
+    repairCost: Math.max(45, Math.min(88, model.score + (isVolkswagen ? 8 : 0) - (isLuxury ? 9 : isSuv ? 5 : 0) - (isMercedes ? 2 : 0))),
+    partsAvailability: Math.max(55, Math.min(94, 76 + (isVolkswagen ? 10 : 0) + (isBmw || isAudi ? 5 : 0) + (isCompact ? 4 : 0) - (isLuxury ? 4 : 0))),
+    fuelEconomy: Math.max(48, Math.min(92, model.score + (isDieselHeavy ? 8 : 0) + (isCompact ? 8 : 0) - (isSuv ? 7 : 0) - (isLuxury ? 7 : 0))),
+    resale: Math.max(52, Math.min(90, model.score + (isBmw ? 5 : 0) + (isMercedes ? 4 : 0) + (isVolkswagen ? 3 : 0) - (isLuxury ? 3 : 0))),
+  };
+}
+
+export function getModelWarningSections(model: ModelPageData): ModelWarningSections {
+  const diesel = includesAny(model, ["diesel", "tdi", "dpf", "egr", "adblue", "nox"]);
+  const vag = model.brand === "Audi" || model.brand === "Volkswagen";
+  const bmw = model.brand === "BMW";
+  const mercedes = model.brand === "Mercedes-Benz";
+  const suv = includesAny(model, ["x3", "x5", "q5", "q7", "glc", "tiguan", "touareg", "suv"]);
+  const luxury = includesAny(model, ["s-class", "q7", "x5", "touareg", "air suspension", "luxury"]);
+  const compact = includesAny(model, ["1 series", "a-class", "a3", "golf", "polo"]);
+
+  const engineProblems = [
+    ...model.commonProblems.filter((problem) =>
+      /engine|timing|chain|oil|cool|water|thermostat|egr|dpf|adblue|nox|injector|turbo|pcv|misfire|carbon/i.test(problem)
+    ),
+    diesel ? "Diesel emissions faults can turn a cheap car into an expensive repair if DPF, EGR, AdBlue, or NOx data is ignored." : "Petrol examples still need checks for cooling leaks, PCV faults, oil consumption, misfires, and direct-injection carbon buildup.",
+  ].slice(0, 5);
+
+  const gearboxIssues = [
+    ...model.commonProblems.filter((problem) => /gearbox|zf|dsg|s tronic|7g|9g|mechatronics|clutch|flywheel|transmission/i.test(problem)),
+    vag ? "On DSG/S tronic cars, missing fluid-service proof and low-speed judder should change the price immediately." : "",
+    bmw ? "On ZF automatics, check cold and hot shift quality plus service evidence rather than accepting lifetime-fluid claims." : "",
+    mercedes ? "On 7G/9G cars, test reverse, crawling traffic, light throttle, and warm restart behavior before trusting the gearbox." : "",
+  ].filter(Boolean).slice(0, 4);
+
+  const mileageDangerZones = [
+    compact ? "60k-90k miles: inspect brakes, suspension, clutch/DSG behavior, cooling leaks, and city-use wear." : "70k-100k miles: verify gearbox service, cooling-system condition, suspension wear, and complete fluid history.",
+    diesel ? "90k-130k miles: scan DPF soot load, EGR/NOx history, injector corrections, and regeneration behavior." : "80k-120k miles: check oil leaks, PCV, ignition components, coolant history, and timing-related evidence.",
+    suv ? "100k+ miles: budget for tires, brakes, bushings, AWD/driveline service, and suspension work." : "120k+ miles: buy only with boring paperwork, clean scan data, and no hidden warning history.",
+    luxury ? "Luxury options and air suspension can cost flagship money even when the purchase price looks cheap." : "At any mileage, a cleared fault scan with no service proof is a bigger warning than cosmetic wear.",
+  ];
+
+  const whatToCheck = [
+    ...model.inspectionChecklist.slice(0, 4),
+    "Ask for the exact engine code, gearbox type, service invoices, and a full diagnostic scan before paying a deposit.",
+  ];
+
+  return {
+    commonEngineProblems: [...new Set(engineProblems)].slice(0, 5),
+    gearboxIssues: [...new Set(gearboxIssues)].slice(0, 4),
+    mileageDangerZones,
+    whatToCheckBeforeBuying: [...new Set(whatToCheck)].slice(0, 5),
+  };
 }

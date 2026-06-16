@@ -4,7 +4,12 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import type { Locale } from "@/lib/i18n";
-import type { ModelPageData } from "@/lib/models";
+import {
+  getBestUsedBuyScores,
+  getModelWarningSections,
+  type BestUsedBuyScores,
+  type ModelPageData,
+} from "@/lib/models";
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
@@ -23,6 +28,38 @@ function RiskBadge({ risk }: { risk: "Lower" | "Medium" | "Higher" }) {
         : "border-red-500/40 text-red-200";
 
   return <span className={`rounded-full border px-2.5 py-1 text-xs ${className}`}>{risk}</span>;
+}
+
+function ScoreBar({ label, value }: { label: string; value: number }) {
+  const color = value >= 76 ? "bg-emerald-500" : value >= 66 ? "bg-yellow-500" : "bg-red-500";
+
+  return (
+    <div>
+      <div className="mb-1.5 flex justify-between gap-4 text-xs text-gray-400">
+        <span>{label}</span>
+        <strong className="text-gray-200">{value}</strong>
+      </div>
+      <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+        <div className={`h-full ${color}`} style={{ width: `${value}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function WarningList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="rounded-2xl border border-gray-800 bg-white/[0.03] p-5">
+      <h3 className="font-bold text-white">{title}</h3>
+      <ul className="mt-4 space-y-3 text-sm text-gray-300">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
+            <span className="leading-relaxed">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 function ContentCard({
@@ -115,6 +152,8 @@ export default function ModelHubPage({
 
   const scoreLabel =
     model.score >= 72 ? "Good candidate" : model.score >= 68 ? "Verify carefully" : "History sensitive";
+  const buyScores: BestUsedBuyScores = getBestUsedBuyScores(model);
+  const warnings = getModelWarningSections(model);
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-20 text-white">
@@ -190,6 +229,16 @@ export default function ModelHubPage({
             <h2 className="font-semibold text-white">Market position</h2>
             <p className="mt-2 text-sm leading-relaxed text-gray-300">{model.marketPosition}</p>
           </div>
+          <div className="mt-4 rounded-2xl border border-gray-800 bg-white/[0.03] p-4">
+            <h2 className="font-semibold text-white">Best used buy scoring</h2>
+            <div className="mt-4 grid gap-3">
+              <ScoreBar label="Reliability" value={buyScores.reliability} />
+              <ScoreBar label="Repair cost" value={buyScores.repairCost} />
+              <ScoreBar label="Parts availability" value={buyScores.partsAvailability} />
+              <ScoreBar label="Fuel economy" value={buyScores.fuelEconomy} />
+              <ScoreBar label="Resale" value={buyScores.resale} />
+            </div>
+          </div>
         </aside>
 
         <div className="grid gap-6">
@@ -247,6 +296,19 @@ export default function ModelHubPage({
                   </li>
                 ))}
               </ul>
+            </div>
+          </section>
+
+          <section className="rounded-3xl border border-gray-800 bg-[#111827] p-7">
+            <h2 className="text-2xl font-bold text-white">Used-buy warning zones</h2>
+            <p className="mt-2 text-sm leading-relaxed text-gray-400">
+              Turn the score into practical checks: engine risk, gearbox behavior, mileage exposure, and what to verify before paying.
+            </p>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <WarningList title="Common engine problems" items={warnings.commonEngineProblems} />
+              <WarningList title="Gearbox issues" items={warnings.gearboxIssues} />
+              <WarningList title="Mileage danger zones" items={warnings.mileageDangerZones} />
+              <WarningList title="What to check before buying" items={warnings.whatToCheckBeforeBuying} />
             </div>
           </section>
         </div>
