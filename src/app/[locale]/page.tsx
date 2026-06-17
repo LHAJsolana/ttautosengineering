@@ -3,8 +3,10 @@ import Image from "next/image";
 import { brands as brandRegistry } from "@/lib/brands";
 import Link from "@/components/LocalizedLink";
 import { getAllBlogPosts } from "@/lib/blog";
+import { getLocalizedDirectComparisons } from "@/lib/comparisons";
 import { getAllInsights } from "@/lib/insights";
 import { defaultLocale, isLocale } from "@/lib/i18n";
+import { getLocalizedModelPages } from "@/lib/models";
 
 type Feature = {
   title: string;
@@ -130,6 +132,8 @@ export default async function Home({
   const locale = isLocale(localeParam) ? localeParam : defaultLocale;
   const allInsights = getAllInsights(locale);
   const allBlogPosts = getAllBlogPosts(locale);
+  const directComparisons = getLocalizedDirectComparisons(locale);
+  const modelGuides = getLocalizedModelPages(locale);
   const latestInsights = allInsights.slice(0, 4);
   const latestBlog = allBlogPosts.slice(0, 3);
   const featuredInsight = allInsights.find((post) => post.frontmatter.featured) ?? allInsights[0];
@@ -168,6 +172,13 @@ export default async function Home({
       description: "Use structured inspection notes before committing to a German car purchase.",
       href: "/buying-guides",
       label: "Buyer",
+    },
+    {
+      title: "Direct Comparisons",
+      description:
+        "Compare engines and models buyers actually cross-shop, including B47 vs B48 and Golf vs A3.",
+      href: "/compare",
+      label: "Compare",
     },
     {
       title: "Engineering Insights",
@@ -268,11 +279,12 @@ export default async function Home({
             </div>
           </div>
 
-          <div className="mt-14 grid gap-3 sm:grid-cols-3">
+          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
               [`${allBlogPosts.length}+`, "blog articles"],
               [`${allInsights.length}`, "technical insights"],
-              ["4", "brand hubs"],
+              [`${directComparisons.length}`, "direct comparisons"],
+              [`${modelGuides.length}`, "model guides"],
             ].map(([value, label]) => (
               <div key={label} className="border-l border-white/15 bg-white/[0.04] px-5 py-4">
                 <div className="text-3xl font-extrabold text-white">{value}</div>
@@ -292,6 +304,45 @@ export default async function Home({
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
             <FeatureCard key={feature.title} feature={feature} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 py-8">
+        <SectionHeading
+          eyebrow="Compare"
+          title="Direct used-buy comparisons"
+          description="Short, practical matchups for the choices buyers actually make: engine versus engine, model versus model, and cross-brand diesel decisions."
+          href="/compare"
+          linkLabel="Open comparison tool -&gt;"
+        />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {directComparisons.slice(0, 6).map((comparison) => (
+            <Link
+              key={comparison.slug}
+              href={`/compare/${comparison.slug}`}
+              className="group rounded-2xl border border-gray-800 bg-[#111827] p-5 transition hover:border-red-500 hover:bg-[#131f33]"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-red-300">
+                    {comparison.kind}
+                  </p>
+                  <h3 className="mt-2 text-lg font-bold leading-snug text-white">
+                    {comparison.title}
+                  </h3>
+                </div>
+                <span className="shrink-0 rounded-full border border-gray-700 px-2.5 py-1 text-xs text-gray-300">
+                  {comparison.leftScore} / {comparison.rightScore}
+                </span>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-gray-400">
+                {comparison.description}
+              </p>
+              <div className="mt-5 text-sm font-semibold text-gray-200 group-hover:text-white">
+                Compare now -&gt;
+              </div>
+            </Link>
           ))}
         </div>
       </section>
