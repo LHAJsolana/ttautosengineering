@@ -46,22 +46,32 @@ const MODEL_HERO_IMAGES = {
   "bmw-x5": "https://images.unsplash.com/photo-1635990215241-4d2805d729bb?auto=format&fit=crop&w=1800&q=80",
   "bmw-x3": "https://images.unsplash.com/photo-1677961019377-d45643fde74f?auto=format&fit=crop&w=1800&q=80",
   "bmw-1-series": "https://images.unsplash.com/photo-1600268330186-76564be81357?auto=format&fit=crop&w=1800&q=80",
+  "bmw-4-series": "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1800&q=80",
+  "bmw-7-series": "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=1800&q=80",
+  "bmw-x1": "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=1800&q=80",
   "mercedes-c-class": "https://images.unsplash.com/photo-1589667679944-aa672d42dd76?auto=format&fit=crop&w=1800&q=80",
   "mercedes-e-class": "https://images.unsplash.com/photo-1624085568108-36410cfe4d24?auto=format&fit=crop&w=1800&q=80",
   "mercedes-a-class": "https://images.unsplash.com/photo-1593081727404-575eeb723999?auto=format&fit=crop&w=1800&q=80",
   "mercedes-glc": "https://images.unsplash.com/photo-1619466548431-54ffb2fe2674?auto=format&fit=crop&w=1800&q=80",
   "mercedes-s-class": "https://images.unsplash.com/photo-1610099610040-ab19f3a5ec35?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-cla": "https://images.unsplash.com/photo-1622206346001-2f40bd4c23c0?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-gla": "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-gle": "https://images.unsplash.com/photo-1610647752706-3bb12232b3ff?auto=format&fit=crop&w=1800&q=80",
   "audi-a4": "https://images.unsplash.com/photo-1611758433285-3ea014b434eb?auto=format&fit=crop&w=1800&q=80",
   "audi-a3": "https://images.unsplash.com/photo-1561924563-d9ad0f32b23f?auto=format&fit=crop&w=1800&q=80",
   "audi-q5": "https://images.unsplash.com/photo-1599912027806-cfec9f5944b6?auto=format&fit=crop&w=1800&q=80",
   "audi-a6": "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?auto=format&fit=crop&w=1800&q=80",
   "audi-a5": "https://images.unsplash.com/photo-1618849985511-7dbc48d7d2e4?auto=format&fit=crop&w=1800&q=80",
   "audi-q7": "https://images.unsplash.com/photo-1532974143451-8162d38a1257?auto=format&fit=crop&w=1800&q=80",
+  "audi-a1": "https://images.unsplash.com/photo-1612911912304-9005873d7e10?auto=format&fit=crop&w=1800&q=80",
+  "audi-q3": "https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-golf": "https://images.unsplash.com/photo-1605475300127-0a31e8273bc2?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-passat": "https://images.unsplash.com/photo-1607082615064-eb85a8c1f4cd?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-tiguan": "https://images.unsplash.com/photo-1760713164476-7eb5063b3d07?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-polo": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-touareg": "https://images.unsplash.com/photo-1623013274387-45cbcbc1725b?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-arteon": "https://images.unsplash.com/photo-1607082615064-eb85a8c1f4cd?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-t-roc": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
 } as const;
 
 export const modelPages: ModelPageData[] = [
@@ -989,6 +999,446 @@ export const modelPages: ModelPageData[] = [
     ],
     searchTopics: ["Volkswagen Touareg", "3.0 TDI", "4Motion", "air suspension", "AdBlue", "DPF"],
   },
+  {
+    slug: "bmw-4-series",
+    name: "BMW 4 Series",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW 4 Series Used Buying Guide",
+    description:
+      "BMW 4 Series reliability, petrol and diesel engine checks, ZF gearbox behavior, coupe body checks, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["bmw-4-series"],
+    score: 70,
+    verdict:
+      "A sharper, style-led 3 Series relative that can be a strong used buy when engine history, cooling health, oil leaks, and ZF service proof are clear.",
+    bestFor: "Drivers who want BMW dynamics with coupe, Gran Coupe, or convertible style.",
+    watchOut:
+      "Avoid cars with timing noise, coolant loss, roof faults on convertibles, rough gearbox behavior, cheap modifications, or vague service history.",
+    marketPosition:
+      "The 4 Series is often bought on looks, but the smart purchase is still about engine family, gearbox evidence, tire quality, and body condition.",
+    ownershipPlan: [
+      "Baseline oil, filters, coolant inspection, brake fluid, and scan data soon after purchase.",
+      "Check ZF service evidence and low-speed shift quality before trusting a tidy cabin.",
+      "On coupes and convertibles, inspect doors, seals, roof drains, and previous repair quality.",
+    ],
+    engines: [
+      { label: "N20/N26 petrol", note: "Inspect timing evidence, oil leaks, cooling, and service intervals.", risk: "Higher" },
+      { label: "B48 petrol", note: "Good modern choice; check cooling leaks, PCV behavior, and scan data.", risk: "Medium" },
+      { label: "N47/B47 diesel", note: "Buy on timing, EGR, DPF, and oil-service evidence.", risk: "Medium" },
+      { label: "Six-cylinder models", note: "Desirable, but tires, brakes, cooling, and maintenance cost rise.", risk: "Medium" },
+    ],
+    commonProblems: [
+      "Cooling leaks, thermostat, water pump, and plastic hose fatigue.",
+      "Oil filter housing, valve cover, and gasket seepage.",
+      "Timing-chain risk on sensitive N20/N47 examples.",
+      "ZF gearbox service gaps and low-speed hesitation.",
+      "Convertible roof, seals, water ingress, tire wear, and suspension knocks.",
+    ],
+    inspectionChecklist: [
+      "Listen from cold for chain rattle, rough idle, and exhaust smoke.",
+      "Inspect coolant residue, oil leaks, and undertray dampness.",
+      "Scan engine, gearbox, body, roof, and chassis modules where applicable.",
+      "Test ZF shifts cold and warm, including reverse and crawling traffic.",
+      "Check tire match, wheel damage, roof operation, and body repair evidence.",
+    ],
+    searchTopics: ["BMW 4 Series", "B48", "N20", "B47", "ZF 8HP", "convertible"],
+  },
+  {
+    slug: "bmw-7-series",
+    name: "BMW 7 Series",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW 7 Series Used Buying Guide",
+    description:
+      "BMW 7 Series reliability, air suspension, electronics, diesel and petrol engine checks, ZF gearbox behavior, and luxury-car buying advice.",
+    heroImage: MODEL_HERO_IMAGES["bmw-7-series"],
+    score: 64,
+    verdict:
+      "A superb luxury car when maintained properly, but cheap examples can carry flagship repair exposure in suspension, electronics, cooling, gearbox, and emissions systems.",
+    bestFor: "Buyers who want luxury, space, and long-distance comfort with budget for specialist maintenance.",
+    watchOut:
+      "Walk carefully around air suspension warnings, battery voltage faults, coolant loss, oil leaks, AdBlue/NOx issues, and dead luxury options.",
+    marketPosition:
+      "Depreciation makes the 7 Series tempting, but it should be bought like a flagship. Clean scans and invoices matter more than low purchase price.",
+    ownershipPlan: [
+      "Pay for specialist diagnostics before purchase and keep the scan report.",
+      "Budget early for fluids, filters, gearbox service, battery health, tires, brakes, and suspension checks.",
+      "Test every comfort feature, camera, seat, window, soft-close door, and infotainment function.",
+    ],
+    engines: [
+      { label: "B57/N57 diesel", note: "Strong cruisers; emissions, timing evidence, oil leaks, and cooling need checks.", risk: "Medium" },
+      { label: "B58 petrol", note: "Desirable, but cooling, oil leaks, ignition, and scan data still matter.", risk: "Medium" },
+      { label: "V8 petrol", note: "Performance is strong, but heat, oil leaks, and repair costs are high.", risk: "Higher" },
+      { label: "Plug-in hybrid", note: "Check battery, charging, cooling, and high-voltage service history.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Air suspension leaks, compressor fatigue, and ride-height faults.",
+      "Battery, charging, comfort electronics, cameras, and module faults.",
+      "Cooling leaks, oil leaks, and turbo/boost issues on higher-output cars.",
+      "Diesel EGR, DPF, AdBlue, NOx, and injector-related faults.",
+      "ZF gearbox service neglect, heavy brake wear, and expensive tire fitments.",
+    ],
+    inspectionChecklist: [
+      "Scan every module with BMW-capable diagnostics before paying a deposit.",
+      "Check ride height after sitting, mode changes, compressor noise, and suspension warnings.",
+      "Test all luxury features, screens, cameras, seats, windows, and driver aids.",
+      "Drive cold and warm to assess gearbox, steering, brakes, cooling stability, and vibration.",
+      "Review invoices for suspension, gearbox, batteries, tires, brakes, coolant, and emissions repairs.",
+    ],
+    searchTopics: ["BMW 7 Series", "B57", "B58", "air suspension", "AdBlue", "ZF 8HP"],
+  },
+  {
+    slug: "bmw-x1",
+    name: "BMW X1",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW X1 Used Buying Guide",
+    description:
+      "BMW X1 reliability, sDrive and xDrive checks, B47/B48 engine risks, gearbox behavior, and compact SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES["bmw-x1"],
+    score: 69,
+    verdict:
+      "A practical compact BMW that can be sensible when drivetrain history is clear. xDrive, diesel emissions, cooling, and automatic gearbox behavior need proper checks.",
+    bestFor: "Drivers wanting compact SUV practicality with BMW branding and manageable running costs.",
+    watchOut:
+      "Avoid coolant loss, EGR/DPF faults, xDrive vibration, rough shifts, cheap tires, and incomplete service history.",
+    marketPosition:
+      "The X1 is best as a clean daily driver, not a neglected premium SUV bargain. Exact engine, gearbox, and drivetrain matter more than trim.",
+    ownershipPlan: [
+      "Confirm sDrive or xDrive hardware and inspect tire match before purchase.",
+      "Baseline fluids, filters, coolant inspection, brake fluid, and diagnostic scan.",
+      "For diesel examples, verify EGR campaign status, DPF loading, and regular longer-run use.",
+    ],
+    engines: [
+      { label: "B47 diesel", note: "Efficient and common; check EGR, DPF, coolant, and oil history.", risk: "Medium" },
+      { label: "B48 petrol", note: "Good petrol option; inspect cooling, PCV, oil leaks, and misfires.", risk: "Medium" },
+      { label: "Three-cylinder petrol/diesel", note: "Can be economical; test refinement, service evidence, and scan data.", risk: "Medium" },
+      { label: "xDrive variants", note: "Check tire match, transfer behavior, and driveline vibration.", risk: "Medium" },
+    ],
+    commonProblems: [
+      "Diesel EGR, DPF, NOx, and short-trip emissions issues.",
+      "Cooling leaks, thermostat behavior, and coolant residue.",
+      "Automatic gearbox hesitation or service uncertainty.",
+      "xDrive driveline vibration from tire mismatch or service neglect.",
+      "Suspension knocks, brake wear, interior trim wear, and parking damage.",
+    ],
+    inspectionChecklist: [
+      "Check tire sizes, tread depths, brands, and inner-edge wear.",
+      "Scan engine, gearbox, ABS, xDrive, and body modules.",
+      "Drive in traffic and on faster roads to test shift quality and vibration.",
+      "Inspect coolant residue, oil leaks, brake wear, and suspension knocks.",
+      "Verify service invoices for oil, filters, brake fluid, gearbox, and emissions repairs.",
+    ],
+    searchTopics: ["BMW X1", "B47", "B48", "xDrive", "EGR", "compact SUV"],
+  },
+  {
+    slug: "mercedes-cla",
+    name: "Mercedes-Benz CLA",
+    brand: "Mercedes-Benz",
+    brandHref: "/brands/mercedes-benz",
+    title: "Mercedes-Benz CLA Used Buying Guide",
+    description:
+      "Mercedes-Benz CLA reliability, diesel and petrol engine checks, 7G-DCT behavior, electronics, and compact saloon buying advice.",
+    heroImage: MODEL_HERO_IMAGES["mercedes-cla"],
+    score: 68,
+    verdict:
+      "A stylish compact Mercedes that works best with clean service records and a healthy dual-clutch gearbox. Do not let the shape distract from emissions, electronics, and suspension checks.",
+    bestFor: "Buyers who want compact Mercedes style with lower running costs than larger models.",
+    watchOut:
+      "Avoid rough 7G-DCT behavior, AdBlue/NOx warnings, weak battery faults, accident repairs, and cheap modified examples.",
+    marketPosition:
+      "The CLA is often bought emotionally. The smart buy is the one with boring maintenance proof, clean diagnostics, and no hidden body damage.",
+    ownershipPlan: [
+      "Run a Mercedes-capable scan and battery health check before purchase.",
+      "Test the 7G-DCT in traffic, reverse, hill starts, and warm restarts.",
+      "Inspect tires, suspension, wheels, bumpers, and alignment because many cars live urban lives.",
+    ],
+    engines: [
+      { label: "OM651/OM607 diesel", note: "Economical, but emissions, injector, and service evidence matter.", risk: "Medium" },
+      { label: "M270/M260 petrol", note: "Inspect timing, cooling, oil leaks, misfires, and scan data.", risk: "Medium" },
+      { label: "7G-DCT cars", note: "Fluid history and low-speed behavior are key buying checks.", risk: "Medium" },
+      { label: "AMG variants", note: "Fast, but brakes, tires, modifications, and launch use raise risk.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "7G-DCT judder, hesitation, and service gaps.",
+      "Diesel AdBlue, NOx, DPF, EGR, and injector concerns.",
+      "Battery voltage, sensors, infotainment, and electrical faults.",
+      "Cooling leaks, oil leaks, timing noise, and misfires on petrols.",
+      "Suspension knocks, tire wear, wheel damage, and crash repair clues.",
+    ],
+    inspectionChecklist: [
+      "Scan all modules with Mercedes-capable diagnostics.",
+      "Test gearbox behavior cold, warm, in reverse, and in slow traffic.",
+      "Check battery voltage, warning history, and emissions readiness.",
+      "Inspect paint depth, panel gaps, wheels, tires, brakes, and suspension.",
+      "Review invoices for gearbox service, brake fluid, oil, filters, and emissions work.",
+    ],
+    searchTopics: ["Mercedes CLA", "7G-DCT", "OM651", "M270", "AdBlue", "AMG"],
+  },
+  {
+    slug: "mercedes-gla",
+    name: "Mercedes-Benz GLA",
+    brand: "Mercedes-Benz",
+    brandHref: "/brands/mercedes-benz",
+    title: "Mercedes-Benz GLA Used Buying Guide",
+    description:
+      "Mercedes-Benz GLA reliability, diesel and petrol engine checks, 7G-DCT behavior, 4Matic, electronics, and compact SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES["mercedes-gla"],
+    score: 67,
+    verdict:
+      "A compact Mercedes SUV that is easiest to own when diagnostics are clean and the gearbox feels healthy. Diesel emissions, electronics, and urban wear deserve close attention.",
+    bestFor: "Buyers wanting compact crossover usability with Mercedes cabin feel.",
+    watchOut:
+      "Avoid rough DCT shifts, AdBlue or NOx warnings, weak battery behavior, 4Matic service gaps, and cars with hard urban use.",
+    marketPosition:
+      "The GLA is more crossover than rugged SUV. Buy it for size and convenience, then inspect it like an A-Class with extra tire and suspension attention.",
+    ownershipPlan: [
+      "Run a full scan, battery test, and emissions readiness check before purchase.",
+      "Test the dual-clutch gearbox in traffic and reverse rather than only on open roads.",
+      "Inspect tires, suspension, wheels, parking sensors, cameras, and underbody condition.",
+    ],
+    engines: [
+      { label: "OM651/OM607 diesel", note: "Efficient, but DPF, EGR, AdBlue, and injector data need checks.", risk: "Medium" },
+      { label: "M270/M260 petrol", note: "Check cooling, timing, oil leaks, ignition, and scan data.", risk: "Medium" },
+      { label: "4Matic variants", note: "Verify tire match, driveline behavior, and service evidence.", risk: "Medium" },
+      { label: "AMG variants", note: "Performance use, modifications, tires, and brakes change the budget.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "7G-DCT service gaps, low-speed hesitation, and clutch behavior.",
+      "Diesel emissions faults including AdBlue, NOx, DPF, and EGR warnings.",
+      "Battery voltage, sensors, infotainment, and body-module faults.",
+      "Cooling leaks, timing noise, oil leaks, and petrol misfires.",
+      "Suspension wear, tire damage, wheel scuffs, and parking damage.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, ABS, body, parking, and emissions modules.",
+      "Check DCT shifts cold and warm, including reverse and hill starts.",
+      "Inspect tire match, wheel damage, brake wear, and suspension knocks.",
+      "Test every screen, sensor, camera, window, seat, and climate function.",
+      "Verify invoices for oil, filters, brake fluid, gearbox, and emissions repairs.",
+    ],
+    searchTopics: ["Mercedes GLA", "7G-DCT", "4Matic", "AdBlue", "OM651", "compact SUV"],
+  },
+  {
+    slug: "mercedes-gle",
+    name: "Mercedes-Benz GLE",
+    brand: "Mercedes-Benz",
+    brandHref: "/brands/mercedes-benz",
+    title: "Mercedes-Benz GLE Used Buying Guide",
+    description:
+      "Mercedes-Benz GLE reliability, diesel engine checks, 4Matic, air suspension, electronics, gearbox behavior, and large SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES["mercedes-gle"],
+    score: 64,
+    verdict:
+      "A comfortable large SUV with real capability, but neglected examples are costly. Air suspension, emissions, electronics, tires, brakes, and gearbox behavior must all be checked.",
+    bestFor: "Families and long-distance drivers who want Mercedes comfort with a realistic SUV maintenance budget.",
+    watchOut:
+      "Avoid suspension warnings, AdBlue/NOx faults, cheap tires, rough gearbox shifts, coolant leaks, and weak-battery electronic issues.",
+    marketPosition:
+      "The GLE can be excellent value compared with new, but its repair exposure stays premium. Service history and diagnostics decide the deal.",
+    ownershipPlan: [
+      "Budget for heavy-SUV tires, brakes, suspension, gearbox, and driveline service.",
+      "Use Mercedes-capable diagnostics to check emissions, air suspension, and body modules.",
+      "Inspect 4Matic behavior, tire match, towing wear, and underbody condition carefully.",
+    ],
+    engines: [
+      { label: "OM642/OM656 diesel", note: "Strong cruisers; emissions, oil leaks, cooling, and injector checks matter.", risk: "Medium" },
+      { label: "OM654 diesel", note: "Efficient newer diesel; verify AdBlue, NOx, DPF, and sensor health.", risk: "Medium" },
+      { label: "Petrol/hybrid variants", note: "Check cooling, charging, ignition, battery, and scan data.", risk: "Higher" },
+      { label: "AMG variants", note: "Specialist inspection, tire/brake budget, and modification history are essential.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Air suspension leaks, compressor fatigue, and ride-height faults.",
+      "Diesel AdBlue, NOx, DPF, EGR, and injector-related warnings.",
+      "9G/7G gearbox service uncertainty and low-speed shift concerns.",
+      "Battery voltage, sensors, cameras, infotainment, and comfort electronics.",
+      "Heavy tire, brake, bushing, and alignment wear.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, suspension, 4Matic, body, parking, and emissions modules.",
+      "Check ride height, suspension mode changes, compressor noise, and overnight sag.",
+      "Drive cold and warm to assess gearbox, steering, brakes, vibration, and cooling stability.",
+      "Inspect tire match, load rating, brake wear, underbody condition, and towing hardware.",
+      "Review invoices for suspension, gearbox, tires, brakes, batteries, and emissions repairs.",
+    ],
+    searchTopics: ["Mercedes GLE", "4Matic", "Airmatic", "OM642", "AdBlue", "9G-Tronic"],
+  },
+  {
+    slug: "audi-a1",
+    name: "Audi A1",
+    brand: "Audi",
+    brandHref: "/brands/audi",
+    title: "Audi A1 Used Buying Guide",
+    description:
+      "Audi A1 reliability, TFSI and TDI engine checks, S tronic behavior, city-car wear, timing, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["audi-a1"],
+    score: 69,
+    verdict:
+      "A premium small car that can be sensible when bought on condition. Engine generation, S tronic behavior, timing evidence, and urban wear matter more than badge appeal.",
+    bestFor: "Drivers wanting small-car running costs with Audi cabin feel and easy city use.",
+    watchOut:
+      "Avoid timing noise, oil consumption, rough S tronic shifts, misfires, cheap tires, accident repairs, and patchy service history.",
+    marketPosition:
+      "The A1 shares plenty of small VAG logic, so it should be inspected like a Polo with a premium interior and potentially higher cosmetic expectations.",
+    ownershipPlan: [
+      "Confirm engine code, timing setup, and gearbox type before judging reliability.",
+      "Baseline oil, filters, brake fluid, coolant checks, and diagnostic scan after purchase.",
+      "Inspect for city-use damage: wheels, suspension, clutch/S tronic behavior, and repaired bumpers.",
+    ],
+    engines: [
+      { label: "1.0 / 1.2 / 1.4 TFSI", note: "Generation matters for timing, oil use, PCV, cooling, and misfires.", risk: "Medium" },
+      { label: "1.6 TDI", note: "Economical, but DPF/EGR health depends on driving profile.", risk: "Medium" },
+      { label: "S tronic", note: "Check service evidence and low-speed engagement carefully.", risk: "Medium" },
+      { label: "S1 / performance variants", note: "Inspect modifications, clutch, brakes, tires, and hard-use signs.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Timing chain/belt evidence depending on engine generation.",
+      "Oil consumption, PCV faults, misfires, and carbon buildup on TFSI engines.",
+      "S tronic judder, service gaps, and rough low-speed behavior.",
+      "Cooling leaks, thermostat behavior, and water pump issues.",
+      "Wheel damage, suspension knocks, tire wear, and crash repair clues.",
+    ],
+    inspectionChecklist: [
+      "Listen for cold-start timing rattle and check oil consumption evidence.",
+      "Test clutch or S tronic behavior in traffic, reverse, and hill starts.",
+      "Scan for misfires, gearbox faults, emissions readiness, and battery voltage issues.",
+      "Inspect tires, wheels, brakes, suspension, paint, and panel gaps.",
+      "Verify oil service, brake fluid, filters, timing, and gearbox records where applicable.",
+    ],
+    searchTopics: ["Audi A1", "TFSI", "TDI", "S tronic", "timing", "misfire"],
+  },
+  {
+    slug: "audi-q3",
+    name: "Audi Q3",
+    brand: "Audi",
+    brandHref: "/brands/audi",
+    title: "Audi Q3 Used Buying Guide",
+    description:
+      "Audi Q3 reliability, TFSI/TDI engine checks, S tronic, quattro/Haldex service, compact SUV wear, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["audi-q3"],
+    score: 67,
+    verdict:
+      "A compact Audi SUV that can be a good used buy when exact engine, gearbox, and quattro service history are verified. Shared VAG parts help, but neglect still costs.",
+    bestFor: "Buyers who want compact SUV usability with Audi cabin quality and secure road feel.",
+    watchOut:
+      "Avoid S tronic judder, oil consumption, timing rattle, coolant leaks, neglected Haldex service, diesel emissions warnings, and cheap tires.",
+    marketPosition:
+      "The Q3 sits between hatchback and SUV costs. It rewards buyers who confirm the exact drivetrain and do not assume quattro service has been done.",
+    ownershipPlan: [
+      "Confirm engine code, gearbox type, and whether the car uses Haldex-style AWD.",
+      "Baseline S tronic, Haldex, oil, filters, brake fluid, and coolant checks if records are unclear.",
+      "Use scan data to check misfires, emissions readiness, gearbox faults, and AWD modules.",
+    ],
+    engines: [
+      { label: "EA888 TFSI", note: "Inspect timing, oil consumption, PCV, cooling, and carbon buildup.", risk: "Medium" },
+      { label: "2.0 TDI", note: "Strong with records; scan DPF, EGR, injectors, and NOx systems.", risk: "Medium" },
+      { label: "S tronic", note: "Service intervals and low-speed behavior are key.", risk: "Medium" },
+      { label: "quattro/Haldex", note: "Fluid and filter service evidence matters.", risk: "Medium" },
+    ],
+    commonProblems: [
+      "S tronic service gaps, mechatronics symptoms, and rough engagement.",
+      "EA888 timing, PCV, oil consumption, cooling leaks, and carbon buildup.",
+      "Diesel DPF, EGR, NOx, and injector correction concerns.",
+      "Haldex service neglect and uneven tire wear.",
+      "Suspension knocks, wheel damage, parking sensors, and interior electronics.",
+    ],
+    inspectionChecklist: [
+      "Confirm engine, gearbox, and quattro/Haldex configuration.",
+      "Scan engine, gearbox, AWD, ABS, body, and emissions modules.",
+      "Test reverse, crawling shifts, steady acceleration, and tight turns.",
+      "Inspect coolant residue, oil leaks, tire match, brakes, and suspension wear.",
+      "Review invoices for DSG/S tronic, Haldex, brake fluid, filters, and emissions repairs.",
+    ],
+    searchTopics: ["Audi Q3", "EA888", "2.0 TDI", "S tronic", "quattro", "Haldex"],
+  },
+  {
+    slug: "volkswagen-arteon",
+    name: "Volkswagen Arteon",
+    brand: "Volkswagen",
+    brandHref: "/brands/volkswagen",
+    title: "Volkswagen Arteon Used Buying Guide",
+    description:
+      "Volkswagen Arteon reliability, TSI/TDI engine checks, DSG service history, 4Motion/Haldex notes, electronics, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["volkswagen-arteon"],
+    score: 68,
+    verdict:
+      "A stylish Passat-family car that can be excellent value when DSG, engine, and 4Motion service history are clear. It is not as cheap to neglect as a basic family car.",
+    bestFor: "Buyers wanting long-distance comfort, sharp styling, and VAG parts availability.",
+    watchOut:
+      "Avoid DSG service gaps, oil consumption, timing concerns, coolant leaks, diesel emissions warnings, Haldex neglect, and option-heavy electrical faults.",
+    marketPosition:
+      "The Arteon is a value play against premium saloons, but condition and drivetrain history decide whether the value is real.",
+    ownershipPlan: [
+      "Confirm engine code, gearbox, and 4Motion/Haldex configuration before purchase.",
+      "Baseline DSG, Haldex, oil, filters, brake fluid, and coolant checks if paperwork is thin.",
+      "Test all comfort, lighting, camera, parking, and driver-assistance equipment.",
+    ],
+    engines: [
+      { label: "2.0 TDI", note: "Strong motorway option; scan DPF, EGR, NOx, and injector data.", risk: "Medium" },
+      { label: "EA888 TSI", note: "Check timing, oil use, PCV, cooling, ignition, and carbon buildup.", risk: "Medium" },
+      { label: "DSG", note: "Fluid service proof and low-speed behavior are essential.", risk: "Medium" },
+      { label: "4Motion models", note: "Verify Haldex service, tire match, and rear axle engagement.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "DSG service neglect, mechatronics symptoms, and low-speed hesitation.",
+      "Diesel EGR, DPF, NOx, AdBlue, and injector-related faults.",
+      "EA888 timing, PCV, cooling module, and oil consumption concerns.",
+      "Haldex service neglect on 4Motion cars.",
+      "Sensors, cameras, adaptive lighting, suspension wear, and tire costs.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, AWD, ABS, body, parking, and emissions modules.",
+      "Test DSG in crawling traffic, reverse, warm restarts, and steady acceleration.",
+      "Check Haldex invoices, tire match, coolant residue, and oil leaks.",
+      "Test infotainment, cameras, parking sensors, lights, seats, and driver aids.",
+      "Review service records for DSG, Haldex, brake fluid, filters, timing, and emissions repairs.",
+    ],
+    searchTopics: ["Volkswagen Arteon", "DSG", "2.0 TDI", "EA888", "4Motion", "Haldex"],
+  },
+  {
+    slug: "volkswagen-t-roc",
+    name: "Volkswagen T-Roc",
+    brand: "Volkswagen",
+    brandHref: "/brands/volkswagen",
+    title: "Volkswagen T-Roc Used Buying Guide",
+    description:
+      "Volkswagen T-Roc reliability, TSI/TDI engine checks, DSG behavior, 4Motion/Haldex service, compact SUV wear, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["volkswagen-t-roc"],
+    score: 69,
+    verdict:
+      "A practical compact crossover that is strongest with simple spec and clear service history. DSG, cooling, TSI timing/oil behavior, diesel emissions, and 4Motion service need checks.",
+    bestFor: "Drivers wanting Golf-like running costs with a higher driving position and compact footprint.",
+    watchOut:
+      "Avoid DSG judder, coolant loss, timing noise, misfires, DPF/EGR warnings, Haldex service gaps, and hard urban wear.",
+    marketPosition:
+      "The T-Roc is best judged as a raised Golf-family car. Buy the clean drivetrain and paperwork, not only the crossover look.",
+    ownershipPlan: [
+      "Confirm engine code, DSG/manual gearbox, and 4Motion equipment before comparing cars.",
+      "Baseline oil, filters, brake fluid, coolant checks, DSG/Haldex service where needed, and scan data.",
+      "Inspect wheels, tires, brakes, suspension, parking damage, and interior wear from daily use.",
+    ],
+    engines: [
+      { label: "1.0 / 1.5 TSI", note: "Good daily choices; check misfires, cooling, oil use, and software behavior.", risk: "Medium" },
+      { label: "2.0 TSI", note: "Stronger performance; inspect EA888 timing, PCV, cooling, and DSG history.", risk: "Medium" },
+      { label: "2.0 TDI", note: "Efficient for distance; scan DPF, EGR, NOx, and injector data.", risk: "Medium" },
+      { label: "4Motion models", note: "Verify Haldex service and tire match.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "DSG service gaps, low-speed hesitation, and mechatronics symptoms.",
+      "Cooling leaks, thermostat housings, water pump issues, and coolant residue.",
+      "TSI misfires, PCV faults, oil consumption, and carbon buildup.",
+      "Diesel EGR, DPF, NOx, and short-trip emissions problems.",
+      "Suspension knocks, tire wear, wheel damage, and parking sensor faults.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, ABS, body, parking, and emissions modules.",
+      "Test DSG/manual clutch behavior in traffic, reverse, and hill starts.",
+      "Check coolant level, oil leaks, misfire history, and emissions readiness.",
+      "Inspect tire match, wheels, brakes, suspension, and body repair signs.",
+      "Verify oil, filters, brake fluid, DSG, Haldex, and timing-service records where applicable.",
+    ],
+    searchTopics: ["Volkswagen T-Roc", "TSI", "TDI", "DSG", "4Motion", "Haldex"],
+  },
 ];
 
 export function getModelPage(slug: string) {
@@ -1028,10 +1478,10 @@ export function getBestUsedBuyScores(model: ModelPageData): BestUsedBuyScores {
   const isAudi = model.brand === "Audi";
   const isBmw = model.brand === "BMW";
   const isMercedes = model.brand === "Mercedes-Benz";
-  const isSuv = includesAny(model, ["x3", "x5", "q5", "q7", "glc", "tiguan", "touareg", "suv"]);
-  const isLuxury = includesAny(model, ["s-class", "q7", "x5", "touareg", "air suspension", "luxury"]);
+  const isSuv = includesAny(model, ["x1", "x3", "x5", "q3", "q5", "q7", "gla", "glc", "gle", "tiguan", "t-roc", "touareg", "suv"]);
+  const isLuxury = includesAny(model, ["7 series", "s-class", "q7", "x5", "gle", "touareg", "air suspension", "luxury"]);
   const isDieselHeavy = includesAny(model, ["diesel", "tdi", "dpf", "egr", "adblue", "nox"]);
-  const isCompact = includesAny(model, ["1 series", "a-class", "a3", "golf", "polo"]);
+  const isCompact = includesAny(model, ["1 series", "x1", "a-class", "cla", "gla", "a1", "a3", "q3", "golf", "polo", "t-roc"]);
 
   return {
     reliability: model.score,
@@ -1047,9 +1497,9 @@ export function getModelWarningSections(model: ModelPageData): ModelWarningSecti
   const vag = model.brand === "Audi" || model.brand === "Volkswagen";
   const bmw = model.brand === "BMW";
   const mercedes = model.brand === "Mercedes-Benz";
-  const suv = includesAny(model, ["x3", "x5", "q5", "q7", "glc", "tiguan", "touareg", "suv"]);
-  const luxury = includesAny(model, ["s-class", "q7", "x5", "touareg", "air suspension", "luxury"]);
-  const compact = includesAny(model, ["1 series", "a-class", "a3", "golf", "polo"]);
+  const suv = includesAny(model, ["x1", "x3", "x5", "q3", "q5", "q7", "gla", "glc", "gle", "tiguan", "t-roc", "touareg", "suv"]);
+  const luxury = includesAny(model, ["7 series", "s-class", "q7", "x5", "gle", "touareg", "air suspension", "luxury"]);
+  const compact = includesAny(model, ["1 series", "x1", "a-class", "cla", "gla", "a1", "a3", "q3", "golf", "polo", "t-roc"]);
 
   const engineProblems = [
     ...model.commonProblems.filter((problem) =>

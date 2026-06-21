@@ -41,10 +41,29 @@ const b48 = getPowertrain("bmw-b48");
 const n47 = getPowertrain("bmw-n47");
 const om651 = getPowertrain("mercedes-om651");
 const bmw3 = getModel("bmw-3-series");
+const bmw4 = getModel("bmw-4-series");
 const cClass = getModel("mercedes-c-class");
+const bmw5 = getModel("bmw-5-series");
+const bmw7 = getModel("bmw-7-series");
+const bmwX1 = getModel("bmw-x1");
+const bmwX3 = getModel("bmw-x3");
+const bmwX5 = getModel("bmw-x5");
+const eClass = getModel("mercedes-e-class");
+const sClass = getModel("mercedes-s-class");
+const gla = getModel("mercedes-gla");
+const gle = getModel("mercedes-gle");
 const golf = getModel("volkswagen-golf");
+const polo = getModel("volkswagen-polo");
+const passat = getModel("volkswagen-passat");
+const tiguan = getModel("volkswagen-tiguan");
+const arteon = getModel("volkswagen-arteon");
+const tRoc = getModel("volkswagen-t-roc");
+const a1 = getModel("audi-a1");
 const a3 = getModel("audi-a3");
 const a4 = getModel("audi-a4");
+const a5 = getModel("audi-a5");
+const q3 = getModel("audi-q3");
+const q5 = getModel("audi-q5");
 
 export const directComparisons: DirectComparisonData[] = [
   {
@@ -242,6 +261,286 @@ export const directComparisons: DirectComparisonData[] = [
       "Choose the car with the stronger paper trail and cleaner scan.",
     ],
     redFlags: ["S tronic service gap", "Timing rattle", "Oil consumption", "Coolant leaks", "Quattro service assumptions"],
+  },
+  {
+    slug: "bmw-4-series-vs-audi-a5",
+    title: "BMW 4 Series vs Audi A5",
+    description: "Style-led coupe and Sportback comparison covering engine risk, gearbox history, refinement, dynamics, and used-buy inspection priorities.",
+    kind: "Model",
+    left: bmw4.name,
+    right: a5.name,
+    leftHref: `/models/${bmw4.slug}`,
+    rightHref: `/models/${a5.slug}`,
+    leftScore: bmw4.score,
+    rightScore: a5.score,
+    winner: bmw4.name,
+    bestUsedBuy: "4 Series for sharper dynamics with clean BMW engine history; A5 when S tronic, quattro, and EA888/TDI evidence is stronger.",
+    verdict:
+      "Both cars can be good used buys, but they are often bought emotionally. The better example is the one with clearer engine, gearbox, tire, and body evidence rather than the better badge or prettier spec.",
+    keyDifferences: [
+      "BMW risk centers on cooling, oil leaks, timing-sensitive engines, and ZF service evidence.",
+      "Audi risk centers on EA888/TDI generation, S tronic service, quattro assumptions, and oil behavior.",
+      "The 4 Series usually feels more rear-drive and driver-focused.",
+      "The A5 usually feels more refined and secure, especially in quattro form.",
+    ],
+    buyerAdvice: [
+      "Choose the 4 Series if cold-start, leak, and gearbox checks are clean.",
+      "Choose the A5 if engine code, S tronic, and quattro/Haldex records are stronger.",
+      "Inspect body, tires, brakes, and modification history carefully on either car.",
+    ],
+    redFlags: ["Timing rattle", "S tronic judder", "Coolant loss", "Oil consumption", "Cheap modifications"],
+  },
+  {
+    slug: "bmw-x1-vs-audi-q3",
+    title: "BMW X1 vs Audi Q3",
+    description: "Compact premium SUV comparison covering drivetrain risk, diesel emissions, AWD service, gearbox behavior, and ownership cost.",
+    kind: "Model",
+    left: bmwX1.name,
+    right: q3.name,
+    leftHref: `/models/${bmwX1.slug}`,
+    rightHref: `/models/${q3.slug}`,
+    leftScore: bmwX1.score,
+    rightScore: q3.score,
+    winner: bmwX1.name,
+    bestUsedBuy: "X1 for slightly stronger score and BMW petrol/diesel options; Q3 when S tronic and quattro/Haldex records are unusually complete.",
+    verdict:
+      "The X1 is usually the easier compact SUV buy, but a clean Q3 can beat a neglected BMW. Exact engine, gearbox behavior, tire match, and scan data decide the safer purchase.",
+    keyDifferences: [
+      "X1 risk focuses on xDrive tire sensitivity, EGR/DPF health, cooling, and automatic behavior.",
+      "Q3 risk focuses on S tronic service, EA888/TDI issues, Haldex service, and oil behavior.",
+      "BMW usually feels sharper and lighter.",
+      "Audi usually feels more premium inside and more settled.",
+    ],
+    buyerAdvice: [
+      "Check tire match and driveline vibration on AWD versions of either car.",
+      "Scan diesel emissions systems before trusting a clean dashboard.",
+      "Prefer the car with gearbox service proof and fewer stored module faults.",
+    ],
+    redFlags: ["Mismatched tires", "DPF faults", "S tronic service gap", "Coolant residue", "AWD vibration"],
+  },
+  {
+    slug: "mercedes-gla-vs-audi-q3",
+    title: "Mercedes GLA vs Audi Q3",
+    description: "Compact crossover comparison for buyers choosing between Mercedes comfort and Audi/VAG drivetrain logic.",
+    kind: "Model",
+    left: gla.name,
+    right: q3.name,
+    leftHref: `/models/${gla.slug}`,
+    rightHref: `/models/${q3.slug}`,
+    leftScore: gla.score,
+    rightScore: q3.score,
+    winner: gla.name,
+    bestUsedBuy: "GLA for a clean Mercedes scan and healthy DCT; Q3 when S tronic, engine code, and Haldex records are stronger.",
+    verdict:
+      "These are close buys. The GLA needs careful electronics and DCT checks, while the Q3 needs exact VAG engine, S tronic, and quattro/Haldex verification.",
+    keyDifferences: [
+      "GLA risk often comes from 7G-DCT behavior, battery voltage, electronics, and diesel emissions.",
+      "Q3 risk often comes from S tronic service, EA888/TDI issues, and Haldex neglect.",
+      "Mercedes usually feels more comfort-led.",
+      "Audi usually offers more familiar VAG parts and shared-platform knowledge.",
+    ],
+    buyerAdvice: [
+      "Use brand-capable diagnostics before comparing prices.",
+      "Test both gearboxes in traffic, reverse, and warm restarts.",
+      "Choose the car with cleaner module history, better tires, and stronger invoices.",
+    ],
+    redFlags: ["DCT hesitation", "S tronic judder", "AdBlue faults", "Haldex neglect", "Weak battery"],
+  },
+  {
+    slug: "bmw-5-series-vs-mercedes-e-class",
+    title: "BMW 5 Series vs Mercedes E-Class",
+    description: "Executive saloon comparison covering comfort, dynamics, diesel emissions, electronics, gearbox behavior, and long-distance ownership.",
+    kind: "Model",
+    left: bmw5.name,
+    right: eClass.name,
+    leftHref: `/models/${bmw5.slug}`,
+    rightHref: `/models/${eClass.slug}`,
+    leftScore: bmw5.score,
+    rightScore: eClass.score,
+    winner: bmw5.name,
+    bestUsedBuy: "5 Series for dynamics and strong ZF-equipped examples; E-Class for comfort buyers with clean Mercedes electronics and emissions scans.",
+    verdict:
+      "Both are strong motorway cars. The 5 Series has the score edge, but the E-Class can be the calmer ownership choice if diagnostics, battery health, and emissions systems are clean.",
+    keyDifferences: [
+      "BMW risk centers on cooling, oil leaks, suspension wear, ZF service, and diesel emissions.",
+      "Mercedes risk centers on battery voltage, electronics, AdBlue/NOx, and 7G/9G behavior.",
+      "BMW usually feels more agile.",
+      "Mercedes usually feels more relaxed and comfort-focused.",
+    ],
+    buyerAdvice: [
+      "Buy the car with better scan data and more complete fluid-service history.",
+      "For diesel examples, check DPF, EGR, NOx, AdBlue, and injector data.",
+      "Inspect tires, suspension, brakes, and gearbox behavior after a proper long test drive.",
+    ],
+    redFlags: ["AdBlue warnings", "ZF service gap", "Weak battery", "Coolant loss", "Suspension knocks"],
+  },
+  {
+    slug: "audi-q5-vs-bmw-x3",
+    title: "Audi Q5 vs BMW X3",
+    description: "Premium mid-size SUV comparison covering diesel and petrol risk, AWD service, gearbox behavior, refinement, and inspection priorities.",
+    kind: "Model",
+    left: q5.name,
+    right: bmwX3.name,
+    leftHref: `/models/${q5.slug}`,
+    rightHref: `/models/${bmwX3.slug}`,
+    leftScore: q5.score,
+    rightScore: bmwX3.score,
+    winner: bmwX3.name,
+    bestUsedBuy: "X3 for slightly stronger score and BMW dynamics; Q5 when quattro/S tronic and engine records are cleaner than the BMW example.",
+    verdict:
+      "The X3 usually wins for driver appeal, while the Q5 counters with refinement. Reliability depends on exact drivetrain, AWD service, emissions health, and gearbox evidence.",
+    keyDifferences: [
+      "Q5 risk focuses on S tronic, quattro/Haldex assumptions, EA888/TDI issues, and electronics.",
+      "X3 risk focuses on xDrive tire match, cooling, oil leaks, ZF service, and diesel emissions.",
+      "Audi usually feels more cushioned and quiet.",
+      "BMW usually feels sharper and more balanced.",
+    ],
+    buyerAdvice: [
+      "Check tire match and AWD behavior on both cars.",
+      "Verify S tronic service on the Audi and ZF service on the BMW.",
+      "For diesels, scan emissions systems after a full test drive.",
+    ],
+    redFlags: ["Mismatched tires", "Gearbox judder", "DPF load high", "Coolant leaks", "Quattro service assumptions"],
+  },
+  {
+    slug: "mercedes-gle-vs-bmw-x5",
+    title: "Mercedes GLE vs BMW X5",
+    description: "Large premium SUV comparison covering air suspension, diesel emissions, AWD systems, electronics, tires, brakes, and real ownership cost.",
+    kind: "Model",
+    left: gle.name,
+    right: bmwX5.name,
+    leftHref: `/models/${gle.slug}`,
+    rightHref: `/models/${bmwX5.slug}`,
+    leftScore: gle.score,
+    rightScore: bmwX5.score,
+    winner: `${gle.name} / ${bmwX5.name}`,
+    bestUsedBuy: "Choose by condition: GLE for comfort with clean Airmatic/electronics data; X5 for dynamics with clean xDrive, emissions, and suspension evidence.",
+    verdict:
+      "This is too close to call by badge. Both can be excellent and both can become expensive quickly. The safer buy is the one with matched tires, clean scans, strong suspension records, and no emissions warnings.",
+    keyDifferences: [
+      "GLE risk often centers on Airmatic, Mercedes electronics, AdBlue/NOx, and gearbox behavior.",
+      "X5 risk often centers on xDrive tire sensitivity, air suspension, diesel emissions, and cooling.",
+      "Mercedes usually feels more comfort-led.",
+      "BMW usually feels more dynamic and planted.",
+    ],
+    buyerAdvice: [
+      "Do not skip specialist diagnostics on either SUV.",
+      "Check air suspension behavior after sitting and during mode changes.",
+      "Budget for tires, brakes, suspension, gearbox, and emissions work before negotiating.",
+    ],
+    redFlags: ["Suspension warning", "Cheap tires", "AdBlue faults", "Transfer shudder", "Weak battery"],
+  },
+  {
+    slug: "volkswagen-passat-vs-arteon",
+    title: "Volkswagen Passat vs Arteon",
+    description: "Volkswagen family and fastback comparison covering value, DSG history, TDI/TSI risk, comfort equipment, and 4Motion checks.",
+    kind: "Model",
+    left: passat.name,
+    right: arteon.name,
+    leftHref: `/models/${passat.slug}`,
+    rightHref: `/models/${arteon.slug}`,
+    leftScore: passat.score,
+    rightScore: arteon.score,
+    winner: passat.name,
+    bestUsedBuy: "Passat for value and simpler ownership; Arteon when condition, spec, DSG history, and 4Motion records justify the premium.",
+    verdict:
+      "The Arteon is the more emotional buy, but the Passat often makes more financial sense. Both need the same core VAG checks around DSG, cooling, emissions, and engine generation.",
+    keyDifferences: [
+      "Passat usually gives stronger value and wider parts familiarity.",
+      "Arteon offers more style and premium equipment, which adds inspection points.",
+      "Both depend heavily on DSG service history.",
+      "4Motion examples need Haldex service and tire matching checks.",
+    ],
+    buyerAdvice: [
+      "Choose the Passat if you want the lower-risk value play.",
+      "Choose the Arteon only when the extra equipment all works and records are complete.",
+      "Scan both cars and verify DSG/Haldex invoices before buying.",
+    ],
+    redFlags: ["DSG service gap", "Coolant loss", "AdBlue faults", "Haldex neglect", "Faulty driver aids"],
+  },
+  {
+    slug: "volkswagen-t-roc-vs-tiguan",
+    title: "Volkswagen T-Roc vs Tiguan",
+    description: "Compact crossover and family SUV comparison covering practicality, DSG, TSI/TDI risk, 4Motion service, and running cost.",
+    kind: "Model",
+    left: tRoc.name,
+    right: tiguan.name,
+    leftHref: `/models/${tRoc.slug}`,
+    rightHref: `/models/${tiguan.slug}`,
+    leftScore: tRoc.score,
+    rightScore: tiguan.score,
+    winner: tRoc.name,
+    bestUsedBuy: "T-Roc for lower running cost and compact use; Tiguan when space matters and service records are stronger.",
+    verdict:
+      "The T-Roc is usually the easier ownership choice, while the Tiguan is the better family tool. Both are VAG platform cars, so drivetrain and service evidence matter more than SUV image.",
+    keyDifferences: [
+      "T-Roc is smaller, lighter, and often cheaper to run.",
+      "Tiguan offers more space but brings higher tire, brake, and suspension exposure.",
+      "Both need DSG, cooling, TSI/TDI, and emissions checks.",
+      "4Motion versions of either need Haldex service proof.",
+    ],
+    buyerAdvice: [
+      "Pick T-Roc if compact daily use matters more than rear-seat and boot space.",
+      "Pick Tiguan if family practicality is worth the higher running budget.",
+      "Use scan data and service invoices to choose between close examples.",
+    ],
+    redFlags: ["DSG judder", "Water-pump leaks", "DPF faults", "Haldex service gap", "Suspension knocks"],
+  },
+  {
+    slug: "audi-a1-vs-volkswagen-polo",
+    title: "Audi A1 vs Volkswagen Polo",
+    description: "Premium small car comparison covering shared VAG engines, value, S tronic/DSG risk, timing evidence, and city-use wear.",
+    kind: "Model",
+    left: a1.name,
+    right: polo.name,
+    leftHref: `/models/${a1.slug}`,
+    rightHref: `/models/${polo.slug}`,
+    leftScore: a1.score,
+    rightScore: polo.score,
+    winner: polo.name,
+    bestUsedBuy: "Polo for value and simpler ownership; A1 when condition, spec, and service history justify the premium.",
+    verdict:
+      "The Polo is usually the smarter buy because much of the mechanical logic is shared. The A1 earns its premium only when the cabin, condition, and records are genuinely better.",
+    keyDifferences: [
+      "Polo usually costs less to buy and maintain.",
+      "A1 gives a more premium cabin but shares many drivetrain risks.",
+      "Both need timing, cooling, TSI/TDI, and gearbox checks.",
+      "City-use wear can matter more than mileage on both cars.",
+    ],
+    buyerAdvice: [
+      "Compare exact engine and gearbox, not badge alone.",
+      "Prefer the car with better tires, cleaner scan data, and stronger service proof.",
+      "Avoid rough automated gearboxes or cars with recent cosmetic-only preparation.",
+    ],
+    redFlags: ["Timing noise", "DSG/S tronic judder", "Misfires", "Coolant loss", "Crash repair signs"],
+  },
+  {
+    slug: "bmw-7-series-vs-mercedes-s-class",
+    title: "BMW 7 Series vs Mercedes S-Class",
+    description: "Flagship luxury saloon comparison covering air suspension, electronics, diesel and petrol risk, gearbox behavior, and inspection cost.",
+    kind: "Model",
+    left: bmw7.name,
+    right: sClass.name,
+    leftHref: `/models/${bmw7.slug}`,
+    rightHref: `/models/${sClass.slug}`,
+    leftScore: bmw7.score,
+    rightScore: sClass.score,
+    winner: sClass.name,
+    bestUsedBuy: "S-Class for maximum comfort with clean Airmatic and electronics; 7 Series when BMW diagnostics, suspension, and drivetrain evidence are stronger.",
+    verdict:
+      "These cars should never be bought as cheap luxury shortcuts. The safer flagship is the one with specialist inspection, clean module scans, working equipment, and documented suspension and fluid work.",
+    keyDifferences: [
+      "7 Series risk centers on BMW electronics, air suspension, cooling, ZF service, and high-output engine costs.",
+      "S-Class risk centers on Airmatic, comfort electronics, AdBlue/NOx, and option-heavy cabin systems.",
+      "BMW usually feels more driver-focused.",
+      "Mercedes usually feels more isolated and comfort-led.",
+    ],
+    buyerAdvice: [
+      "Pay for specialist diagnostics before choosing either flagship.",
+      "Test every luxury feature, not just engine and gearbox behavior.",
+      "Budget for flagship tires, brakes, batteries, suspension, and electronics from day one.",
+    ],
+    redFlags: ["Air suspension sag", "Dead luxury options", "Weak battery", "AdBlue faults", "Oil leaks"],
   },
 ];
 
