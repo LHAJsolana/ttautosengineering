@@ -259,16 +259,16 @@ export default async function Home({
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/search"
+                href="/buying-checklist"
                 className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
               >
-                Search the library
+                Check a used German car before buying
               </Link>
               <Link
-                href="/buying-guides"
+                href="/search"
                 className="rounded-2xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15"
               >
-                Start with buying guides
+                Search the library
               </Link>
               <Link
                 href="/reliability-index"
@@ -292,6 +292,28 @@ export default async function Home({
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-12">
+        <div className="grid gap-6 rounded-3xl border border-red-500/25 bg-gradient-to-br from-red-950/45 via-[#111827] to-[#0B1220] p-7 shadow-2xl shadow-red-950/10 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+          <div>
+            <p className="text-sm font-semibold text-red-200">Buyer shortcut</p>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-white">
+              Check the car before the seller sells you the story.
+            </h2>
+            <p className="mt-3 max-w-3xl leading-relaxed text-gray-300">
+              Use the risk checker to score service history, cold start behavior,
+              diagnostic scan results, leaks, gearbox feel, and seller signals before
+              you commit to a BMW, Mercedes-Benz, Audi, or Volkswagen.
+            </p>
+          </div>
+          <Link
+            href="/buying-checklist"
+            className="inline-flex w-fit rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-red-500"
+          >
+            Start the buyer check -&gt;
+          </Link>
         </div>
       </section>
 

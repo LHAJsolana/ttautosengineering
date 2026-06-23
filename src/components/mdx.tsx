@@ -29,25 +29,25 @@ export function Callout({
     { badge: string; box: string; title: string; icon: string }
   > = {
     note: {
-      icon: "🧾",
+      icon: "i",
       badge: "Note",
       box: "border-gray-700 bg-white/5",
       title: "text-white",
     },
     tip: {
-      icon: "✅",
+      icon: "+",
       badge: "Tip",
       box: "border-emerald-500/30 bg-emerald-500/10",
       title: "text-emerald-100",
     },
     warn: {
-      icon: "⚠️",
+      icon: "!",
       badge: "Watch",
       box: "border-amber-500/30 bg-amber-500/10",
       title: "text-amber-100",
     },
     danger: {
-      icon: "🛑",
+      icon: "x",
       badge: "Risk",
       box: "border-red-500/35 bg-red-500/10",
       title: "text-red-100",

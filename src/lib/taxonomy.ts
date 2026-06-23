@@ -3,7 +3,7 @@ export function slugifyTaxonomy(input: string) {
   return input
     .trim()
     .toLowerCase()
-    .replace(/['’]/g, "")
+    .replace(/['\u2019]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }

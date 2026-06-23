@@ -1,10 +1,10 @@
 // src/lib/seo.ts
 export const site = {
-  name: "TT AUTO’S Engineering",
-  domain: "ttautosengineering.com", // TODO: change
-  url: "https://ttautosengineering.com", // TODO: change
+  name: "TT AUTO'S Engineering",
+  domain: "ttautosengineering.com",
+  url: "https://ttautosengineering.com",
   ogImage: "/og.png", // optional fallback
-  twitter: "@yourhandle", // optional
+  twitter: undefined,
 };
 
 export function absoluteUrl(path: string) {

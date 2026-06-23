@@ -76,12 +76,40 @@ function MiniPill({ children }: { children: React.ReactNode }) {
   );
 }
 
-function buildHref({ brand, q }: { brand?: string; q?: string }) {
+function buildHref({
+  brand,
+  q,
+  category,
+  platform,
+  risk,
+}: {
+  brand?: string;
+  q?: string;
+  category?: string;
+  platform?: string;
+  risk?: string;
+}) {
   const params = new URLSearchParams();
   if (brand && brand !== "All") params.set("brand", brand);
   if (q && q.trim()) params.set("q", q.trim());
+  if (category) params.set("category", category);
+  if (platform) params.set("platform", platform);
+  if (risk) params.set("risk", risk);
   const qs = params.toString();
   return qs ? `/insights?${qs}` : "/insights";
+}
+
+function rankedValues(values: Array<string | undefined>, limit = 8) {
+  const counts = new Map<string, number>();
+  for (const value of values) {
+    const clean = value?.trim();
+    if (!clean) continue;
+    counts.set(clean, (counts.get(clean) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, limit)
+    .map(([label, count]) => ({ label, count }));
 }
 
 function cardPills(p: Insight): string[] {
@@ -99,40 +127,75 @@ export default async function InsightsPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams?: Promise<{ brand?: string; q?: string }>;
+  searchParams?: Promise<{
+    brand?: string;
+    q?: string;
+    category?: string;
+    platform?: string;
+    risk?: string;
+  }>;
 }) {
   const [{ locale: localeParam }, query] = await Promise.all([
     params,
-    searchParams ?? Promise.resolve({} as { brand?: string; q?: string }),
+    searchParams ??
+      Promise.resolve({} as {
+        brand?: string;
+        q?: string;
+        category?: string;
+        platform?: string;
+        risk?: string;
+      }),
   ]);
   const locale = isLocale(localeParam) ? localeParam : defaultLocale;
   const selected = query.brand ?? "All";
   const q = (query.q ?? "").trim();
+  const selectedCategory = query.category ?? "";
+  const selectedPlatform = query.platform ?? "";
+  const selectedRisk = query.risk ?? "";
 
   // getAllInsights() includes meta (excerpt/wordCount/readingMinutes)
   const posts = getAllInsights(locale);
 
-  const brandFiltered =
-    selected === "All"
-      ? posts
-      : posts.filter(
-          (p) =>
-            (p.frontmatter.brand ?? "").toLowerCase() === selected.toLowerCase()
-        );
+  const categoryOptions = rankedValues(posts.map((post) => post.frontmatter.category));
+  const platformOptions = rankedValues(posts.map((post) => post.frontmatter.platform));
+  const riskOptions = rankedValues(posts.flatMap((post) => post.frontmatter.risk ?? []));
+
+  const taxonomyFiltered = posts.filter((p) => {
+    const brandMatches =
+      selected === "All" ||
+      (p.frontmatter.brand ?? "").toLowerCase() === selected.toLowerCase();
+    const categoryMatches =
+      !selectedCategory || p.frontmatter.category === selectedCategory;
+    const platformMatches =
+      !selectedPlatform || p.frontmatter.platform === selectedPlatform;
+    const riskMatches =
+      !selectedRisk || (p.frontmatter.risk ?? []).includes(selectedRisk);
+    return brandMatches && categoryMatches && platformMatches && riskMatches;
+  });
 
   const filtered = q
-    ? brandFiltered.filter((p) => {
+    ? taxonomyFiltered.filter((p) => {
         const query = q.toLowerCase();
         return (
           p.frontmatter.title.toLowerCase().includes(query) ||
           p.frontmatter.description.toLowerCase().includes(query) ||
-          (p.meta?.excerpt ?? "").toLowerCase().includes(query)
+          (p.meta?.excerpt ?? "").toLowerCase().includes(query) ||
+          (p.frontmatter.category ?? "").toLowerCase().includes(query) ||
+          (p.frontmatter.platform ?? "").toLowerCase().includes(query) ||
+          (p.frontmatter.risk ?? []).some((risk) =>
+            risk.toLowerCase().includes(query)
+          )
         );
       })
-    : brandFiltered;
+    : taxonomyFiltered;
 
   // Canonical fixed to /insights. noindex variants to avoid duplicates.
-  const shouldNoIndex = selected !== "All" || !!q;
+  const shouldNoIndex =
+    selected !== "All" ||
+    !!q ||
+    !!selectedCategory ||
+    !!selectedPlatform ||
+    !!selectedRisk;
 
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
@@ -237,7 +300,12 @@ export default async function InsightsPage({
   const featuredMain = featured[0];
   const featuredSide = featured.slice(1, 3);
 
-  const showClear = selected !== "All" || !!q;
+  const showClear =
+    selected !== "All" ||
+    !!q ||
+    !!selectedCategory ||
+    !!selectedPlatform ||
+    !!selectedRisk;
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-20 text-white">
@@ -274,6 +342,15 @@ export default async function InsightsPage({
               {selected !== "All" ? (
                 <input type="hidden" name="brand" value={selected} />
               ) : null}
+              {selectedCategory ? (
+                <input type="hidden" name="category" value={selectedCategory} />
+              ) : null}
+              {selectedPlatform ? (
+                <input type="hidden" name="platform" value={selectedPlatform} />
+              ) : null}
+              {selectedRisk ? (
+                <input type="hidden" name="risk" value={selectedRisk} />
+              ) : null}
 
               <input
                 name="q"
@@ -308,6 +385,24 @@ export default async function InsightsPage({
                     for <span className="text-gray-200">{selected}</span>
                   </>
                 ) : null}
+                {selectedCategory ? (
+                  <>
+                    {" "}
+                    in <span className="text-gray-200">{selectedCategory}</span>
+                  </>
+                ) : null}
+                {selectedPlatform ? (
+                  <>
+                    {" "}
+                    on <span className="text-gray-200">{selectedPlatform}</span>
+                  </>
+                ) : null}
+                {selectedRisk ? (
+                  <>
+                    {" "}
+                    with <span className="text-gray-200">{selectedRisk}</span> risk
+                  </>
+                ) : null}
                 {q ? (
                   <>
                     {" "}
@@ -336,27 +431,127 @@ export default async function InsightsPage({
       </section>
 
       {/* Filters */}
-      <section className="mb-10">
-        <div className="flex flex-wrap items-center gap-2">
-          {BRANDS.map((b) => {
-            const isActive = b === selected;
-            const href = buildHref({ brand: b, q });
+      <section className="mb-10 rounded-3xl border border-gray-800 bg-[#111827] p-5">
+        <div className="flex flex-col gap-5">
+          <div>
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">
+              Brand
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {BRANDS.map((b) => {
+                const isActive = b === selected;
+                const href = buildHref({
+                  brand: b,
+                  q,
+                  category: selectedCategory,
+                  platform: selectedPlatform,
+                  risk: selectedRisk,
+                });
 
-            return (
-              <Link
-                key={b}
-                href={href}
-                className={[
-                  "text-sm px-3 py-1.5 rounded-full border transition",
-                  isActive
-                    ? "border-red-500 bg-red-500/10 text-white"
-                    : "border-gray-700 bg-white/0 text-gray-200 hover:border-gray-500 hover:bg-white/5",
-                ].join(" ")}
-              >
-                {b}
-              </Link>
-            );
-          })}
+                return (
+                  <Link
+                    key={b}
+                    href={href}
+                    className={[
+                      "text-sm px-3 py-1.5 rounded-full border transition",
+                      isActive
+                        ? "border-red-500 bg-red-500/10 text-white"
+                        : "border-gray-700 bg-white/0 text-gray-200 hover:border-gray-500 hover:bg-white/5",
+                    ].join(" ")}
+                  >
+                    {b}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {[
+              {
+                title: "Category",
+                param: "category" as const,
+                selected: selectedCategory,
+                options: categoryOptions,
+              },
+              {
+                title: "Platform",
+                param: "platform" as const,
+                selected: selectedPlatform,
+                options: platformOptions,
+              },
+              {
+                title: "Risk signal",
+                param: "risk" as const,
+                selected: selectedRisk,
+                options: riskOptions,
+              },
+            ].map((group) => (
+              <div key={group.title}>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-gray-500">
+                  {group.title}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Link
+                    href={buildHref({
+                      brand: selected,
+                      q,
+                      category:
+                        group.param === "category" ? undefined : selectedCategory,
+                      platform:
+                        group.param === "platform" ? undefined : selectedPlatform,
+                      risk: group.param === "risk" ? undefined : selectedRisk,
+                    })}
+                    className={[
+                      "text-xs px-3 py-1.5 rounded-full border transition",
+                      !group.selected
+                        ? "border-red-500 bg-red-500/10 text-white"
+                        : "border-gray-700 bg-white/0 text-gray-300 hover:border-gray-500 hover:bg-white/5",
+                    ].join(" ")}
+                  >
+                    All
+                  </Link>
+                  {group.options.map((option) => {
+                    const isActive = option.label === group.selected;
+                    const href = buildHref({
+                      brand: selected,
+                      q,
+                      category:
+                        group.param === "category" ? option.label : selectedCategory,
+                      platform:
+                        group.param === "platform" ? option.label : selectedPlatform,
+                      risk: group.param === "risk" ? option.label : selectedRisk,
+                    });
+
+                    return (
+                      <Link
+                        key={option.label}
+                        href={href}
+                        className={[
+                          "text-xs px-3 py-1.5 rounded-full border transition",
+                          isActive
+                            ? "border-red-500 bg-red-500/10 text-white"
+                            : "border-gray-700 bg-white/0 text-gray-300 hover:border-gray-500 hover:bg-white/5",
+                        ].join(" ")}
+                      >
+                        {option.label}
+                        <span className="ms-1 text-gray-500">{option.count}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {showClear ? (
+            <Link
+              href="/insights"
+              className="w-fit rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-semibold text-red-100 transition hover:border-red-400/50 hover:bg-red-500/15"
+            >
+              Clear all filters
+            </Link>
+          ) : null}
         </div>
       </section>
 
@@ -559,7 +754,7 @@ export default async function InsightsPage({
         <div className="flex items-end justify-between gap-4 mb-5">
           <div>
             <h2 className="text-white text-2xl font-bold">
-              {q || selected !== "All" ? "Results" : "Latest"}
+              {showClear ? "Results" : "Latest"}
             </h2>
             <p className="text-gray-300 mt-1">
               Transparent notes: what fails, why it fails, and what to check.
