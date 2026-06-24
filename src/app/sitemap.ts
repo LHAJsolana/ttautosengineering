@@ -10,7 +10,7 @@ import { faultCodes } from "@/lib/faultCodes";
 import { modelYears } from "@/lib/modelYears";
 import { directComparisons } from "@/lib/comparisons";
 
-const SITE_LASTMOD = new Date("2026-06-23T00:00:00.000Z");
+const SITE_LASTMOD = new Date("2026-06-24T00:00:00.000Z");
 
 const staticPaths = [
   "/",
