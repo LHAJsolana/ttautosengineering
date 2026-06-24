@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import { defaultLocale, isLocale } from "@/lib/i18n";
+import { getLocalizedSeoLandingPages } from "@/lib/seoLandingPages";
 import { canonical, localizedPageMetadata } from "@/lib/site";
 
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -156,6 +158,7 @@ export default async function BuyingGuidesPage({
   const localizedBlogPosts = new Map(
     getAllBlogPosts(locale).map((post) => [post.slug, post])
   );
+  const researchPages = getLocalizedSeoLandingPages(locale);
 
   const insights = getAllInsights()
     .filter((p) => {
@@ -400,6 +403,31 @@ export default async function BuyingGuidesPage({
       </section>
 
       <section className="mb-12">
+        <div className="mb-6">
+          <h2 className="text-white text-2xl font-bold">High-intent buyer research</h2>
+          <p className="text-gray-300 mt-1">
+            Fast pages for the common searches buyers make before viewing a car.
+          </p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {researchPages.map((page) => (
+            <Link
+              key={page.slug}
+              href={`/research/${page.slug}`}
+              className="group rounded-2xl border border-gray-800 bg-[#111827] p-5 transition hover:border-red-500 hover:bg-white/[0.06]"
+            >
+              <div className="text-xs font-semibold text-red-300">{page.brand}</div>
+              <h3 className="mt-2 font-bold leading-snug text-white">{page.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-gray-400">{page.intro}</p>
+              <div className="mt-5 text-sm font-semibold text-gray-300 group-hover:text-white">
+                Open research -&gt;
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-12">
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-6">
           <div className="bg-[#111827] border border-gray-800 rounded-3xl p-7">
             <h2 className="text-white text-2xl font-bold">The buying logic</h2>
@@ -534,6 +562,8 @@ export default async function BuyingGuidesPage({
           </div>
         </section>
       )}
+
+      <LeadCaptureCTA source="buying-guides" className="mt-12" />
 
       <section id="request" className="mt-12">
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#111827]">

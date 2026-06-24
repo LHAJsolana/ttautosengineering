@@ -7,6 +7,7 @@ import { getLocalizedDirectComparisons } from "@/lib/comparisons";
 import { getAllInsights } from "@/lib/insights";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { getLocalizedModelPages } from "@/lib/models";
+import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
 
 type Feature = {
   title: string;
@@ -174,6 +175,13 @@ export default async function Home({
       label: "Buyer",
     },
     {
+      title: "Parts & Failure Map",
+      description:
+        "Inspect weak systems such as timing chains, DSG mechatronics, EGR, DPF, AdBlue, cooling, and turbo control.",
+      href: "/parts-failure-map",
+      label: "New",
+    },
+    {
       title: "Direct Comparisons",
       description:
         "Compare engines and models buyers actually cross-shop, including B47 vs B48 and Golf vs A3.",
@@ -193,6 +201,13 @@ export default async function Home({
         "Move quickly through BMW, Mercedes-Benz, Audi, and Volkswagen reliability topics.",
       href: "/brands",
       label: "Brands",
+    },
+    {
+      title: "How We Evaluate Cars",
+      description:
+        "See the trust method behind diagnostics, service-history review, failure patterns, fault codes, and buyer red flags.",
+      href: "/how-we-evaluate-used-cars",
+      label: "Trust",
     },
     {
       title: "Model Guides",
@@ -249,33 +264,32 @@ export default async function Home({
             </div>
 
             <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-white md:text-7xl">
-              TT AUTO&apos;S Engineering
+              Check used German car risks before buying.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-200 md:text-xl">
-              Practical reliability intelligence for BMW, Mercedes-Benz, Audi, and
-              Volkswagen owners who want the mechanical truth before they buy, repair,
-              or walk away.
+              Research reliability risks, fault codes, known failure patterns,
+              ownership costs, and buying red flags for used BMW, Mercedes-Benz,
+              Audi, and Volkswagen models.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/buying-checklist"
-                className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
-              >
-                Check a used German car before buying
-              </Link>
-              <Link
-                href="/search"
-                className="rounded-2xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15"
-              >
-                Search the library
-              </Link>
-              <Link
-                href="/reliability-index"
-                className="rounded-2xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/15"
-              >
-                Open reliability index
-              </Link>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {[
+                ["Check a car", "/buying-checklist", "Run the buyer risk checklist"],
+                ["Search a fault code", "/fault-codes", "Decode common OBD issues"],
+                ["Compare models", "/compare", "Cross-shop real used-car choices"],
+              ].map(([label, href, note]) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="group rounded-2xl border border-white/15 bg-white/10 p-4 transition hover:border-red-400 hover:bg-white/15"
+                >
+                  <div className="text-sm font-bold text-white">{label}</div>
+                  <div className="mt-2 text-xs leading-5 text-gray-300">{note}</div>
+                  <div className="mt-4 text-xs font-semibold text-gray-200 group-hover:text-white">
+                    Open -&gt;
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -315,6 +329,10 @@ export default async function Home({
             Start the buyer check -&gt;
           </Link>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-8">
+        <LeadCaptureCTA source="homepage" />
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-16">

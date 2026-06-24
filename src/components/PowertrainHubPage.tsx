@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
+import RelatedResearch from "@/components/RelatedResearch";
 import { getAllInsights } from "@/lib/insights";
 import type { Locale } from "@/lib/i18n";
 import { getLocalizedModelPages } from "@/lib/models";
@@ -198,6 +200,23 @@ export default function PowertrainHubPage({
           </div>
         </section>
       ) : null}
+
+      <RelatedResearch
+        className="mt-10"
+        items={[
+          ...relatedModels.slice(0, 3).map((model) => ({
+            label: model.name,
+            href: `/models/${model.slug}`,
+            badge: "Model",
+          })),
+          { label: "Parts & Failure Map", href: "/parts-failure-map", badge: "Systems" },
+          { label: "Fault-code library", href: "/fault-codes", badge: "Diagnostics" },
+          { label: "Used-car checklist", href: "/buying-checklist", badge: "Buyer" },
+          { label: "How we evaluate used cars", href: "/how-we-evaluate-used-cars", badge: "Trust" },
+        ]}
+      />
+
+      <LeadCaptureCTA source={`powertrain:${powertrain.slug}`} compact className="mt-10" />
 
       {relatedInsights.length > 0 ? (
         <section className="mt-10">

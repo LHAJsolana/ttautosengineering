@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "@/components/LocalizedLink";
 import ToolPageHero from "@/components/ToolPageHero";
+import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
+import RelatedResearch from "@/components/RelatedResearch";
 import { faultCodes, getLocalizedFaultCode } from "@/lib/faultCodes";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { localizedPageMetadata } from "@/lib/site";
@@ -49,6 +51,16 @@ export default async function FaultCodePage({ params }: { params: Promise<{ loca
         <p className="mt-3 text-xs leading-6 text-gray-400">{copy.codeDisclaimer}</p>
       </section>
       <Link href="/buying-checklist" className="mt-6 inline-flex rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white hover:bg-red-500">{copy.inspectFirst}</Link>
+      <RelatedResearch
+        className="mt-8"
+        items={[
+          { label: "Used-car checklist", href: "/buying-checklist", badge: "Buyer" },
+          { label: "Parts & Failure Map", href: "/parts-failure-map", badge: "Systems" },
+          { label: "Reliability index", href: "/reliability-index", badge: "Risk" },
+          { label: "How we evaluate used cars", href: "/how-we-evaluate-used-cars", badge: "Trust" },
+        ]}
+      />
+      <LeadCaptureCTA source={`fault-code:${item.code}`} compact className="mt-8" />
     </main>
   );
 }

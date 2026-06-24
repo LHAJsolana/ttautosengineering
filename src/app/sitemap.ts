@@ -9,6 +9,8 @@ import { brands } from "@/lib/brands";
 import { faultCodes } from "@/lib/faultCodes";
 import { modelYears } from "@/lib/modelYears";
 import { directComparisons } from "@/lib/comparisons";
+import { seoLandingPages } from "@/lib/seoLandingPages";
+import { partsFailureItems } from "@/lib/partsFailureMap";
 
 const SITE_LASTMOD = new Date("2026-06-24T00:00:00.000Z");
 
@@ -21,6 +23,8 @@ const staticPaths = [
   "/brands",
   "/buying-guides",
   "/buying-checklist",
+  "/parts-failure-map",
+  "/how-we-evaluate-used-cars",
   "/tools",
   "/compare",
   "/maintenance-cost",
@@ -135,6 +139,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     )
   );
 
+  const researchRoutes = locales.flatMap((locale) =>
+    seoLandingPages.map((page) =>
+      localizedEntry(locale, `/research/${page.slug}`, SITE_LASTMOD, "monthly", 0.82)
+    )
+  );
+
+  const partsFailureRoutes = locales.flatMap((locale) =>
+    partsFailureItems.map((item) =>
+      localizedEntry(locale, `/parts-failure-map/${item.slug}`, SITE_LASTMOD, "monthly", 0.82)
+    )
+  );
+
   const insightRoutes = locales.flatMap((locale) =>
     getAllInsights(locale)
       .filter((post) => !post.isFallback)
@@ -169,6 +185,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...modelRoutes,
     ...powertrainRoutes,
     ...directComparisonRoutes,
+    ...researchRoutes,
+    ...partsFailureRoutes,
     ...faultCodeRoutes,
     ...modelYearRoutes,
     ...insightRoutes,

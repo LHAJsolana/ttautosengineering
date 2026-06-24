@@ -54,6 +54,7 @@ function SiteFooter({ locale }: { locale: Locale }) {
                 <FooterLink locale={locale} href="/brands">{copy.nav.brands}</FooterLink>
                 <FooterLink locale={locale} href="/tools">{copy.nav.tools}</FooterLink>
                 <FooterLink locale={locale} href="/buying-guides">{copy.nav.buyingGuides}</FooterLink>
+                <FooterLink locale={locale} href="/parts-failure-map">Parts & Failure Map</FooterLink>
                 <FooterLink locale={locale} href="/reliability-index">{copy.nav.reliability}</FooterLink>
               </div>
             </div>
@@ -71,6 +72,7 @@ function SiteFooter({ locale }: { locale: Locale }) {
               <div className="mb-3 font-semibold text-gray-200">{copy.footer.trust}</div>
               <div className="space-y-2">
                 <FooterLink locale={locale} href="/privacy-policy">{copy.footer.privacy}</FooterLink>
+                <FooterLink locale={locale} href="/how-we-evaluate-used-cars">How we evaluate used cars</FooterLink>
                 <FooterLink locale={locale} href="/terms">{copy.footer.terms}</FooterLink>
                 <FooterLink locale={locale} href="/affiliate-disclosure">{copy.footer.affiliate}</FooterLink>
               </div>

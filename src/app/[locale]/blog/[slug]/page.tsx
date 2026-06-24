@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx";
+import RelatedResearch from "@/components/RelatedResearch";
 import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/blog";
 import { defaultLocale, isLocale, localePath } from "@/lib/i18n";
 import { localizedAlternates } from "@/lib/site";
@@ -294,6 +295,18 @@ export default async function BlogPostPage({
           {content}
         </article>
       </section>
+
+      <RelatedResearch
+        className="mt-14"
+        items={[
+          { label: "Brand hubs", href: "/brands", badge: "Brands" },
+          { label: "Model guides", href: "/models", badge: "Models" },
+          { label: "Powertrain library", href: "/powertrains", badge: "Engines" },
+          { label: "Fault-code library", href: "/fault-codes", badge: "Diagnostics" },
+          { label: "Parts & Failure Map", href: "/parts-failure-map", badge: "Systems" },
+          { label: "Used-car checklist", href: "/buying-checklist", badge: "Buyer" },
+        ]}
+      />
 
       {related.length > 0 ? (
         <section className="mt-14 pt-10 border-t border-gray-800">

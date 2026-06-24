@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { getAllInsights, getInsightBySlug } from "@/lib/insights";
 import { mdxComponents } from "@/components/mdx";
+import RelatedResearch from "@/components/RelatedResearch";
 import { defaultLocale, isLocale, localePath } from "@/lib/i18n";
 import { localizedAlternates } from "@/lib/site";
 import { getBrandByName } from "@/lib/brands";
@@ -374,6 +375,18 @@ export default async function InsightPostPage({
 
       {/* Content */}
       <article className="prose prose-invert max-w-none mt-10">{content}</article>
+
+      <RelatedResearch
+        className="mt-14"
+        items={[
+          { label: brand ? `${brand} hub` : "Brand hubs", href: brand ? brandHub : "/brands", badge: "Brand" },
+          { label: "Model guides", href: "/models", badge: "Models" },
+          { label: "Powertrain library", href: "/powertrains", badge: "Engines" },
+          { label: "Fault-code library", href: "/fault-codes", badge: "Diagnostics" },
+          { label: "Parts & Failure Map", href: "/parts-failure-map", badge: "Systems" },
+          { label: "Used-car checklist", href: "/buying-checklist", badge: "Buyer" },
+        ]}
+      />
 
       {/* Related */}
       {related.length > 0 && (

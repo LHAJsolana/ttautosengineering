@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
+import RelatedResearch from "@/components/RelatedResearch";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import type { Locale } from "@/lib/i18n";
@@ -328,6 +330,19 @@ export default function ModelHubPage({
           ))}
         </div>
       </section>
+
+      <RelatedResearch
+        className="mt-8"
+        items={[
+          { label: `${model.brand} hub`, href: model.brandHref, badge: "Brand" },
+          { label: "Parts & Failure Map", href: "/parts-failure-map", badge: "Systems" },
+          { label: "Fault-code library", href: "/fault-codes", badge: "Diagnostics" },
+          { label: "Used-car checklist", href: "/buying-checklist", badge: "Buyer" },
+          { label: "How we evaluate used cars", href: "/how-we-evaluate-used-cars", badge: "Trust" },
+        ]}
+      />
+
+      <LeadCaptureCTA source={`model:${model.slug}`} compact className="mt-8" />
 
       {(relatedInsights.length > 0 || relatedBlog.length > 0) && (
         <section className="mt-8">
