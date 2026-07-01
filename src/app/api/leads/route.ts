@@ -163,7 +163,10 @@ export async function POST(request: NextRequest) {
   const origin = request.headers.get("origin");
   if (origin) {
     try {
-      if (new URL(origin).host !== request.nextUrl.host) {
+      const requestHost = request.headers.get("x-forwarded-host") ??
+        request.headers.get("host") ??
+        request.nextUrl.host;
+      if (new URL(origin).host !== requestHost) {
         return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
       }
     } catch {
