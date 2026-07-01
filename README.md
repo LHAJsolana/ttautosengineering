@@ -57,6 +57,14 @@ For production abuse protection, configure both Cloudflare Turnstile values from
 `.env.example`. The endpoint also applies validation, same-origin checks, a
 honeypot, request-size limits, and best-effort per-instance rate limiting.
 
+## Vehicle-history referral
+
+The localized `/vin-history` funnel uses `NEXT_PUBLIC_CARVERTICAL_AFFILIATE_URL`
+for its outbound carVertical CTA. Set this to the unique referral URL provided
+by the affiliate dashboard. When it is unset, the CTA uses the standard
+carVertical homepage without referral tracking. VINs are validated locally and
+are not transmitted by TT AUTO'S Engineering.
+
 ## Deployment
 
 The GitHub Actions workflow runs lint, validation, and a production build on

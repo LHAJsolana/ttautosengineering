@@ -10,12 +10,16 @@ const TITLE = "Affiliate Disclosure";
 const DESCRIPTION =
   "Affiliate disclosure for TT AUTO'S Engineering, explaining affiliate links, commissions, editorial independence, and reader responsibility.";
 
-const updatedDate = "May 30, 2026";
+const updatedDate = "July 1, 2026";
 
 const sections = [
   {
     title: "Affiliate links",
     body: "Some pages on TT AUTO'S Engineering may include affiliate links to products, tools, services, marketplaces, parts suppliers, books, or other third-party websites. If you click one of these links and make a purchase or complete an action, we may earn a commission or receive referral credit.",
+  },
+  {
+    title: "Vehicle-history services",
+    body: "Our VIN-history pages may link to independent vehicle-history providers such as carVertical. If you purchase a report through a referral link, we may receive a commission. The provider controls report coverage, data sources, pricing, and support. A history report supplements but does not replace a physical inspection, diagnostic scan, or service-record review.",
   },
   {
     title: "No extra cost to readers",
