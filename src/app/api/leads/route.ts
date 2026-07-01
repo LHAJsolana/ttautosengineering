@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { appendFile, mkdir } from "node:fs/promises";
+import { dirname } from "node:path";
 
 type LeadPayload = {
   source?: unknown;
@@ -154,6 +156,23 @@ async function sendToWebhook(lead: ReturnType<typeof normalizeLead>) {
   return true;
 }
 
+async function storeLead(lead: ReturnType<typeof normalizeLead>) {
+  const storagePath = process.env.LEAD_STORAGE_PATH;
+  if (!storagePath) return false;
+
+  await mkdir(dirname(storagePath), { recursive: true, mode: 0o700 });
+  await appendFile(
+    storagePath,
+    `${JSON.stringify({
+      id: crypto.randomUUID(),
+      submittedAt: new Date().toISOString(),
+      ...lead,
+    })}\n`,
+    { encoding: "utf8", mode: 0o600 }
+  );
+  return true;
+}
+
 export async function POST(request: NextRequest) {
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > MAX_BODY_BYTES) {
@@ -211,7 +230,9 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const delivered = (await sendWithResend(lead)) || (await sendToWebhook(lead));
+    const delivered = (await sendWithResend(lead)) ||
+      (await sendToWebhook(lead)) ||
+      (await storeLead(lead));
     if (!delivered) {
       return NextResponse.json(
         { error: "Lead delivery is not configured yet. Please email contact@ttautosengineering.com." },

@@ -53,6 +53,8 @@ npm start
 The risk-review form posts to `/api/leads`. Copy `.env.example` to `.env.local`
 and configure either Resend (`RESEND_API_KEY`, `LEAD_TO_EMAIL`) or
 `LEAD_WEBHOOK_URL`. Never expose these values through `NEXT_PUBLIC_` variables.
+On a self-hosted server, `LEAD_STORAGE_PATH` can provide a durable JSONL fallback
+outside the public web root when email or webhook delivery is unavailable.
 For production abuse protection, configure both Cloudflare Turnstile values from
 `.env.example`. The endpoint also applies validation, same-origin checks, a
 honeypot, request-size limits, and best-effort per-instance rate limiting.
