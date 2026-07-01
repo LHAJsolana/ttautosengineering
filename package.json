@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "validate": "node --test tests/content-data.test.mjs",
+    "audit:site": "node scripts/audit-site.mjs",
+    "test": "npm run validate",
+    "check": "npm run lint && npm run validate && npm run build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

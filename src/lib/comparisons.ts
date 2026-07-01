@@ -41,6 +41,7 @@ const b48 = getPowertrain("bmw-b48");
 const n47 = getPowertrain("bmw-n47");
 const om651 = getPowertrain("mercedes-om651");
 const bmw3 = getModel("bmw-3-series");
+const bmw1 = getModel("bmw-1-series");
 const bmw4 = getModel("bmw-4-series");
 const cClass = getModel("mercedes-c-class");
 const bmw5 = getModel("bmw-5-series");
@@ -49,6 +50,9 @@ const bmwX1 = getModel("bmw-x1");
 const bmwX3 = getModel("bmw-x3");
 const bmwX5 = getModel("bmw-x5");
 const eClass = getModel("mercedes-e-class");
+const aClass = getModel("mercedes-a-class");
+const cla = getModel("mercedes-cla");
+const glc = getModel("mercedes-glc");
 const sClass = getModel("mercedes-s-class");
 const gla = getModel("mercedes-gla");
 const gle = getModel("mercedes-gle");
@@ -62,8 +66,11 @@ const a1 = getModel("audi-a1");
 const a3 = getModel("audi-a3");
 const a4 = getModel("audi-a4");
 const a5 = getModel("audi-a5");
+const a6 = getModel("audi-a6");
 const q3 = getModel("audi-q3");
 const q5 = getModel("audi-q5");
+const q7 = getModel("audi-q7");
+const touareg = getModel("volkswagen-touareg");
 
 export const directComparisons: DirectComparisonData[] = [
   {
@@ -541,6 +548,132 @@ export const directComparisons: DirectComparisonData[] = [
       "Budget for flagship tires, brakes, batteries, suspension, and electronics from day one.",
     ],
     redFlags: ["Air suspension sag", "Dead luxury options", "Weak battery", "AdBlue faults", "Oil leaks"],
+  },
+  {
+    slug: "bmw-1-series-vs-mercedes-a-class",
+    title: "BMW 1 Series vs Mercedes A-Class",
+    description: "Compact premium comparison covering engine choices, automatic gearboxes, cabin wear, running costs, and used-car inspection priorities.",
+    kind: "Cross-brand",
+    left: bmw1.name,
+    right: aClass.name,
+    leftHref: `/models/${bmw1.slug}`,
+    rightHref: `/models/${aClass.slug}`,
+    leftScore: bmw1.score,
+    rightScore: aClass.score,
+    winner: bmw1.name,
+    bestUsedBuy: "1 Series for stronger driving dynamics and conventional automatic options; A-Class when cabin condition and Mercedes service history are clearly better.",
+    verdict: "Both can be sensible premium hatchbacks, but drivetrain generation matters more than badge. The BMW gets the edge when its cooling, timing, and gearbox evidence is clean.",
+    keyDifferences: ["Rear-wheel-drive BMW generations feel more distinctive on the road.", "A-Class prioritizes cabin design and comfort.", "BMW ZF automatics and Mercedes dual-clutch units require different checks.", "Diesel examples of both need DPF and EGR usage history."],
+    buyerAdvice: ["Compare exact engine codes and gearbox types.", "Test all cabin electronics and driver-assistance systems.", "Prefer documented fluid service over low mileage alone."],
+    redFlags: ["Cold-start timing noise", "Gearbox hesitation", "Coolant loss", "DPF warnings", "Accident repair"],
+  },
+  {
+    slug: "mercedes-cla-vs-audi-a3",
+    title: "Mercedes CLA vs Audi A3",
+    description: "Used compact saloon comparison covering styling premiums, shared-platform risks, dual-clutch service, engines, and practicality.",
+    kind: "Cross-brand",
+    left: cla.name,
+    right: a3.name,
+    leftHref: `/models/${cla.slug}`,
+    rightHref: `/models/${a3.slug}`,
+    leftScore: cla.score,
+    rightScore: a3.score,
+    winner: a3.name,
+    bestUsedBuy: "A3 for broader parts support and a more practical shape; CLA when condition, specification, and gearbox behavior justify the styling premium.",
+    verdict: "The A3 is usually the rational purchase. A clean CLA can still be appealing, but neither car excuses weak dual-clutch behavior or missing maintenance records.",
+    keyDifferences: ["CLA trades rear visibility and access for coupe-like styling.", "A3 offers stronger hatchback and saloon practicality.", "Both have engine-generation-specific timing and cooling risks.", "S tronic/DSG and 7G-DCT histories need evidence."],
+    buyerAdvice: ["Drive from cold and test low-speed clutch engagement.", "Check water ingress, infotainment, and warning history.", "Price tires and brakes before choosing high-spec wheels."],
+    redFlags: ["Clutch judder", "Coolant residue", "Misfires", "Dead infotainment", "Uneven tire wear"],
+  },
+  {
+    slug: "audi-a6-vs-mercedes-e-class",
+    title: "Audi A6 vs Mercedes E-Class",
+    description: "Executive saloon comparison covering diesel emissions hardware, quattro, automatic gearboxes, electronics, suspension, and ownership budgets.",
+    kind: "Cross-brand",
+    left: a6.name,
+    right: eClass.name,
+    leftHref: `/models/${a6.slug}`,
+    rightHref: `/models/${eClass.slug}`,
+    leftScore: a6.score,
+    rightScore: eClass.score,
+    winner: eClass.name,
+    bestUsedBuy: "E-Class for comfort and broad specialist support; A6 when quattro is genuinely useful and drivetrain service is exceptionally well documented.",
+    verdict: "The better executive car is the one with the cleaner module scan and stronger gearbox, emissions, and suspension history. The Mercedes narrowly wins on comfort-led ownership logic.",
+    keyDifferences: ["A6 offers a restrained cabin and available quattro traction.", "E-Class emphasizes ride comfort and long-distance use.", "Both can carry expensive diesel emissions systems.", "Air suspension and option-heavy electronics raise risk sharply."],
+    buyerAdvice: ["Scan every module, not only the engine ECU.", "Confirm gearbox fluid and differential service.", "Avoid complex specifications when the maintenance budget is tight."],
+    redFlags: ["AdBlue countdown", "Harsh shifts", "Air suspension sag", "MMI/COMAND faults", "Water ingress"],
+  },
+  {
+    slug: "mercedes-glc-vs-bmw-x3",
+    title: "Mercedes GLC vs BMW X3",
+    description: "Premium midsize SUV comparison covering diesel choices, 4Matic and xDrive, automatic gearboxes, suspension wear, and electronics.",
+    kind: "Cross-brand",
+    left: glc.name,
+    right: bmwX3.name,
+    leftHref: `/models/${glc.slug}`,
+    rightHref: `/models/${bmwX3.slug}`,
+    leftScore: glc.score,
+    rightScore: bmwX3.score,
+    winner: bmwX3.name,
+    bestUsedBuy: "X3 for balanced dynamics and strong B47/B48 options; GLC when comfort matters more and 9G-Tronic and emissions records are complete.",
+    verdict: "Both are capable family SUVs. The X3 wins narrowly, but tire matching, transfer-case behavior, diesel usage, and service proof decide the real result.",
+    keyDifferences: ["X3 feels more driver-focused.", "GLC usually delivers the softer ride.", "xDrive and 4Matic dislike tire mismatch and neglected fluids.", "Both have costly diesel emissions and cooling-system exposure."],
+    buyerAdvice: ["Check all four tires for matching brand, model, and tread depth.", "Test tight turns for drivetrain binding.", "Inspect panoramic roofs and rear cargo areas for moisture."],
+    redFlags: ["Transfer-case shudder", "9G-Tronic flare", "AdBlue faults", "Coolant leaks", "Panoramic-roof water ingress"],
+  },
+  {
+    slug: "audi-q7-vs-volkswagen-touareg",
+    title: "Audi Q7 vs Volkswagen Touareg",
+    description: "Large VAG SUV comparison covering shared 3.0 TDI hardware, air suspension, quattro/4Motion, cabin complexity, and value.",
+    kind: "Model",
+    left: q7.name,
+    right: touareg.name,
+    leftHref: `/models/${q7.slug}`,
+    rightHref: `/models/${touareg.slug}`,
+    leftScore: q7.score,
+    rightScore: touareg.score,
+    winner: touareg.name,
+    bestUsedBuy: "Touareg for value and similar core engineering; Q7 when seven-seat practicality and a complete Audi history justify the premium.",
+    verdict: "The Touareg often delivers the stronger used-value case. Shared engineering means both still demand a specialist scan and a large-SUV maintenance budget.",
+    keyDifferences: ["Q7 can offer seven seats and a more premium cabin.", "Touareg is often cheaper for comparable drivetrain hardware.", "Both may use complex air suspension and diesel emissions systems.", "Wheel, brake, and suspension costs are substantial on either."],
+    buyerAdvice: ["Compare equipment and seating needs honestly.", "Check air suspension at every height setting.", "Verify transmission, transfer-case, and differential servicing."],
+    redFlags: ["Air suspension sag", "Coolant loss", "AdBlue faults", "Tailgate water leaks", "Heavy brake vibration"],
+  },
+  {
+    slug: "bmw-x5-vs-audi-q7",
+    title: "BMW X5 vs Audi Q7",
+    description: "Large premium SUV comparison covering xDrive and quattro, six-cylinder diesels, air suspension, cabin electronics, and family use.",
+    kind: "Cross-brand",
+    left: bmwX5.name,
+    right: q7.name,
+    leftHref: `/models/${bmwX5.slug}`,
+    rightHref: `/models/${q7.slug}`,
+    leftScore: bmwX5.score,
+    rightScore: q7.score,
+    winner: bmwX5.name,
+    bestUsedBuy: "X5 for driving feel and strong six-cylinder/ZF combinations; Q7 when seven seats and cabin space are essential.",
+    verdict: "The X5 is the more engaging choice and wins narrowly. A Q7 with better records is still safer than an X5 bought on appearance, mileage, or specification alone.",
+    keyDifferences: ["X5 is more driver-oriented.", "Q7 offers stronger seven-seat practicality.", "Both expose owners to premium tire, brake, suspension, and electronics costs.", "Diesel versions require clean DPF, EGR, AdBlue, and injector evidence."],
+    buyerAdvice: ["Budget for the car as a large premium SUV, not a cheap used luxury bargain.", "Test suspension, drivetrain, and every cabin feature.", "Use manufacturer-level diagnostics before purchase."],
+    redFlags: ["Transfer-case shudder", "Air suspension sag", "DPF/AdBlue warnings", "Coolant leaks", "Electrical faults"],
+  },
+  {
+    slug: "mercedes-c-class-vs-audi-a4",
+    title: "Mercedes C-Class vs Audi A4",
+    description: "Used compact executive comparison covering diesel and petrol choices, automatic gearboxes, cabin quality, emissions systems, and repair risk.",
+    kind: "Cross-brand",
+    left: cClass.name,
+    right: a4.name,
+    leftHref: `/models/${cClass.slug}`,
+    rightHref: `/models/${a4.slug}`,
+    leftScore: cClass.score,
+    rightScore: a4.score,
+    winner: cClass.name,
+    bestUsedBuy: "C-Class for comfort with strong Mercedes history; A4 when quattro or Avant practicality matters and S tronic service is proven.",
+    verdict: "There is no safe badge shortcut here. The C-Class narrowly wins for comfort and specialist support, while a well-kept A4 Avant can be the more useful ownership tool.",
+    keyDifferences: ["C-Class is comfort-led and commonly rear-wheel drive.", "A4 offers Avant practicality and available quattro.", "Mercedes 9G-Tronic and Audi S tronic require different inspection logic.", "Both can carry expensive diesel emissions hardware."],
+    buyerAdvice: ["Choose body style and drivetrain for real use.", "Check cold-start, gearbox, and emissions behavior on one long drive.", "Read invoices for actual fluid specifications and completed repairs."],
+    redFlags: ["S tronic judder", "9G-Tronic flare", "Oil consumption", "AdBlue warnings", "Suspension knocks"],
   },
 ];
 

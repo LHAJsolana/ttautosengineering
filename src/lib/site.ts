@@ -49,6 +49,7 @@ export function localizedPageMetadata({
   const localizedDescription = translateKnown(locale, description);
   const pageUrl = canonical(pathname, locale);
   const socialTitle = `${localizedTitle} - ${SITE_NAME}`;
+  const socialImage = new URL(image, SITE_URL).toString();
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -65,13 +66,13 @@ export function localizedPageMetadata({
       alternateLocale: locales
         .filter((item) => item !== locale)
         .map((item) => openGraphLocales[item]),
-      images: [{ url: image }],
+      images: [{ url: socialImage }],
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
       description: localizedDescription,
-      images: [image],
+      images: [socialImage],
     },
     robots: noIndex
       ? { index: false, follow: true }

@@ -55,7 +55,7 @@ const MODEL_HERO_IMAGES = {
   "mercedes-glc": "https://images.unsplash.com/photo-1619466548431-54ffb2fe2674?auto=format&fit=crop&w=1800&q=80",
   "mercedes-s-class": "https://images.unsplash.com/photo-1610099610040-ab19f3a5ec35?auto=format&fit=crop&w=1800&q=80",
   "mercedes-cla": "https://images.unsplash.com/photo-1622206346001-2f40bd4c23c0?auto=format&fit=crop&w=1800&q=80",
-  "mercedes-gla": "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-gla": "/images/models/mercedes-gla-x156.webp",
   "mercedes-gle": "https://images.unsplash.com/photo-1610647752706-3bb12232b3ff?auto=format&fit=crop&w=1800&q=80",
   "audi-a4": "https://images.unsplash.com/photo-1611758433285-3ea014b434eb?auto=format&fit=crop&w=1800&q=80",
   "audi-a3": "https://images.unsplash.com/photo-1561924563-d9ad0f32b23f?auto=format&fit=crop&w=1800&q=80",
@@ -70,8 +70,8 @@ const MODEL_HERO_IMAGES = {
   "volkswagen-tiguan": "https://images.unsplash.com/photo-1760713164476-7eb5063b3d07?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-polo": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-touareg": "https://images.unsplash.com/photo-1623013274387-45cbcbc1725b?auto=format&fit=crop&w=1800&q=80",
-  "volkswagen-arteon": "https://images.unsplash.com/photo-1607082615064-eb85a8c1f4cd?auto=format&fit=crop&w=1800&q=80",
-  "volkswagen-t-roc": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1800&q=80",
+  "volkswagen-arteon": "/images/models/volkswagen-arteon.webp",
+  "volkswagen-t-roc": "/images/models/volkswagen-t-roc.webp",
 } as const;
 
 export const modelPages: ModelPageData[] = [

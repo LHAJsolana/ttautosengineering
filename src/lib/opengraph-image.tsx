@@ -1,8 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
 
 function truncate(input: string, max = 80) {
   const s = (input || "").trim();
@@ -10,11 +8,9 @@ function truncate(input: string, max = 80) {
   return s.slice(0, max - 1).trimEnd() + "…";
 }
 
-export default function OpenGraphImage({
-  searchParams,
-}: {
-  searchParams?: { title?: string; subtitle?: string; brand?: string };
-}) {
+export function createOpenGraphImage(
+  searchParams?: { title?: string; subtitle?: string; brand?: string }
+) {
   const title = truncate(
     searchParams?.title ?? "Engineering-driven analysis of German cars",
     64

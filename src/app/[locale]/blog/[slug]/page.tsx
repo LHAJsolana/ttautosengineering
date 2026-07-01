@@ -84,6 +84,7 @@ export async function generateMetadata({
       subtitle: description,
       brand: post.frontmatter.brand,
     });
+  const socialImage = absoluteImageUrl(ogImage);
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -98,13 +99,13 @@ export async function generateMetadata({
       title: `${title} - ${SITE_NAME}`,
       description,
       siteName: SITE_NAME,
-      images: [{ url: ogImage }],
+      images: [{ url: socialImage }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} - ${SITE_NAME}`,
       description,
-      images: [ogImage],
+      images: [socialImage],
     },
   };
 }

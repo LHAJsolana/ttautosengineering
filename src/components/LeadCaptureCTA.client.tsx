@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "@/components/LocalizedLink";
 
 type LeadCaptureCTAProps = {
   source?: string;
@@ -16,7 +17,36 @@ export default function LeadCaptureCTA({
   compact = false,
   className = "",
 }: LeadCaptureCTAProps) {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+
+  async function submitLead(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("submitting");
+    setError("");
+
+    const form = event.currentTarget;
+    const payload = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error ?? "Unable to send your request.");
+      form.reset();
+      setStatus("success");
+    } catch (submissionError) {
+      setError(
+        submissionError instanceof Error
+          ? submissionError.message
+          : "Unable to send your request. Please try again."
+      );
+      setStatus("error");
+    }
+  }
 
   return (
     <section
@@ -53,30 +83,31 @@ export default function LeadCaptureCTA({
           </p>
         </div>
 
-        {submitted ? (
+        {status === "success" ? (
           <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6">
-            <h3 className="text-xl font-bold text-white">Request prepared</h3>
+            <h3 className="text-xl font-bold text-white">Request received</h3>
             <p className="mt-2 text-sm leading-6 text-gray-300">
-              The form is ready for backend/email integration. For now, send these
-              details through the contact page so TT AUTO&apos;S can review the risk.
+              Thanks. TT AUTO&apos;S Engineering will review the vehicle details and reply
+              through your preferred contact method.
             </p>
-            <a
-              href="mailto:contact@ttautosengineering.com?subject=Used-car%20risk%20review%20request"
+            <button
+              type="button"
+              onClick={() => setStatus("idle")}
               className="mt-5 inline-flex rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-500"
             >
-              Send by email
-            </a>
+              Send another request
+            </button>
           </div>
         ) : (
           <form
             className={compact ? "grid gap-3 md:grid-cols-2" : "grid gap-4 md:grid-cols-2"}
-            onSubmit={(event) => {
-              event.preventDefault();
-              // TODO: Connect this placeholder submission to an email, CRM, or API route.
-              setSubmitted(true);
-            }}
+            onSubmit={submitLead}
           >
             <input type="hidden" name="source" value={source} />
+            <label className="hidden" aria-hidden="true">
+              Leave this field empty
+              <input name="company" tabIndex={-1} autoComplete="off" />
+            </label>
             <label className="grid gap-2 text-sm text-gray-300">
               Brand
               <select
@@ -170,11 +201,34 @@ export default function LeadCaptureCTA({
                 className="rounded-2xl border border-white/10 bg-[#0B1220] px-4 py-3 text-white outline-none placeholder:text-gray-600 focus:border-red-400"
               />
             </label>
+            <label className="flex items-start gap-3 text-xs leading-5 text-gray-400 md:col-span-2">
+              <input
+                type="checkbox"
+                name="consent"
+                value="yes"
+                required
+                className="mt-1 h-4 w-4 accent-red-600"
+              />
+              <span>
+                I agree that these vehicle and contact details may be used to respond to
+                this request. See the{" "}
+                <Link href="/privacy-policy" className="text-gray-200 underline hover:text-white">
+                  privacy policy
+                </Link>{" "}
+                for details.
+              </span>
+            </label>
+            {status === "error" ? (
+              <p role="alert" className="text-sm text-red-300 md:col-span-2">
+                {error}
+              </p>
+            ) : null}
             <button
               type="submit"
-              className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-500 md:col-span-2"
+              disabled={status === "submitting"}
+              className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-500 disabled:cursor-wait disabled:opacity-60 md:col-span-2"
             >
-              Prepare risk review request
+              {status === "submitting" ? "Sending request..." : "Request risk review"}
             </button>
           </form>
         )}

@@ -41,9 +41,33 @@ file is missing, the content loader falls back to English.
 ```bash
 npm run dev
 npm run lint
+npm run validate
 npm run build
 npm start
 ```
+
+`npm run check` runs linting, content/data validation, and a production build.
+
+## Lead delivery
+
+The risk-review form posts to `/api/leads`. Copy `.env.example` to `.env.local`
+and configure either Resend (`RESEND_API_KEY`, `LEAD_TO_EMAIL`) or
+`LEAD_WEBHOOK_URL`. Never expose these values through `NEXT_PUBLIC_` variables.
+
+## Deployment
+
+The GitHub Actions workflow runs lint, validation, and a production build on
+every pull request and push to `master`. Connect the repository to Vercel and
+configure the lead-delivery environment variables in the Vercel project.
+
+For a source-only handoff archive, run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/create-release.ps1
+```
+
+The generated archive is written to ignored `dist/`; dependencies, build output,
+environment files, and old workspace archives are not included.
 
 ## Content
 
