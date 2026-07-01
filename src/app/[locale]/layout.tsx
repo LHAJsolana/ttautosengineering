@@ -101,6 +101,19 @@ export default async function LocaleLayout({
     },
   };
 
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Used-car risk review",
+    description: "Engineering-led review of used German-car reliability risks, fault patterns, and inspection priorities.",
+    provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    areaServed: "Worldwide",
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: `${SITE_URL}/${locale}/how-we-evaluate-used-cars`,
+    },
+  };
+
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <head>
@@ -133,6 +146,12 @@ export default async function LocaleLayout({
           type="application/ld+json"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <Script
+          id="jsonld-risk-review-service"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
         />
 
         <LocaleProvider locale={locale}>

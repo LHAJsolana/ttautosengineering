@@ -14,7 +14,14 @@ type LeadPayload = {
   contact?: unknown;
   consent?: unknown;
   company?: unknown;
+  locale?: unknown;
+  "cf-turnstile-response"?: unknown;
 };
+
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX = 5;
+const MAX_BODY_BYTES = 20_000;
+const rateLimits = new Map<string, { count: number; resetAt: number }>();
 
 const limits = {
   source: 80,
@@ -28,6 +35,7 @@ const limits = {
   vin: 24,
   question: 1500,
   contact: 200,
+  locale: 5,
 } as const;
 
 function clean(value: unknown, max: number) {
@@ -43,11 +51,52 @@ function normalizeLead(payload: LeadPayload) {
   ) as Record<keyof typeof limits, string>;
 }
 
+function clientIp(request: NextRequest) {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
+}
+
+function isRateLimited(key: string) {
+  const now = Date.now();
+  const current = rateLimits.get(key);
+  if (!current || current.resetAt <= now) {
+    rateLimits.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  current.count += 1;
+  return current.count > RATE_LIMIT_MAX;
+}
+
+function isValidLead(lead: ReturnType<typeof normalizeLead>) {
+  const year = lead.year ? Number(lead.year) : undefined;
+  const validYear = year === undefined || (Number.isInteger(year) && year >= 1980 && year <= new Date().getFullYear() + 1);
+  const validVin = !lead.vin || /^[A-HJ-NPR-Z0-9]{11,17}$/i.test(lead.vin);
+  const validContact = lead.contact.length >= 5 && /[@+\d]/.test(lead.contact);
+  return validYear && validVin && validContact;
+}
+
+async function verifyTurnstile(token: unknown, ip: string) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (typeof token !== "string" || !token) return false;
+
+  const body = new URLSearchParams({ secret, response: token, remoteip: ip });
+  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    body,
+  });
+  if (!response.ok) return false;
+  const result = (await response.json()) as { success?: boolean };
+  return result.success === true;
+}
+
 function leadText(lead: ReturnType<typeof normalizeLead>) {
   return [
     "New used-car risk review request",
     "",
     `Source: ${lead.source || "site"}`,
+    `Locale: ${lead.locale || "en"}`,
     `Vehicle: ${lead.brand} ${lead.model}`,
     `Year: ${lead.year || "Not supplied"}`,
     `Engine: ${lead.engine || "Not supplied"}`,
@@ -106,6 +155,30 @@ async function sendToWebhook(lead: ReturnType<typeof normalizeLead>) {
 }
 
 export async function POST(request: NextRequest) {
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "Request body is too large." }, { status: 413 });
+  }
+
+  const origin = request.headers.get("origin");
+  if (origin) {
+    try {
+      if (new URL(origin).host !== request.nextUrl.host) {
+        return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+      }
+    } catch {
+      return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+    }
+  }
+
+  const ip = clientIp(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait before trying again." },
+      { status: 429, headers: { "Retry-After": "900" } }
+    );
+  }
+
   let payload: LeadPayload;
   try {
     payload = (await request.json()) as LeadPayload;
@@ -121,6 +194,17 @@ export async function POST(request: NextRequest) {
       { error: "Brand, model, contact method, and consent are required." },
       { status: 400 }
     );
+  }
+
+  if (!isValidLead(lead)) {
+    return NextResponse.json(
+      { error: "Please check the year, VIN, and contact details." },
+      { status: 400 }
+    );
+  }
+
+  if (!(await verifyTurnstile(payload["cf-turnstile-response"], ip))) {
+    return NextResponse.json({ error: "Security check failed. Please try again." }, { status: 403 });
   }
 
   try {
