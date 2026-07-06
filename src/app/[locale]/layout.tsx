@@ -80,7 +80,7 @@ export default async function LocaleLayout({
     "@type": "Organization",
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/logo-transparent.png`,
     brand: {
       "@type": "Brand",
       name: SITE_NAME,

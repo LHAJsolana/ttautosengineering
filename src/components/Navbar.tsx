@@ -69,7 +69,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
           >
             <div className="relative h-12 w-[132px] shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black shadow-lg shadow-red-950/20 sm:w-[154px]">
               <Image
-                src="/logo.png"
+                src="/logo-transparent.png"
                 alt=""
                 fill
                 priority
