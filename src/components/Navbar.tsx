@@ -61,29 +61,21 @@ export default function Navbar({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#080f1d]/95 shadow-2xl shadow-black/20 backdrop-blur-xl">
       <div className="border-b border-white/[0.07]">
-        <div className="mx-auto flex h-[74px] max-w-[1440px] items-center gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-[78px] max-w-[1440px] items-center gap-4 px-4 sm:px-6">
           <Link
             href={localePath(locale)}
-            className="group flex min-w-0 items-center gap-3"
+            className="group flex min-w-0 items-center"
             aria-label="TT AUTO'S Engineering"
           >
-            <div className="relative h-12 w-[132px] shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black shadow-lg shadow-red-950/20 sm:w-[154px]">
+            <div className="relative h-[46px] w-[184px] shrink-0 sm:h-[56px] sm:w-[260px]">
               <Image
                 src="/logo-transparent.png"
                 alt=""
                 fill
                 priority
-                sizes="154px"
-                className="scale-[1.38] object-cover transition duration-300 group-hover:scale-[1.44]"
+                sizes="(min-width: 640px) 260px, 184px"
+                className="object-contain object-left drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)] transition duration-300 group-hover:brightness-110"
               />
-            </div>
-            <div className="hidden min-w-0 sm:block">
-              <div className="whitespace-nowrap text-lg font-black tracking-[-0.03em] text-white">
-                TT AUTO&apos;S
-              </div>
-              <div className="mt-0.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.22em] text-red-300">
-                Engineering
-              </div>
             </div>
           </Link>
 
@@ -148,7 +140,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
       </div>
 
       {open ? (
-        <div className="fixed inset-x-0 top-[75px] z-50 border-b border-white/10 bg-[#0b1322]/98 p-4 shadow-2xl backdrop-blur-xl lg:hidden">
+        <div className="fixed inset-x-0 top-[79px] z-50 border-b border-white/10 bg-[#0b1322]/98 p-4 shadow-2xl backdrop-blur-xl lg:hidden">
           <div className="mx-auto max-w-2xl">
             <div className="mb-4 flex items-center justify-between">
               <div>
