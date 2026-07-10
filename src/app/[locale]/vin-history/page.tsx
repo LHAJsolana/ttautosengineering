@@ -50,7 +50,6 @@ const copy = {
 } as const;
 
 const PATH = "/vin-history";
-const destination = process.env.NEXT_PUBLIC_CARVERTICAL_AFFILIATE_URL ?? "https://www.carvertical.com/";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: value } = await params;
@@ -82,7 +81,7 @@ export default async function VinHistoryPage({ params }: { params: Promise<{ loc
             <h1 className="mt-3 text-4xl font-black tracking-tight text-white md:text-6xl">{t.title}</h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-gray-300">{t.intro}</p>
           </div>
-          <VinHistoryCTA copy={t.input} locale={locale} destination={destination} />
+          <VinHistoryCTA copy={t.input} locale={locale} />
         </div>
       </section>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { getCarVerticalUrl } from "@/lib/carVertical";
 import { useState } from "react";
 
 type Copy = {
@@ -14,11 +15,9 @@ type Copy = {
 export default function VinHistoryCTA({
   copy,
   locale,
-  destination,
 }: {
   copy: Copy;
   locale: string;
-  destination: string;
 }) {
   const [vin, setVin] = useState("");
   const [error, setError] = useState("");
@@ -36,7 +35,7 @@ export default function VinHistoryCTA({
       source: "vin-history-page",
       locale,
     });
-    window.open(destination, "_blank", "noopener,noreferrer");
+    window.open(getCarVerticalUrl({ type: "vin", vin: normalized }), "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -59,6 +58,7 @@ export default function VinHistoryCTA({
       <button
         type="button"
         onClick={continueToHistory}
+        aria-label={copy.button}
         className="mt-5 w-full rounded-2xl bg-red-600 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-red-500"
       >
         {copy.button}

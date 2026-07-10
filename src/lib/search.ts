@@ -6,6 +6,7 @@ import { translateValue } from "@/lib/translate";
 import { brands } from "@/lib/brands";
 import { faultCodes } from "@/lib/faultCodes";
 import { modelYears } from "@/lib/modelYears";
+import { getCarVerticalCopy } from "@/lib/carVertical";
 
 export type SearchType = "Insight" | "Blog" | "Powertrain" | "Guide" | "Brand" | "Fault Code" | "Model Year" | "Page";
 
@@ -125,6 +126,27 @@ function scoreItem(item: SearchItem, terms: string[]) {
 }
 
 export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
+  const carVertical = getCarVerticalCopy(locale);
+  const vehicleHistoryItem: SearchItem = {
+    title: carVertical.cta,
+    description: carVertical.description,
+    href: "/vehicle-history",
+    type: "Guide",
+    category: "Tools",
+    keywords: [
+      carVertical.eyebrow,
+      carVertical.shortTitle,
+      "vehicle history",
+      "vin",
+      "carvertical",
+      "mileage",
+      "accident",
+      "ownership",
+      "theft",
+      "finance",
+      ...carVertical.facts,
+    ],
+  };
   const faultItems = faultCodes.map<SearchItem>((item) => ({
     title: `${item.code}: ${item.title}`,
     description: item.summary,
@@ -215,6 +237,7 @@ export function getSearchIndex(locale: Locale = defaultLocale): SearchItem[] {
     ...brandItems,
     ...faultItems,
     ...modelYearItems,
+    vehicleHistoryItem,
     ...staticItems,
   ]);
 }

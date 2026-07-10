@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import CarVerticalInline from "@/components/carvertical/CarVerticalInline";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import { defaultLocale, isLocale } from "@/lib/i18n";
@@ -407,6 +408,10 @@ export default async function ReliabilityIndexPage({
           ))}
         </div>
       </section>
+
+      <div className="mb-12">
+        <CarVerticalInline locale={locale} compact />
+      </div>
 
       <section className="mb-12">
         <div className="flex items-end justify-between gap-4 mb-6">

@@ -218,7 +218,7 @@ function makeExcerpt(content: string, maxChars = 180) {
   const cleaned = stripMdx(content);
   if (!cleaned) return "";
   if (cleaned.length <= maxChars) return cleaned;
-  return cleaned.slice(0, maxChars - 1).trimEnd() + "…";
+  return cleaned.slice(0, maxChars - 3).trimEnd() + "...";
 }
 
 function computeMeta(content: string): InsightMeta {
@@ -358,7 +358,7 @@ export function getInsightsByBrand(
 }
 
 /**
- * Editor’s Pick / Featured ordering:
+ * Editor's Pick / Featured ordering:
  * - featured: true first
  * - higher priority first (desc)
  * - then newest by updated/date

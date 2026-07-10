@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ToolPageHero from "@/components/ToolPageHero";
 import OwnershipCostCalculator from "@/components/OwnershipCostCalculator.client";
+import CarVerticalInline from "@/components/carvertical/CarVerticalInline";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { getLocalizedModelPages } from "@/lib/models";
 import { localizedPageMetadata } from "@/lib/site";
@@ -21,6 +22,7 @@ export default async function MaintenanceCostPage({ params }: { params: Promise<
   return (
     <main className="mx-auto max-w-6xl px-5 py-10 md:py-14">
       <ToolPageHero eyebrow={copy.tools} title={copy.cost} description={copy.costIntro} links={[{ label: copy.compare, href: "/compare" }, { label: copy.years, href: "/model-years" }]} />
+      <section className="mt-8"><CarVerticalInline locale={locale} compact /></section>
       <section className="mt-8"><OwnershipCostCalculator models={models} copy={copy} /></section>
     </main>
   );

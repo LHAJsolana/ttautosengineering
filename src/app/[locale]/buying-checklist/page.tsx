@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import BuyingChecklistTool from "@/components/BuyingChecklistTool.client";
+import CarVerticalInline from "@/components/carvertical/CarVerticalInline";
 import { localizedPageMetadata } from "@/lib/site";
 
 const PATH = "/buying-checklist";
@@ -34,7 +35,14 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function BuyingChecklistPage() {
+export default async function BuyingChecklistPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : defaultLocale;
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-20 text-white">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Buying Checklist" }]} />
@@ -82,6 +90,8 @@ export default function BuyingChecklistPage() {
           </div>
         </div>
       </section>
+
+      <CarVerticalInline locale={locale} compact />
 
       <section id="checker">
         <BuyingChecklistTool />

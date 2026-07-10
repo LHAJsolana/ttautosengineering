@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "@/components/LocalizedLink";
 import ToolPageHero from "@/components/ToolPageHero";
+import CarVerticalInline from "@/components/carvertical/CarVerticalInline";
 import { directComparisons, getLocalizedDirectComparison } from "@/lib/comparisons";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { localizedPageMetadata } from "@/lib/site";
@@ -102,6 +103,10 @@ export default async function DirectComparePage({
         <p className="mt-4 max-w-4xl leading-7 text-gray-200">{comparison.bestUsedBuy}</p>
         <p className="mt-4 max-w-4xl leading-7 text-gray-300">{comparison.verdict}</p>
       </section>
+
+      <div className="mt-6">
+        <CarVerticalInline locale={locale} compact />
+      </div>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-3">
         <BulletCard title="Key differences" items={comparison.keyDifferences} />

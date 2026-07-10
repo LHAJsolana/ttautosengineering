@@ -14,6 +14,10 @@ const updatedDate = "July 1, 2026";
 
 const sections = [
   {
+    title: "Selected partner links",
+    body: "TT AUTO'S Engineering may earn a commission if you purchase through selected partner links. This never affects our editorial independence or recommendations.",
+  },
+  {
     title: "Affiliate links",
     body: "Some pages on TT AUTO'S Engineering may include affiliate links to products, tools, services, marketplaces, parts suppliers, books, or other third-party websites. If you click one of these links and make a purchase or complete an action, we may earn a commission or receive referral credit.",
   },

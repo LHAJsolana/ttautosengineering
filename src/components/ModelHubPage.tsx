@@ -3,6 +3,7 @@ import Link from "@/components/LocalizedLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
 import RelatedResearch from "@/components/RelatedResearch";
+import CarVerticalInline from "@/components/carvertical/CarVerticalInline";
 import { getAllBlogPosts } from "@/lib/blog";
 import { getAllInsights } from "@/lib/insights";
 import type { Locale } from "@/lib/i18n";
@@ -214,6 +215,10 @@ export default function ModelHubPage({
           </div>
         </div>
       </section>
+
+      <div className="mt-8">
+        <CarVerticalInline locale={locale} compact />
+      </div>
 
       <section className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
         <aside className="rounded-3xl border border-gray-800 bg-[#111827] p-7">

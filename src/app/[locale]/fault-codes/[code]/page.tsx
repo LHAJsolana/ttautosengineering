@@ -4,6 +4,7 @@ import Link from "@/components/LocalizedLink";
 import ToolPageHero from "@/components/ToolPageHero";
 import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
 import RelatedResearch from "@/components/RelatedResearch";
+import CarVerticalCard from "@/components/carvertical/CarVerticalCard";
 import { faultCodes, getLocalizedFaultCode } from "@/lib/faultCodes";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { localizedPageMetadata } from "@/lib/site";
@@ -50,6 +51,9 @@ export default async function FaultCodePage({ params }: { params: Promise<{ loca
         <p className="mt-2 text-sm leading-7 text-gray-300">{item.warning}</p>
         <p className="mt-3 text-xs leading-6 text-gray-400">{copy.codeDisclaimer}</p>
       </section>
+      <div className="mt-6">
+        <CarVerticalCard locale={locale} compact />
+      </div>
       <Link href="/buying-checklist" className="mt-6 inline-flex rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white hover:bg-red-500">{copy.inspectFirst}</Link>
       <RelatedResearch
         className="mt-8"

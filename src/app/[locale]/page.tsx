@@ -8,6 +8,7 @@ import { getAllInsights } from "@/lib/insights";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { getLocalizedModelPages } from "@/lib/models";
 import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
+import CarVerticalBanner from "@/components/carvertical/CarVerticalBanner";
 
 type Feature = {
   title: string;
@@ -308,6 +309,8 @@ export default async function Home({
           </div>
         </div>
       </section>
+
+      <CarVerticalBanner locale={locale} />
 
       <section className="mx-auto max-w-6xl px-6 pt-12">
         <div className="grid gap-6 rounded-3xl border border-red-500/25 bg-gradient-to-br from-red-950/45 via-[#111827] to-[#0B1220] p-7 shadow-2xl shadow-red-950/10 md:grid-cols-[1fr_auto] md:items-center md:p-8">

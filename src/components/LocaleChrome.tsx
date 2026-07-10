@@ -25,12 +25,6 @@ function FooterLink({
 function SiteFooter({ locale }: { locale: Locale }) {
   const copy = getUi(locale);
   const siteName = "TT AUTO'S Engineering";
-  const vinHistoryLabel = {
-    en: "VIN history check",
-    nl: "VIN-historiecontrole",
-    ar: "فحص تاريخ رقم الهيكل",
-  }[locale];
-
   return (
     <footer className="mt-16 border-t border-gray-800">
       <div className="mx-auto max-w-6xl px-6 py-12">
@@ -58,7 +52,7 @@ function SiteFooter({ locale }: { locale: Locale }) {
                 <FooterLink locale={locale} href="/search">{copy.nav.search}</FooterLink>
                 <FooterLink locale={locale} href="/brands">{copy.nav.brands}</FooterLink>
                 <FooterLink locale={locale} href="/tools">{copy.nav.tools}</FooterLink>
-                <FooterLink locale={locale} href="/vin-history">{vinHistoryLabel}</FooterLink>
+                <FooterLink locale={locale} href="/vehicle-history">{copy.nav.vehicleHistory}</FooterLink>
                 <FooterLink locale={locale} href="/buying-guides">{copy.nav.buyingGuides}</FooterLink>
                 <FooterLink locale={locale} href="/parts-failure-map">Parts & Failure Map</FooterLink>
                 <FooterLink locale={locale} href="/reliability-index">{copy.nav.reliability}</FooterLink>
