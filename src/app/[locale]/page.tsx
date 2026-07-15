@@ -149,6 +149,13 @@ export default async function Home({
 
   const features: Feature[] = [
     {
+      title: "Used German Car Buying Hub",
+      description:
+        "Start with one complete buyer workflow: history, fault codes, reliability, maintenance costs, model risk, and inspection priorities.",
+      href: "/buying-hub",
+      label: "Start",
+    },
+    {
       title: "Risk Checker",
       description:
         "Score a used German car before buying with service, scan, cold-start, leak, gearbox, and seller signals.",
@@ -275,7 +282,7 @@ export default async function Home({
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {[
-                ["Check a car", "/buying-checklist", "Run the buyer risk checklist"],
+                ["Check a car", "/buying-hub", "Start the complete buyer workflow"],
                 ["Search a fault code", "/fault-codes", "Decode common OBD issues"],
                 ["Compare models", "/compare", "Cross-shop real used-car choices"],
               ].map(([label, href, note]) => (
@@ -320,16 +327,16 @@ export default async function Home({
               Check the car before the seller sells you the story.
             </h2>
             <p className="mt-3 max-w-3xl leading-relaxed text-gray-300">
-              Use the risk checker to score service history, cold start behavior,
-              diagnostic scan results, leaks, gearbox feel, and seller signals before
+              Start with one clean buyer workflow: model risk, vehicle history, diagnostic
+              scan results, maintenance costs, seller signals, and final inspection before
               you commit to a BMW, Mercedes-Benz, Audi, or Volkswagen.
             </p>
           </div>
           <Link
-            href="/buying-checklist"
+            href="/buying-hub"
             className="inline-flex w-fit rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-red-500"
           >
-            Start the buyer check -&gt;
+            Open the buying hub -&gt;
           </Link>
         </div>
       </section>

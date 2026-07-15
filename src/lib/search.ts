@@ -29,6 +29,25 @@ export type SearchResult = SearchItem & {
 
 const staticItems: SearchItem[] = [
   {
+    title: "Used German Car Buying Hub",
+    description:
+      "Start the used German car buying journey with history checks, fault codes, reliability, maintenance costs, model guides, and inspection priorities.",
+    href: "/buying-hub",
+    type: "Guide",
+    category: "Buying",
+    keywords: [
+      "buying hub",
+      "used german car",
+      "buyer journey",
+      "vehicle history",
+      "carvertical",
+      "fault codes",
+      "reliability",
+      "maintenance cost",
+      "inspection",
+    ],
+  },
+  {
     title: "Engineering Tools",
     description:
       "Compare vehicles, estimate annual maintenance costs, decode OBD faults, and explore model-year reliability.",

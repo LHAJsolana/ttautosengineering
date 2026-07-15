@@ -21,6 +21,7 @@ const staticPaths = [
   "/models",
   "/powertrains",
   "/brands",
+  "/buying-hub",
   "/buying-guides",
   "/buying-checklist",
   "/parts-failure-map",
