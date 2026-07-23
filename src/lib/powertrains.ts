@@ -233,7 +233,7 @@ export const powertrains: PowertrainData[] = [
       "The DQ250 is not automatically fragile. The real dividing line is service proof, adaptation quality, fault history, and behavior both cold and hot.",
     bestFor: "Drivers who want fast shifts and can maintain the gearbox on schedule.",
     image:
-      "https://images.unsplash.com/photo-1597766353939-e696c052898f?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1600&q=80",
     aliases: ["02E DSG", "6-speed DSG", "S tronic"],
     applications: ["Volkswagen Golf", "Volkswagen Passat", "Audi A3", "Audi TT", "Skoda Octavia"],
     strengths: ["Fast shifts", "Strong torque capacity", "Good durability with correct servicing"],

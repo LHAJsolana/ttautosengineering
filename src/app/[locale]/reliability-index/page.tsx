@@ -212,7 +212,7 @@ export default async function ReliabilityIndexPage({
       weight: 16,
       query: "DSG",
       image:
-        "https://images.unsplash.com/photo-1597766353939-e696c052898f?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=900&q=80",
     },
     {
       title: "Electronics and sensors",
