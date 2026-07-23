@@ -72,6 +72,10 @@ const MODEL_HERO_IMAGES = {
   "volkswagen-touareg": "https://images.unsplash.com/photo-1623013274387-45cbcbc1725b?auto=format&fit=crop&w=1800&q=80",
   "volkswagen-arteon": "/images/models/volkswagen-arteon.webp",
   "volkswagen-t-roc": "/images/models/volkswagen-t-roc.webp",
+  "bmw-2-series": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1800&q=80",
+  "bmw-x6": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1800&q=80",
+  "mercedes-b-class": "https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1800&q=80",
+  "audi-q8": "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1800&q=80",
 } as const;
 
 export const modelPages: ModelPageData[] = [
@@ -1438,6 +1442,182 @@ export const modelPages: ModelPageData[] = [
       "Verify oil, filters, brake fluid, DSG, Haldex, and timing-service records where applicable.",
     ],
     searchTopics: ["Volkswagen T-Roc", "TSI", "TDI", "DSG", "4Motion", "Haldex"],
+  },
+  {
+    slug: "bmw-2-series",
+    name: "BMW 2 Series",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW 2 Series Used Buying Guide",
+    description:
+      "BMW 2 Series reliability, B48/B47 checks, compact BMW wear, ZF or DCT behavior, cooling, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["bmw-2-series"],
+    score: 71,
+    verdict:
+      "A compact BMW can be a brilliant used buy when the drivetrain is simple and service history is real. Cooling, oil leaks, tire wear, and gearbox behavior deserve more attention than trim badges.",
+    bestFor: "Drivers who want a smaller BMW with sharper road feel and manageable running costs.",
+    watchOut:
+      "Avoid tuned cars, cheap tires, coolant residue, rough cold starts, harsh shifts, and vague oil-service records.",
+    marketPosition:
+      "The 2 Series is best judged by body style, engine, and gearbox. A clean mainstream car is usually safer than a modified bargain with performance promises.",
+    ownershipPlan: [
+      "Confirm engine code, gearbox type, and modification history before comparing prices.",
+      "Baseline oil, filters, brake fluid, coolant checks, and a full diagnostic scan.",
+      "Inspect tires, suspension, brakes, cooling plastics, and oil leak areas early.",
+    ],
+    engines: [
+      { label: "B48 petrol", note: "Strong everyday choice; inspect cooling, PCV, oil leaks, and scan data.", risk: "Medium" },
+      { label: "B47 diesel", note: "Efficient for distance; check DPF, EGR, and service intervals.", risk: "Medium" },
+      { label: "ZF automatic", note: "Smooth when healthy; verify shift quality and service evidence.", risk: "Medium" },
+      { label: "M Performance variants", note: "Inspect modifications, tires, brakes, and heat-related wear carefully.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Cooling leaks, thermostat behavior, and water pump age.",
+      "Oil leaks around common gasket and housing areas.",
+      "Diesel DPF/EGR issues when used mostly for short trips.",
+      "Gearbox service uncertainty and low-speed shift symptoms.",
+      "Suspension wear, wheel damage, tire mismatch, and modification history.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, ABS, body, and battery-voltage history.",
+      "Inspect coolant residue, oil leaks, tire match, brakes, and suspension.",
+      "Test cold start, reverse engagement, traffic shifts, and full warm restart.",
+      "Check service invoices for fluids, filters, brake fluid, and gearbox work.",
+      "Look for tuning, intake, exhaust, wheel, and suspension modifications.",
+    ],
+    searchTopics: ["BMW 2 Series", "B48", "B47", "ZF 8HP", "cooling", "tuning"],
+  },
+  {
+    slug: "bmw-x6",
+    name: "BMW X6",
+    brand: "BMW",
+    brandHref: "/brands/bmw",
+    title: "BMW X6 Used Buying Guide",
+    description:
+      "BMW X6 reliability, xDrive checks, diesel and petrol engine risks, air suspension, tires, cooling, and used SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES["bmw-x6"],
+    score: 62,
+    verdict:
+      "A stylish large SUV with serious repair exposure. It can be rewarding, but only if xDrive, tires, suspension, cooling, emissions, and scan data are all clean.",
+    bestFor: "Buyers who want premium SUV presence and can budget for heavyweight running costs.",
+    watchOut:
+      "Avoid mismatched tires, suspension warnings, coolant leaks, transfer-case shudder, diesel emissions faults, and tuned examples without invoices.",
+    marketPosition:
+      "The X6 often looks tempting used because depreciation is heavy. Maintenance costs do not depreciate, so paperwork and diagnostics matter more than the asking price.",
+    ownershipPlan: [
+      "Budget like a large premium SUV owner from day one: tires, brakes, fluids, suspension, and diagnostics.",
+      "Verify xDrive behavior with matched tires and a proper road test.",
+      "Treat air suspension, diesel emissions, and cooling faults as major negotiation points.",
+    ],
+    engines: [
+      { label: "N57/B57 diesel", note: "Strong torque; inspect emissions, oil leaks, cooling, and timing evidence.", risk: "Medium" },
+      { label: "B58 petrol", note: "Desirable, but cooling, ignition, and oil-service history still matter.", risk: "Medium" },
+      { label: "V8 petrol", note: "Performance is high and repair exposure is higher.", risk: "Higher" },
+      { label: "ZF / xDrive", note: "Service proof, tire match, and transfer-case behavior are critical.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Transfer-case shudder from tire mismatch or driveline wear.",
+      "Air suspension leaks, compressor fatigue, and chassis warnings.",
+      "Diesel EGR, DPF, AdBlue, and NOx-related faults.",
+      "Cooling leaks, oil leaks, and heat-related engine-bay wear.",
+      "Heavy tire, brake, bushing, and alignment costs.",
+    ],
+    inspectionChecklist: [
+      "Scan every drivetrain, chassis, suspension, and body module.",
+      "Check tire size, brand, tread depth, and wear on all four corners.",
+      "Test tight turns, motorway acceleration, braking, and warm restart behavior.",
+      "Inspect ride height after sitting and listen for compressor overwork.",
+      "Review invoices for tires, brakes, suspension, gearbox, transfer case, and emissions repairs.",
+    ],
+    searchTopics: ["BMW X6", "xDrive", "N57", "B57", "air suspension", "transfer case"],
+  },
+  {
+    slug: "mercedes-b-class",
+    name: "Mercedes-Benz B-Class",
+    brand: "Mercedes-Benz",
+    brandHref: "/brands/mercedes-benz",
+    title: "Mercedes-Benz B-Class Used Buying Guide",
+    description:
+      "Mercedes-Benz B-Class reliability, DCT behavior, compact diesel emissions, electronics, family-car wear, and used buying advice.",
+    heroImage: MODEL_HERO_IMAGES["mercedes-b-class"],
+    score: 68,
+    verdict:
+      "A practical Mercedes that works best when bought for condition, not badge appeal. DCT behavior, electronics, diesel emissions, and family-use wear need careful checks.",
+    bestFor: "Drivers who want compact Mercedes comfort with more practicality than an A-Class.",
+    watchOut:
+      "Avoid rough DCT engagement, weak-battery faults, AdBlue/NOx warnings, coolant leaks, and tired interiors with missing service records.",
+    marketPosition:
+      "The B-Class is a sensible used choice when the drivetrain is simple and maintenance is documented. It should be inspected like a compact premium family car.",
+    ownershipPlan: [
+      "Check battery health and scan all modules because voltage issues can create misleading faults.",
+      "Test DCT behavior in reverse, crawling traffic, and warm restarts.",
+      "Inspect family-use wear: doors, seats, boot trim, tires, brakes, and suspension.",
+    ],
+    engines: [
+      { label: "Petrol four-cylinder", note: "Check cooling, ignition, oil leaks, and scan data.", risk: "Medium" },
+      { label: "Compact diesel", note: "Efficient when used correctly; scan DPF, EGR, AdBlue, and NOx systems.", risk: "Medium" },
+      { label: "7G/8G-DCT", note: "Low-speed behavior and service evidence matter.", risk: "Medium" },
+      { label: "High-option cars", note: "More sensors and comfort equipment mean more checks before purchase.", risk: "Medium" },
+    ],
+    commonProblems: [
+      "DCT judder, delayed engagement, or adaptation complaints.",
+      "Battery voltage and body-electronics faults.",
+      "Diesel DPF, EGR, AdBlue, and NOx warnings.",
+      "Cooling leaks, thermostat behavior, and sensor plausibility issues.",
+      "Family-use tire, brake, suspension, seat, and interior wear.",
+    ],
+    inspectionChecklist: [
+      "Run Mercedes-capable diagnostics across engine, gearbox, body, and emissions modules.",
+      "Test DCT in traffic, reverse, hill starts, and warm restarts.",
+      "Check battery, charging voltage, coolant level, and warning history.",
+      "Inspect tires, brakes, suspension, doors, seats, and boot trim.",
+      "Verify oil, filters, brake fluid, gearbox, and emissions repair invoices.",
+    ],
+    searchTopics: ["Mercedes B-Class", "DCT", "AdBlue", "NOx", "family car", "battery"],
+  },
+  {
+    slug: "audi-q8",
+    name: "Audi Q8",
+    brand: "Audi",
+    brandHref: "/brands/audi",
+    title: "Audi Q8 Used Buying Guide",
+    description:
+      "Audi Q8 reliability, V6 TDI/TFSI checks, quattro, air suspension, electronics, tires, and large SUV buying advice.",
+    heroImage: MODEL_HERO_IMAGES["audi-q8"],
+    score: 63,
+    verdict:
+      "A high-tech luxury SUV whose used value depends on clean diagnostics and disciplined maintenance. Tires, suspension, electronics, emissions, and gearbox data are decisive.",
+    bestFor: "Buyers who want flagship Audi design and comfort with a realistic premium-SUV maintenance budget.",
+    watchOut:
+      "Avoid air suspension warnings, cheap tires, unresolved MMI faults, AdBlue/NOx codes, rough gearbox shifts, and incomplete service history.",
+    marketPosition:
+      "The Q8 has luxury-car repair exposure in SUV form. A cheap example without evidence is rarely cheap after ownership starts.",
+    ownershipPlan: [
+      "Scan all modules before purchase, including suspension, driver assistance, infotainment, gearbox, and emissions.",
+      "Budget for large tires, brakes, suspension service, and premium diagnostics.",
+      "Verify gearbox, quattro, brake fluid, coolant, and emissions-related repair history.",
+    ],
+    engines: [
+      { label: "V6 TDI", note: "Strong cruiser; check AdBlue, NOx, EGR, DPF, and injector data.", risk: "Medium" },
+      { label: "V6 TFSI", note: "Inspect cooling, PCV, oil leaks, ignition, and scan data.", risk: "Medium" },
+      { label: "Tiptronic / quattro", note: "Road-test for smooth shifts and driveline vibration.", risk: "Medium" },
+      { label: "Air suspension", note: "Ride-height faults and compressor work can be expensive.", risk: "Higher" },
+    ],
+    commonProblems: [
+      "Air suspension leaks, compressor fatigue, and chassis module faults.",
+      "Diesel SCR, AdBlue, NOx, EGR, and DPF warnings.",
+      "MMI, camera, parking, driver-assistance, and comfort-electronics faults.",
+      "Cooling leaks, oil leaks, and V6 service-cost exposure.",
+      "Heavy tire, brake, bushing, and alignment wear.",
+    ],
+    inspectionChecklist: [
+      "Scan engine, gearbox, suspension, quattro, body, infotainment, and driver-assistance modules.",
+      "Check ride height after sitting and cycle suspension modes.",
+      "Inspect tire match, brake wear, wheel damage, coolant residue, and oil leaks.",
+      "Test MMI screens, cameras, parking sensors, lighting, seats, and climate functions.",
+      "Review invoices for gearbox, brake fluid, tires, suspension, battery, and emissions repairs.",
+    ],
+    searchTopics: ["Audi Q8", "quattro", "V6 TDI", "AdBlue", "air suspension", "MMI"],
   },
 ];
 

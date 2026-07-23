@@ -12,7 +12,7 @@ import { directComparisons } from "@/lib/comparisons";
 import { seoLandingPages } from "@/lib/seoLandingPages";
 import { partsFailureItems } from "@/lib/partsFailureMap";
 
-const SITE_LASTMOD = new Date("2026-07-09T00:00:00.000Z");
+const SITE_LASTMOD = new Date("2026-07-23T00:00:00.000Z");
 
 const staticPaths = [
   "/",
