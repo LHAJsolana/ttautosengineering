@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1013" viewBox="0 0 1800 1013">
+ <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#102028"/><stop offset="0.68" stop-color="#0b1220"/><stop offset="1" stop-color="#111827"/></linearGradient><radialGradient id="r" cx="78%" cy="20%" r="54%"><stop stop-color="#22c55e" stop-opacity="0.35"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></radialGradient></defs>
+ <rect width="1800" height="1013" fill="url(#g)"/><rect width="1800" height="1013" fill="url(#r)"/>
+ <g transform="translate(640 190)" fill="none" stroke="#e5e7eb" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" opacity="0.78"><path d="M210 505h120l80-110h355l95 110h115M360 505h390M345 575a70 70 0 1 0 0-140 70 70 0 0 0 0 140ZM820 575a70 70 0 1 0 0-140 70 70 0 0 0 0 140Z"/></g>
+ <text x="76" y="120" class="brand">Mercedes-Benz</text><text x="76" y="260" class="model">Mercedes-Benz GLA</text><text x="80" y="510" class="body">SUV buying guide</text><text x="80" y="840" class="note">Reliability ? engines ? gearbox ? inspection</text>
+ <style>.brand{font:800 38px Arial,sans-serif;fill:#22c55e;letter-spacing:7px}.model{font:900 78px Arial,sans-serif;fill:white}.body{font:800 38px Arial,sans-serif;fill:#cbd5e1}.note{font:700 30px Arial,sans-serif;fill:#94a3b8;letter-spacing:2px}</style>
+ </svg>

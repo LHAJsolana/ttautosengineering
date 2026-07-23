@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="788" viewBox="0 0 1400 788">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#111827"/><stop offset="0.62" stop-color="#0b1220"/><stop offset="1" stop-color="#1f1020"/></linearGradient>
+    <radialGradient id="r" cx="74%" cy="18%" r="58%"><stop stop-color="#dc2626" stop-opacity="0.38"/><stop offset="1" stop-color="#dc2626" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1400" height="788" fill="url(#g)"/>
+  <rect width="1400" height="788" fill="url(#r)"/>
+  <path d="M0 710 C 230 650 380 760 610 705 S 990 620 1400 690 L 1400 788 L 0 788 Z" fill="#dc2626" opacity="0.16"/>
+  <g fill="none" stroke="#94a3b8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.72" transform="translate(570 92) scale(0.9)"><path d="M225 455h75l58-72h178l68 72h78"/><circle cx="330" cy="505" r="46"/><circle cx="604" cy="505" r="46"/><path d="M389 455h168"/></g>
+  <text x="74" y="112" class="eyebrow">TT AUTO'S ENGINEERING</text>
+  <text x="74" y="166" class="kicker">Buying Advice</text>
+  <text x="74" y="245" class="title">How to Test-Drive a Used German</text><text x="74" y="303" class="title">Car Properly</text>
+  <text x="74" y="650" class="slug">how / to / test / drive / a / used / german / car</text>
+  <style>.eyebrow{font:700 28px Arial,sans-serif;fill:#cbd5e1;letter-spacing:6px}.kicker{font:800 34px Arial,sans-serif;fill:#dc2626}.title{font:900 54px Arial,sans-serif;fill:#fff}.slug{font:700 24px Arial,sans-serif;fill:#94a3b8;letter-spacing:2px}</style>
+</svg>
