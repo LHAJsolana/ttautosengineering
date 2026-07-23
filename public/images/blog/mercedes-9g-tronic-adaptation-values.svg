@@ -1,15 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="788" viewBox="0 0 1400 788">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0f2942"/><stop offset="0.62" stop-color="#0b1220"/><stop offset="1" stop-color="#1f1020"/></linearGradient>
-    <radialGradient id="r" cx="74%" cy="18%" r="58%"><stop stop-color="#ef4444" stop-opacity="0.38"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></radialGradient>
-  </defs>
-  <rect width="1400" height="788" fill="url(#g)"/>
-  <rect width="1400" height="788" fill="url(#r)"/>
-  <path d="M0 710 C 230 650 380 760 610 705 S 990 620 1400 690 L 1400 788 L 0 788 Z" fill="#ef4444" opacity="0.16"/>
-  <g fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.72" transform="translate(570 92) scale(0.9)"><path d="M245 385h210v105H245z"/><path d="M285 385v-58h130v58"/><path d="M285 490v58h130v-58"/><path d="M300 430h100M300 462h62"/><circle cx="642" cy="434" r="54"/><path d="M696 488l72 72"/></g>
-  <text x="74" y="112" class="eyebrow">TT AUTO'S ENGINEERING</text>
-  <text x="74" y="166" class="kicker">Mercedes-Benz</text>
-  <text x="74" y="245" class="title">Mercedes 9G-Tronic Adaptation</text><text x="74" y="303" class="title">Values for Used Buyers</text>
-  <text x="74" y="650" class="slug">mercedes / 9g / tronic / adaptation / values</text>
-  <style>.eyebrow{font:700 28px Arial,sans-serif;fill:#cbd5e1;letter-spacing:6px}.kicker{font:800 34px Arial,sans-serif;fill:#ef4444}.title{font:900 54px Arial,sans-serif;fill:#fff}.slug{font:700 24px Arial,sans-serif;fill:#94a3b8;letter-spacing:2px}</style>
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#111827"/><stop offset=".58" stop-color="#0b1220"/><stop offset="1" stop-color="#221338"/></linearGradient><radialGradient id="glow" cx="72%" cy="22%" r="56%"><stop stop-color="#ef4444" stop-opacity=".32"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></radialGradient><linearGradient id="line" x1="0" x2="1"><stop stop-color="#8b5cf6"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+<rect width="1400" height="788" fill="url(#bg)"/><rect width="1400" height="788" fill="url(#glow)"/>
+<path d="M0 640 C 210 585 380 705 625 642 S 1020 565 1400 622 L1400 788 L0 788Z" fill="url(#line)" opacity=".13"/>
+<path d="M82 92h1236M82 696h1236" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
+<g opacity=".76" fill="none" stroke="#e5e7eb" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><circle cx="540" cy="386" r="96"/><circle cx="760" cy="386" r="96"/><circle cx="650" cy="232" r="70"/><path d="M650 302v84M636 386h-96M664 386h96"/><path d="M245 555h910" opacity=".2"/></g>
+<circle cx="1090" cy="138" r="7" fill="#8b5cf6"/><circle cx="1124" cy="138" r="7" fill="#ef4444"/><circle cx="1158" cy="138" r="7" fill="#e5e7eb" opacity=".55"/>
 </svg>

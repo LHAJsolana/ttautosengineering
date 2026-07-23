@@ -1,15 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="788" viewBox="0 0 1400 788">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#111827"/><stop offset="0.62" stop-color="#0b1220"/><stop offset="1" stop-color="#1f1020"/></linearGradient>
-    <radialGradient id="r" cx="74%" cy="18%" r="58%"><stop stop-color="#dc2626" stop-opacity="0.38"/><stop offset="1" stop-color="#dc2626" stop-opacity="0"/></radialGradient>
-  </defs>
-  <rect width="1400" height="788" fill="url(#g)"/>
-  <rect width="1400" height="788" fill="url(#r)"/>
-  <path d="M0 710 C 230 650 380 760 610 705 S 990 620 1400 690 L 1400 788 L 0 788 Z" fill="#dc2626" opacity="0.16"/>
-  <g fill="none" stroke="#94a3b8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.72" transform="translate(570 92) scale(0.9)"><path d="M230 470h92l70-86h226l78 86h74"/><circle cx="365" cy="527" r="48"/><circle cx="650" cy="527" r="48"/><path d="M415 470h184"/></g>
-  <text x="74" y="112" class="eyebrow">TT AUTO'S ENGINEERING</text>
-  <text x="74" y="166" class="kicker">Mercedes-Benz</text>
-  <text x="74" y="245" class="title">Mercedes Electronics: Used-Buyer</text><text x="74" y="303" class="title">Notes</text>
-  <text x="74" y="650" class="slug">mercedes / electronics / used / buyer / guide</text>
-  <style>.eyebrow{font:700 28px Arial,sans-serif;fill:#cbd5e1;letter-spacing:6px}.kicker{font:800 34px Arial,sans-serif;fill:#dc2626}.title{font:900 54px Arial,sans-serif;fill:#fff}.slug{font:700 24px Arial,sans-serif;fill:#94a3b8;letter-spacing:2px}</style>
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0b1220"/><stop offset=".58" stop-color="#0b1220"/><stop offset="1" stop-color="#172316"/></linearGradient><radialGradient id="glow" cx="72%" cy="22%" r="56%"><stop stop-color="#ef4444" stop-opacity=".32"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></radialGradient><linearGradient id="line" x1="0" x2="1"><stop stop-color="#22c55e"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+<rect width="1400" height="788" fill="url(#bg)"/><rect width="1400" height="788" fill="url(#glow)"/>
+<path d="M0 640 C 210 585 380 705 625 642 S 1020 565 1400 622 L1400 788 L0 788Z" fill="url(#line)" opacity=".13"/>
+<path d="M82 92h1236M82 696h1236" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
+<g opacity=".74" fill="none" stroke="#e5e7eb" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"><path d="M235 438h132l86-102h380l104 102h168"/><circle cx="430" cy="514" r="68"/><circle cx="852" cy="514" r="68"/><path d="M505 438h275"/><path d="M120 600c220-50 390-42 590 0s380 44 570-10" opacity=".18"/></g>
+<circle cx="1090" cy="138" r="7" fill="#22c55e"/><circle cx="1124" cy="138" r="7" fill="#ef4444"/><circle cx="1158" cy="138" r="7" fill="#e5e7eb" opacity=".55"/>
 </svg>

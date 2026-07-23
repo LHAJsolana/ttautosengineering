@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1013" viewBox="0 0 1800 1013">
- <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#162312"/><stop offset="0.68" stop-color="#0b1220"/><stop offset="1" stop-color="#111827"/></linearGradient><radialGradient id="r" cx="78%" cy="20%" r="54%"><stop stop-color="#f59e0b" stop-opacity="0.35"/><stop offset="1" stop-color="#f59e0b" stop-opacity="0"/></radialGradient></defs>
- <rect width="1800" height="1013" fill="url(#g)"/><rect width="1800" height="1013" fill="url(#r)"/>
- <g transform="translate(640 190)" fill="none" stroke="#e5e7eb" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" opacity="0.78"><path d="M205 500h135l82-88h340l92 88h128M385 500h390M350 568a64 64 0 1 0 0-128 64 64 0 0 0 0 128ZM815 568a64 64 0 1 0 0-128 64 64 0 0 0 0 128Z"/></g>
- <text x="76" y="120" class="brand">Volkswagen</text><text x="76" y="260" class="model">Volkswagen Arteon</text><text x="80" y="510" class="body">Coupe / fastback guide</text><text x="80" y="840" class="note">Reliability ? engines ? gearbox ? inspection</text>
- <style>.brand{font:800 38px Arial,sans-serif;fill:#f59e0b;letter-spacing:7px}.model{font:900 78px Arial,sans-serif;fill:white}.body{font:800 38px Arial,sans-serif;fill:#cbd5e1}.note{font:700 30px Arial,sans-serif;fill:#94a3b8;letter-spacing:2px}</style>
- </svg>
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#101c12"/><stop offset=".62" stop-color="#0b1220"/><stop offset="1" stop-color="#141923"/></linearGradient><radialGradient id="glow" cx="72%" cy="20%" r="58%"><stop stop-color="#f59e0b" stop-opacity=".34"/><stop offset="1" stop-color="#f59e0b" stop-opacity="0"/></radialGradient></defs>
+<rect width="1800" height="1013" fill="url(#bg)"/><rect width="1800" height="1013" fill="url(#glow)"/>
+<path d="M0 790 C 270 720 505 870 820 785 S 1300 705 1800 775 L1800 1013 L0 1013Z" fill="#f59e0b" opacity=".13"/>
+<g transform="translate(355 182)" fill="none" stroke="#f1f5f9" stroke-width="25" stroke-linecap="round" stroke-linejoin="round" opacity=".74"><path d="M220 498h126l96-100h360l100 100h120M395 498h420M370 568a64 64 0 1 0 0-128 64 64 0 0 0 0 128ZM850 568a64 64 0 1 0 0-128 64 64 0 0 0 0 128Z"/></g>
+<text x="86" y="124" font-family="Arial,sans-serif" font-size="30" font-weight="800" fill="#f59e0b" letter-spacing="7">VOLKSWAGEN</text>
+<text x="86" y="196" font-family="Arial,sans-serif" font-size="52" font-weight="900" fill="#fff">Volkswagen Arteon</text>
+<text x="86" y="850" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#94a3b8" letter-spacing="2">used buying guide</text>
+</svg>
