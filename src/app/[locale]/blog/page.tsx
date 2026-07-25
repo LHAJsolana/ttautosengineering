@@ -4,7 +4,8 @@ import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllBlogPosts } from "@/lib/blog";
 import { canonical, localizedPageMetadata } from "@/lib/site";
-import { defaultLocale, isLocale } from "@/lib/i18n";
+import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
+import { translateValue } from "@/lib/translate";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 const PATH = "/blog";
@@ -82,6 +83,12 @@ const BLOG_COPY = {
   },
 } as const;
 
+function getBlogCopy(locale: Locale) {
+  if (locale === "nl") return BLOG_COPY.nl;
+  if (locale === "ar") return BLOG_COPY.ar;
+  return translateValue(locale as "en" | "fr", BLOG_COPY.en);
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -152,7 +159,7 @@ export default async function BlogPage({
 }) {
   const { locale: localeParam } = await params;
   const locale = isLocale(localeParam) ? localeParam : defaultLocale;
-  const copy = BLOG_COPY[locale];
+  const copy = getBlogCopy(locale);
   const posts = getAllBlogPosts(locale);
   const featured = posts.find((p) => p.frontmatter.featured) ?? posts[0];
   const rest = featured ? posts.filter((p) => p.slug !== featured.slug) : posts;

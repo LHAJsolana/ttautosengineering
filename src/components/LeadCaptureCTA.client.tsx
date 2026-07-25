@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "@/components/LocalizedLink";
 import { useLocale } from "@/components/LocaleProvider";
+import type { Locale } from "@/lib/i18n";
+import { translateValue } from "@/lib/translate";
 
 type LeadCaptureCTAProps = {
   source?: string;
@@ -43,6 +45,12 @@ const copy = {
   },
 } as const;
 
+function getCopy(locale: Locale) {
+  if (locale === "nl") return copy.nl;
+  if (locale === "ar") return copy.ar;
+  return translateValue(locale, copy.en);
+}
+
 function trackLeadEvent(name: string, source: string, locale: string) {
   const detail = { event: name, source, locale };
   window.dispatchEvent(new CustomEvent("ttautos:analytics", { detail }));
@@ -56,7 +64,7 @@ export default function LeadCaptureCTA({
   className = "",
 }: LeadCaptureCTAProps) {
   const locale = useLocale();
-  const t = copy[locale];
+  const t = getCopy(locale);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;

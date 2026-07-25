@@ -10,6 +10,7 @@ function preferredLocale(request: NextRequest): Locale {
 
   const accepted = request.headers.get("accept-language")?.toLowerCase() ?? "";
   if (accepted.includes("nl")) return "nl";
+  if (accepted.includes("fr")) return "fr";
   if (accepted.includes("ar")) return "ar";
   return defaultLocale;
 }
@@ -38,7 +39,7 @@ export function proxy(request: NextRequest) {
     const localizedPath = `/${segments.slice(2).join("/")}`.replace(/\/$/, "") || "/";
     const links = [
       `<${SITE_URL}${pathname}>; rel="canonical"`,
-      ...(["en", "nl", "ar"] as Locale[]).map(
+      ...(["en", "nl", "fr", "ar"] as Locale[]).map(
         (locale) =>
           `<${SITE_URL}/${locale}${localizedPath === "/" ? "" : localizedPath}>; rel="alternate"; hreflang="${locale}"`
       ),

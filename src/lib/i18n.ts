@@ -1,4 +1,4 @@
-export const locales = ["en", "nl", "ar"] as const;
+export const locales = ["en", "nl", "fr", "ar"] as const;
 
 export type Locale = (typeof locales)[number];
 
@@ -100,6 +100,47 @@ export const ui = {
       affiliateNote:
         "TT AUTO'S Engineering kan een commissie ontvangen als je via geselecteerde partnerlinks koopt. Dit beinvloedt nooit onze redactionele onafhankelijkheid of aanbevelingen.",
       tagline: "Gebouwd voor technische betrouwbaarheidsanalyse en aankoopadvies.",
+    },
+  },
+  fr: {
+    language: "Langue",
+    menu: "Menu",
+    closeMenu: "Fermer le menu",
+    openMenu: "Ouvrir le menu",
+    fallbackNotice:
+      "Certains articles techniques sont encore affiches en anglais pendant la preparation de la traduction francaise.",
+    nav: {
+      insights: "Analyses",
+      blog: "Blog",
+      search: "Recherche",
+      brands: "Marques",
+      models: "Modeles",
+      powertrains: "Groupes motopropulseurs",
+      buyingHub: "Centre d'achat",
+      buyingGuides: "Guides d'achat",
+      checklist: "Checklist",
+      reliability: "Indice de fiabilite",
+      tools: "Outils",
+      vehicleHistory: "Historique du vehicule",
+      about: "A propos",
+      check: "Verifier",
+      browseBrands: "Parcourir les marques",
+    },
+    footer: {
+      description:
+        "Analyses de fiabilite, guides d'achat et explications techniques sur les voitures allemandes, pour de vraies decisions d'achat et d'entretien.",
+      explore: "Explorer",
+      company: "Entreprise",
+      trust: "Confiance",
+      contact: "Contact",
+      disclaimer: "Avertissement",
+      privacy: "Politique de confidentialite",
+      terms: "Conditions",
+      affiliate: "Declaration d'affiliation",
+      rights: "Tous droits reserves.",
+      affiliateNote:
+        "TT AUTO'S Engineering peut percevoir une commission si vous achetez via certains liens partenaires. Cela n'affecte jamais notre independance editoriale ni nos recommandations.",
+      tagline: "Concu pour l'analyse technique de fiabilite et le conseil d'achat.",
     },
   },
   ar: {

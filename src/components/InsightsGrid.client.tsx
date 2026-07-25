@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "@/components/LocalizedLink";
 import { useLocale } from "@/components/LocaleProvider";
 import { slugifyTaxonomy } from "@/lib/taxonomy";
+import { translateValue } from "@/lib/translate";
 
 export type InsightGridItem = {
   slug: string;
@@ -82,6 +83,12 @@ const cardCopy = {
   },
 } as const;
 
+function getCardCopy(locale: ReturnType<typeof useLocale>) {
+  if (locale === "nl") return cardCopy.nl;
+  if (locale === "ar") return cardCopy.ar;
+  return translateValue(locale, cardCopy.en);
+}
+
 export default function InsightsGridClient({
   items,
   pageSize = 12,
@@ -90,7 +97,7 @@ export default function InsightsGridClient({
   pageSize?: number;
 }) {
   const locale = useLocale();
-  const copy = cardCopy[locale];
+  const copy = getCardCopy(locale);
   const [visible, setVisible] = useState(pageSize);
   const shown = useMemo(() => items.slice(0, visible), [items, visible]);
   const canLoadMore = visible < items.length;

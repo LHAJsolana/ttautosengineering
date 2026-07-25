@@ -10,6 +10,7 @@ const languageNames: Record<
 > = {
   en: { short: "EN", native: "English", description: "International" },
   nl: { short: "NL", native: "Nederlands", description: "Nederlandse versie" },
+  fr: { short: "FR", native: "Francais", description: "Version francaise" },
   ar: { short: "AR", native: "العربية", description: "النسخة العربية" },
 };
 
@@ -68,7 +69,7 @@ export default function LanguageSwitcher({
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-300">
               {label}
             </p>
-            <p className="mt-1 text-xs text-gray-500">EN / NL / AR</p>
+            <p className="mt-1 text-xs text-gray-500">EN / NL / FR / AR</p>
           </div>
           <div className="grid gap-1">
             {locales.map((item) => {

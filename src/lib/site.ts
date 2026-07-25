@@ -8,6 +8,7 @@ const SITE_NAME = "TT AUTO'S Engineering";
 const openGraphLocales: Record<Locale, string> = {
   en: "en_US",
   nl: "nl_NL",
+  fr: "fr_FR",
   ar: "ar_AR",
 };
 

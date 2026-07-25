@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n";
+import { translateValue } from "@/lib/translate";
 
 export type CarVerticalUrlType = "vin" | "general";
 export type CarVerticalUrlOptions = {
@@ -86,7 +87,7 @@ type CarVerticalCopy = {
   faq: { question: string; answer: string }[];
 };
 
-export const carVerticalCopy: Record<Locale, CarVerticalCopy> = {
+export const carVerticalCopy: Record<Exclude<Locale, "fr">, CarVerticalCopy> = {
   en: {
     eyebrow: "Vehicle history",
     title: "Check a Vehicle's History Before You Buy",
@@ -288,5 +289,6 @@ export const carVerticalCopy: Record<Locale, CarVerticalCopy> = {
 };
 
 export function getCarVerticalCopy(locale: Locale) {
+  if (locale === "fr") return translateValue(locale, carVerticalCopy.en);
   return carVerticalCopy[locale];
 }

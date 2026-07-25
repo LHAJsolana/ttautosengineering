@@ -84,7 +84,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
           <div className="ms-auto hidden items-center gap-5 lg:flex">
             <div className="flex items-center gap-2 text-xs text-gray-400">
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
-              <span>{locale === "nl" ? "Technische kennisbank" : locale === "ar" ? "منصة هندسية للسيارات" : "Automotive engineering intelligence"}</span>
+              <span>{locale === "nl" ? "Technische kennisbank" : locale === "fr" ? "Intelligence technique automobile" : locale === "ar" ? "منصة هندسية للسيارات" : "Automotive engineering intelligence"}</span>
             </div>
             <div className="h-5 w-px bg-white/10" />
             <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-semibold text-gray-300">

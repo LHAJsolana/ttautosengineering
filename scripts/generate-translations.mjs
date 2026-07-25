@@ -5,7 +5,7 @@ import ts from "typescript";
 
 const ROOT = process.cwd();
 const SOURCE_LOCALE = "en";
-const TARGETS = ["nl", "ar"];
+const TARGETS = ["nl", "fr", "ar"];
 const CONTENT_TYPES = ["blog", "insights"];
 const CACHE_PATH = path.join(ROOT, "scripts", ".translation-cache.json");
 const PHRASE_DIR = path.join(ROOT, "src", "translations");

@@ -9,6 +9,7 @@ import { faultCodes } from "@/lib/faultCodes";
 import { modelPages } from "@/lib/models";
 import { modelYears } from "@/lib/modelYears";
 import { directComparisons } from "@/lib/comparisons";
+import { translateValue } from "@/lib/translate";
 
 const PATH = "/buying-hub";
 const SITE_NAME = "TT AUTO'S Engineering";
@@ -296,7 +297,7 @@ const copy = {
     finalBody:
       "استخدم هذا المركز كفلتر قرار. إذا لم تتطابق الإعلانات والتاريخ وبيانات الفحص والمعاينة والتجربة، تمهل أو انسحب.",
   },
-} satisfies Record<Locale, {
+} satisfies Record<Exclude<Locale, "fr">, {
   title: string;
   metadataTitle: string;
   description: string;
@@ -319,6 +320,7 @@ const copy = {
 }>;
 
 function getCopy(locale: Locale) {
+  if (locale === "fr") return translateValue(locale, copy.en);
   return copy[locale];
 }
 

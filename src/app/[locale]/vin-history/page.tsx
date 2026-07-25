@@ -4,6 +4,7 @@ import LeadCaptureCTA from "@/components/LeadCaptureCTA.client";
 import VinHistoryCTA from "@/components/VinHistoryCTA.client";
 import { defaultLocale, isLocale, localePath, type Locale } from "@/lib/i18n";
 import { localizedPageMetadata, SITE_URL } from "@/lib/site";
+import { translateValue } from "@/lib/translate";
 
 const SITE_NAME = "TT AUTO'S Engineering";
 
@@ -51,16 +52,23 @@ const copy = {
 
 const PATH = "/vin-history";
 
+function getCopy(locale: Locale) {
+  if (locale === "nl") return copy.nl;
+  if (locale === "ar") return copy.ar;
+  return translateValue(locale, copy.en);
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: value } = await params;
   const locale = isLocale(value) ? value : defaultLocale;
-  return localizedPageMetadata({ locale, pathname: PATH, title: copy[locale].title, description: copy[locale].intro });
+  const t = getCopy(locale);
+  return localizedPageMetadata({ locale, pathname: PATH, title: t.title, description: t.intro });
 }
 
 export default async function VinHistoryPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: value } = await params;
   const locale: Locale = isLocale(value) ? value : defaultLocale;
-  const t = copy[locale];
+  const t = getCopy(locale);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",

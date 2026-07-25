@@ -2,11 +2,13 @@
 
 import { useEffect } from "react";
 import nl from "@/translations/nl.json";
+import fr from "@/translations/fr.json";
 import ar from "@/translations/ar.json";
 import type { Locale } from "@/lib/i18n";
 
 const catalogs = {
   nl: nl as Record<string, string>,
+  fr: fr as Record<string, string>,
   ar: ar as Record<string, string>,
 };
 

@@ -6,7 +6,7 @@ import matter from "gray-matter";
 import ts from "typescript";
 
 const root = process.cwd();
-const locales = ["en", "nl", "ar"];
+const locales = ["en", "nl", "fr", "ar"];
 const contentTypes = ["blog", "insights"];
 
 function source(relativePath) {

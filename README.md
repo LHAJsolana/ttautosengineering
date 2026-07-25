@@ -17,6 +17,7 @@ The public route tree uses a required locale prefix:
 
 - `/en`
 - `/nl`
+- `/fr`
 - `/ar`
 
 Unprefixed routes redirect according to the saved locale or the browser's
@@ -29,12 +30,14 @@ src/content/en/blog
 src/content/en/insights
 src/content/nl/blog
 src/content/nl/insights
+src/content/fr/blog
+src/content/fr/insights
 src/content/ar/blog
 src/content/ar/insights
 ```
 
-Dutch and Arabic files should reuse the English filename/slug. When a localized
-file is missing, the content loader falls back to English.
+Dutch, French, and Arabic files should reuse the English filename/slug. When a
+localized file is missing, the content loader falls back to English.
 
 ## Commands
 
