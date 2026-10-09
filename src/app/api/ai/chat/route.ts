@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { canAccessAiGarage } from "@/lib/ai/access";
 import { answerGarageChat, prepareGarageAnswer, streamOpenAIText } from "@/lib/ai/agent";
 import { aiConfig } from "@/lib/ai/config";
 import type { GarageChatRequest } from "@/lib/ai/types";
@@ -28,6 +29,16 @@ function sse(payload: unknown) {
 }
 
 export async function POST(request: Request) {
+  if (!canAccessAiGarage(request.headers)) {
+    return NextResponse.json(
+      {
+        error: "TT AUTO'S AI Garage is in private pre-launch mode.",
+        status: "coming_soon",
+      },
+      { status: 403, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
   if (rateLimited(clientIp(request))) {
     return NextResponse.json({ error: "Too many AI Garage requests. Please try again soon." }, { status: 429 });
   }

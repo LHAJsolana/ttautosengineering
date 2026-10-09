@@ -9,7 +9,7 @@
     "lint": "eslint",
     "validate": "node --test tests/content-data.test.mjs",
     "audit:site": "node scripts/audit-site.mjs",
-    "test": "npm run validate && node --test tests/ai-static.test.mjs tests/ai-garage-contract.test.mjs tests/mcv-parser.test.mjs tests/mcv-ux-static.test.mjs",
+    "test": "npm run validate && node --test tests/ai-static.test.mjs tests/ai-garage-contract.test.mjs tests/ai-garage-coming-soon.test.mjs tests/mcv-parser.test.mjs tests/mcv-ux-static.test.mjs",
     "check": "npm run lint && npm run validate && npm run build"
   },
   "dependencies": {

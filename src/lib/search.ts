@@ -59,17 +59,21 @@ const staticItems: SearchItem[] = [
   {
     title: "TT AUTO'S AI Garage",
     description:
-      "Ask a multilingual automotive assistant about diagnostics, German car reliability, used-car buying decisions, maintenance planning, and Morocco import next steps.",
+      "Preview TT AUTO'S upcoming AI Garage product for voice guidance, mechanical diagnosis, fault-code help, comparisons, photo understanding, and Morocco import assistance.",
     href: "/ai-garage",
     type: "Guide",
     category: "Tools",
     keywords: [
       "ai garage",
+      "coming soon",
       "assistant",
-      "chat",
+      "voice ai",
+      "photo analysis",
       "diagnosis",
       "fault diagnosis",
+      "fault code help",
       "buying advice",
+      "vehicle comparison",
       "reliability",
       "morocco import",
       "customs guidance",

@@ -180,6 +180,48 @@ export default async function Home({
       tags: ["مسار MCV الرسمي", "تفصيل بالدرهم", "بدون جدول مخزن"],
     },
   }[locale];
+  const aiGarageTeaser = {
+    en: {
+      badge: "Coming Soon",
+      eyebrow: "TT AUTO'S AI GARAGE",
+      title: "YOUR CAR. A NEW INTELLIGENCE.",
+      body:
+        "A strange noise? A warning light? Soon, you will be able to talk to your car's personal AI expert.",
+      cta: "Discover What's Coming",
+      features: ["Mechanical diagnostics", "Car advice", "Voice AI", "Photo analysis"],
+      status: "Private pre-launch",
+    },
+    fr: {
+      badge: "Bientot disponible",
+      eyebrow: "TT AUTO'S AI GARAGE",
+      title: "VOTRE VOITURE. UNE NOUVELLE INTELLIGENCE.",
+      body:
+        "Un bruit etrange ? Un voyant au tableau de bord ? Bientot, vous pourrez parler a l'expert IA personnel de votre voiture.",
+      cta: "Decouvrir ce qui arrive",
+      features: ["Diagnostic mecanique", "Conseils auto", "IA vocale", "Analyse photo"],
+      status: "Pre-lancement prive",
+    },
+    nl: {
+      badge: "Binnenkort",
+      eyebrow: "TT AUTO'S AI GARAGE",
+      title: "JOUW AUTO. NIEUWE INTELLIGENTIE.",
+      body:
+        "Een vreemd geluid? Een waarschuwingslampje? Binnenkort praat je met de persoonlijke AI-expert van je auto.",
+      cta: "Ontdek wat eraan komt",
+      features: ["Mechanische diagnose", "Auto-advies", "Voice AI", "Fotoanalyse"],
+      status: "Private pre-launch",
+    },
+    ar: {
+      badge: "Ù‚Ø±ÙŠØ¨Ø§",
+      eyebrow: "TT AUTO'S AI GARAGE",
+      title: "Ø³ÙŠØ§Ø±ØªÙƒ. Ø°ÙƒØ§Ø¡ Ø¬Ø¯ÙŠØ¯.",
+      body:
+        "ØµÙˆØª ØºØ±ÙŠØ¨ØŸ Ø¶ÙˆØ¡ ØªØ­Ø°ÙŠØ±ØŸ Ù‚Ø±ÙŠØ¨Ø§ Ø³ØªØªØ­Ø¯Ø« Ù…Ø¹ Ø®Ø¨ÙŠØ± Ø°ÙƒØ§Ø¡ Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø®Ø§Øµ Ø¨Ø³ÙŠØ§Ø±ØªÙƒ.",
+      cta: "Ø§ÙƒØªØ´Ù Ø§Ù„Ù‚Ø§Ø¯Ù…",
+      features: ["ØªØ´Ø®ÙŠØµ Ù…ÙŠÙƒØ§Ù†ÙŠÙƒÙŠ", "Ù†ØµØ§Ø¦Ø­ Ø³ÙŠØ§Ø±Ø§Øª", "Ø°ÙƒØ§Ø¡ ØµÙˆØªÙŠ", "ØªØ­Ù„ÙŠÙ„ Ø§Ù„ØµÙˆØ±"],
+      status: "Ù…Ø¹Ø§ÙŠÙ†Ø© Ø®Ø§ØµØ© Ù‚Ø¨Ù„ Ø§Ù„Ø¥Ø·Ù„Ø§Ù‚",
+    },
+  }[locale];
 
   const features: Feature[] = [
     {
@@ -403,6 +445,77 @@ export default async function Home({
       </section>
 
       <CarVerticalBanner locale={locale} />
+
+      <section className="mx-auto max-w-6xl px-6 pt-12">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#070b12] p-6 shadow-2xl shadow-black/30 md:p-8">
+          <div className="absolute inset-y-0 end-0 hidden w-1/2 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.22),transparent_58%)] md:block" aria-hidden="true" />
+          <div className="relative grid gap-8 md:grid-cols-[1fr_0.86fr] md:items-center">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-full border border-red-400/35 bg-red-500/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-red-100">
+                  {aiGarageTeaser.badge}
+                </span>
+                <span className="text-xs font-bold uppercase tracking-[0.22em] text-gray-500">
+                  {aiGarageTeaser.status}
+                </span>
+              </div>
+              <p className="mt-6 text-sm font-bold uppercase tracking-[0.28em] text-red-200">
+                {aiGarageTeaser.eyebrow}
+              </p>
+              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[0.98] tracking-tight text-white md:text-6xl">
+                {aiGarageTeaser.title}
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-gray-300 md:text-lg">
+                {aiGarageTeaser.body}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {aiGarageTeaser.features.map((feature) => (
+                  <span
+                    key={feature}
+                    className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-semibold text-gray-200"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+              <Link
+                href="/ai-garage"
+                className="mt-7 inline-flex min-h-12 items-center rounded-2xl border border-red-300/35 bg-red-600 px-5 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-300/40"
+              >
+                {aiGarageTeaser.cta} -&gt;
+              </Link>
+            </div>
+
+            <div className="rounded-[1.5rem] border border-red-400/20 bg-gradient-to-b from-red-500/10 to-white/[0.03] p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Voice interface</p>
+                  <p className="mt-1 text-sm font-bold text-white">Diagnostics preview</p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-red-300/35 bg-red-500/15 text-[10px] font-black tracking-[0.2em] text-red-100 shadow-[0_0_40px_rgba(239,68,68,0.22)]">
+                  MIC
+                </div>
+              </div>
+              <div className="mt-8 flex h-28 items-center justify-center gap-1.5" aria-hidden="true">
+                {[28, 52, 78, 40, 92, 60, 34, 70, 100, 54, 36, 82, 46, 64].map((height, index) => (
+                  <span
+                    key={`${height}-${index}`}
+                    className="w-2 rounded-full bg-gradient-to-t from-red-600 via-red-300 to-white/80 shadow-[0_0_18px_rgba(239,68,68,0.35)]"
+                    style={{ height }}
+                  />
+                ))}
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-3 text-xs text-gray-400">
+                {["OBD", "VOICE", "PHOTO", "MCV"].map((label) => (
+                  <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 font-bold tracking-[0.14em]">
+                    {label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="mx-auto max-w-6xl px-6 pt-12">
         <div className="grid gap-6 rounded-3xl border border-red-500/25 bg-gradient-to-br from-red-950/45 via-[#111827] to-[#0B1220] p-7 shadow-2xl shadow-red-950/10 md:grid-cols-[1fr_auto] md:items-center md:p-8">

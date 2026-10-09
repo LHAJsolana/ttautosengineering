@@ -54,7 +54,7 @@ function SiteFooter({ locale }: { locale: Locale }) {
                 <FooterLink locale={locale} href="/brands">{copy.nav.brands}</FooterLink>
                 <FooterLink locale={locale} href="/buying-hub">{copy.nav.buyingHub}</FooterLink>
                 <FooterLink locale={locale} href="/tools">{copy.nav.tools}</FooterLink>
-                <FooterLink locale={locale} href="/ai-garage">AI Garage</FooterLink>
+                <FooterLink locale={locale} href="/ai-garage">AI Garage Coming Soon</FooterLink>
                 <FooterLink locale={locale} href="/morocco-customs">Morocco Customs Calculator</FooterLink>
                 <FooterLink locale={locale} href="/vehicle-history">{copy.nav.vehicleHistory}</FooterLink>
                 <FooterLink locale={locale} href="/buying-guides">{copy.nav.buyingGuides}</FooterLink>
@@ -97,9 +97,11 @@ function SiteFooter({ locale }: { locale: Locale }) {
 
 export default function LocaleChrome({
   locale,
+  aiGaragePublicEnabled,
   children,
 }: {
   locale: Locale;
+  aiGaragePublicEnabled: boolean;
   children: React.ReactNode;
 }) {
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function LocaleChrome({
       <Navbar locale={locale} />
       <ContentTranslator locale={locale}>{children}</ContentTranslator>
       <SiteFooter locale={locale} />
-      <GarageFloatingWidget locale={locale} />
+      <GarageFloatingWidget locale={locale} publicEnabled={aiGaragePublicEnabled} />
     </>
   );
 }

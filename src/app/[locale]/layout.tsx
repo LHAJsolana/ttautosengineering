@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import LocaleChrome from "@/components/LocaleChrome";
+import { isAiGaragePublicEnabled } from "@/lib/ai/access";
 import { isLocale, locales } from "@/lib/i18n";
 import { localizedPageMetadata } from "@/lib/site";
 import { translateKnown } from "@/lib/translate";
@@ -155,7 +156,7 @@ export default async function LocaleLayout({
         />
 
         <LocaleProvider locale={locale}>
-          <LocaleChrome locale={locale}>{children}</LocaleChrome>
+          <LocaleChrome locale={locale} aiGaragePublicEnabled={isAiGaragePublicEnabled()}>{children}</LocaleChrome>
         </LocaleProvider>
       </body>
     </html>

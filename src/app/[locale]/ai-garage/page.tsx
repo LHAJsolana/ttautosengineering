@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { cookies, headers } from "next/headers";
+import AIGarageComingSoon from "@/components/ai-garage/AIGarageComingSoon";
 import GarageChat from "@/components/ai-garage/GarageChat.client";
 import ToolPageHero from "@/components/ToolPageHero";
+import { canAccessAiGarage } from "@/lib/ai/access";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 import { localizedPageMetadata } from "@/lib/site";
 
@@ -10,15 +13,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return localizedPageMetadata({
     locale,
     pathname: "/ai-garage",
-    title: "TT AUTO'S AI Garage",
+    title: "TT AUTO'S AI Garage - Coming Soon",
     description:
-      "Ask TT AUTO'S AI Garage about used German car reliability, diagnostics, buying decisions, and Moroccan import guidance.",
+      "TT AUTO'S AI Garage is a coming soon automotive AI product for voice guidance, diagnostics, fault-code help, comparisons, photo understanding, and Morocco import assistance.",
   });
 }
 
 export default async function AIGaragePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: value } = await params;
   const locale = isLocale(value) ? value : defaultLocale;
+  const requestHeaders = await headers();
+  const requestCookies = await cookies();
+  const canPreview = canAccessAiGarage(requestHeaders, requestCookies);
+
+  if (!canPreview) {
+    return <AIGarageComingSoon locale={locale} />;
+  }
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-10 md:py-14">
