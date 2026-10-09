@@ -27,6 +27,8 @@ const staticPaths = [
   "/parts-failure-map",
   "/how-we-evaluate-used-cars",
   "/tools",
+  "/ai-garage",
+  "/morocco-customs",
   "/vehicle-history",
   "/vin-history",
   "/compare",

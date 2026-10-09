@@ -146,6 +146,40 @@ export default async function Home({
       )
     )
     .slice(0, 4);
+  const moroccoCta = {
+    en: {
+      eyebrow: "Live Morocco import tool",
+      title: "Importing a car to Morocco?",
+      body:
+        "Estimate customs fees with a live official-source MCV simulation. Use exact vehicle details, avoid guessed amounts, and keep a clear TT AUTO'S summary of the result.",
+      button: "Calculate Morocco Customs Fees",
+      tags: ["Official MCV flow", "MAD breakdown", "No stored tariff table"],
+    },
+    fr: {
+      eyebrow: "Outil import Maroc en direct",
+      title: "Vous importez une voiture au Maroc ?",
+      body:
+        "Estimez les frais de dedouanement avec une simulation MCV issue de la source officielle. Utilisez les details exacts du vehicule et evitez les montants inventes.",
+      button: "Calculer mes frais de dedouanement",
+      tags: ["Parcours MCV officiel", "Detail en MAD", "Aucun bareme stocke"],
+    },
+    nl: {
+      eyebrow: "Live Marokko-importtool",
+      title: "Importeer je een auto naar Marokko?",
+      body:
+        "Schat invoerkosten met een live MCV-simulatie uit de officiele bron. Gebruik exacte voertuiggegevens en vermijd gegokte douanebedragen.",
+      button: "Bereken je invoerkosten voor Marokko",
+      tags: ["Officiele MCV-flow", "MAD-specificatie", "Geen opgeslagen tabel"],
+    },
+    ar: {
+      eyebrow: "أداة استيراد المغرب المباشرة",
+      title: "هل تستورد سيارة إلى المغرب؟",
+      body:
+        "قدّر رسوم الجمركة بمحاكاة MCV من المصدر الرسمي. استعمل بيانات السيارة الدقيقة وتجنب أي مبالغ مخمنة.",
+      button: "احسب رسوم جمركة سيارتك",
+      tags: ["مسار MCV الرسمي", "تفصيل بالدرهم", "بدون جدول مخزن"],
+    },
+  }[locale];
 
   const features: Feature[] = [
     {
@@ -168,6 +202,13 @@ export default async function Home({
         "Find topics by symptom, engine, gearbox, brand, platform, or fault pattern across the whole site.",
       href: "/search",
       label: "Find",
+    },
+    {
+      title: "AI Garage",
+      description:
+        "Ask a multilingual automotive assistant for diagnosis, buying, reliability, maintenance, and import guidance.",
+      href: "/ai-garage",
+      label: "AI",
     },
     {
       title: "Reliability Index",
@@ -230,6 +271,13 @@ export default async function Home({
         "Identify exact powertrains, known failure patterns, service priorities, and pre-purchase checks.",
       href: "/powertrains",
       label: "Database",
+    },
+    {
+      title: "Morocco Customs Calculator",
+      description:
+        "Run a live official MCV simulation for Moroccan vehicle import duties and avoid guessed customs amounts.",
+      href: "/morocco-customs",
+      label: "Live MCV",
     },
   ];
 
@@ -313,6 +361,43 @@ export default async function Home({
                 <div className="mt-1 text-sm text-gray-300">{label}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-10">
+        <div className="grid gap-6 overflow-hidden rounded-3xl border border-red-500/25 bg-[#111827] p-6 shadow-2xl shadow-red-950/10 md:grid-cols-[1fr_0.72fr] md:p-8">
+          <div>
+            <p className="text-sm font-semibold text-red-200">{moroccoCta.eyebrow}</p>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
+              {moroccoCta.title}
+            </h2>
+            <p className="mt-3 max-w-3xl leading-7 text-gray-300">{moroccoCta.body}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {moroccoCta.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-gray-200">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <Link
+              href="/morocco-customs"
+              className="mt-6 inline-flex min-h-12 items-center rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-300/40"
+            >
+              {moroccoCta.button} -&gt;
+            </Link>
+          </div>
+          <div className="relative rounded-3xl border border-white/10 bg-[#0B1220] p-5">
+            <div className="absolute end-5 top-5 h-10 w-10 rounded-full border border-red-400/40" aria-hidden="true" />
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500">MCV</p>
+            <div className="mt-8 space-y-3">
+              {["Manufacturer", "Official model", "Type code", "First registration"].map((label) => (
+                <div key={label} className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm">
+                  <span className="text-gray-400">{label}</span>
+                  <span className="h-2 w-20 rounded-full bg-red-400/45" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

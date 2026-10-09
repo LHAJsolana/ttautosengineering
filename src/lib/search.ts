@@ -57,6 +57,25 @@ const staticItems: SearchItem[] = [
     keywords: ["tools", "compare", "cost calculator", "fault codes", "model years"],
   },
   {
+    title: "TT AUTO'S AI Garage",
+    description:
+      "Ask a multilingual automotive assistant about diagnostics, German car reliability, used-car buying decisions, maintenance planning, and Morocco import next steps.",
+    href: "/ai-garage",
+    type: "Guide",
+    category: "Tools",
+    keywords: [
+      "ai garage",
+      "assistant",
+      "chat",
+      "diagnosis",
+      "fault diagnosis",
+      "buying advice",
+      "reliability",
+      "morocco import",
+      "customs guidance",
+    ],
+  },
+  {
     title: "Vehicle Comparison Tool",
     description:
       "Compare models and powertrains side by side using reliability scores, risks, and inspection priorities.",
@@ -73,6 +92,23 @@ const staticItems: SearchItem[] = [
     type: "Guide",
     category: "Tools",
     keywords: ["maintenance cost", "repair budget", "ownership cost", "calculator"],
+  },
+  {
+    title: "Morocco Customs Calculator",
+    description:
+      "Run a live official MCV simulation for Moroccan vehicle import duties and customs taxes.",
+    href: "/morocco-customs",
+    type: "Guide",
+    category: "Tools",
+    keywords: [
+      "morocco customs",
+      "maroc douane",
+      "mcv",
+      "import duties",
+      "vehicle customs",
+      "droits et taxes",
+      "dedouanement",
+    ],
   },
   {
     title: "Reliability Index",

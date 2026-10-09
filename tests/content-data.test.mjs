@@ -113,7 +113,7 @@ test("MDX internal links target a known route", () => {
     "/", "/about", "/blog", "/brands", "/buying-checklist", "/buying-guides",
     "/compare", "/contact", "/fault-codes", "/how-we-evaluate-used-cars", "/insights",
     "/maintenance-cost", "/models", "/model-years", "/parts-failure-map", "/powertrains",
-    "/reliability-index", "/search", "/tools",
+    "/reliability-index", "/search", "/tools", "/ai-garage", "/morocco-customs",
   ]);
   const dynamic = [
     ["/models/", literalProperties("src/lib/models.ts", "modelPages", "slug")],

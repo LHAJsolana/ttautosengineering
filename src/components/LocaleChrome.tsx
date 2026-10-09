@@ -4,6 +4,7 @@ import Link from "@/components/LocalizedLink";
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import ContentTranslator from "@/components/ContentTranslator.client";
+import GarageFloatingWidget from "@/components/ai-garage/GarageFloatingWidget.client";
 import { getUi, localePath, type Locale } from "@/lib/i18n";
 
 function FooterLink({
@@ -53,6 +54,8 @@ function SiteFooter({ locale }: { locale: Locale }) {
                 <FooterLink locale={locale} href="/brands">{copy.nav.brands}</FooterLink>
                 <FooterLink locale={locale} href="/buying-hub">{copy.nav.buyingHub}</FooterLink>
                 <FooterLink locale={locale} href="/tools">{copy.nav.tools}</FooterLink>
+                <FooterLink locale={locale} href="/ai-garage">AI Garage</FooterLink>
+                <FooterLink locale={locale} href="/morocco-customs">Morocco Customs Calculator</FooterLink>
                 <FooterLink locale={locale} href="/vehicle-history">{copy.nav.vehicleHistory}</FooterLink>
                 <FooterLink locale={locale} href="/buying-guides">{copy.nav.buyingGuides}</FooterLink>
                 <FooterLink locale={locale} href="/parts-failure-map">Parts & Failure Map</FooterLink>
@@ -109,6 +112,7 @@ export default function LocaleChrome({
       <Navbar locale={locale} />
       <ContentTranslator locale={locale}>{children}</ContentTranslator>
       <SiteFooter locale={locale} />
+      <GarageFloatingWidget locale={locale} />
     </>
   );
 }

@@ -9,13 +9,14 @@
     "lint": "eslint",
     "validate": "node --test tests/content-data.test.mjs",
     "audit:site": "node scripts/audit-site.mjs",
-    "test": "npm run validate",
+    "test": "npm run validate && node --test tests/ai-static.test.mjs tests/ai-garage-contract.test.mjs tests/mcv-parser.test.mjs tests/mcv-ux-static.test.mjs",
     "check": "npm run lint && npm run validate && npm run build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
     "next-mdx-remote": "^6.0.0",
+    "playwright": "^1.64.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

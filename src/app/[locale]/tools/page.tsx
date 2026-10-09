@@ -25,6 +25,8 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
     { title: copy.cost, description: copy.costIntro, href: "/maintenance-cost", icon: "02", accent: "from-emerald-500/25", stat: `4 ${copy.currency} | 3 ${copy.region}`, bars: [55, 70, 91] },
     { title: copy.faults, description: copy.faultsIntro, href: "/fault-codes", icon: "03", accent: "from-amber-500/25", stat: `${faultCodes.length} ${copy.codesCovered}`, bars: [86, 62, 76] },
     { title: copy.years, description: copy.yearsIntro, href: "/model-years", icon: "04", accent: "from-blue-500/25", stat: `${modelYears.length} ${copy.yearsCovered}`, bars: [69, 75, 82] },
+    { title: "AI Garage", description: "Ask a multilingual automotive assistant for diagnosis, buying, reliability, maintenance, and import guidance grounded in TT AUTO'S content.", href: "/ai-garage", icon: "05", accent: "from-violet-500/25", stat: "OpenAI-ready", bars: [84, 76, 90] },
+    { title: copy.moroccoCustoms, description: copy.moroccoCustomsIntro, href: "/morocco-customs", icon: "06", accent: "from-cyan-500/25", stat: "Live MCV", bars: [78, 88, 72] },
   ];
 
   return (
