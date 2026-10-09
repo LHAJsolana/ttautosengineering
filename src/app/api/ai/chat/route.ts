@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { canAccessAiGarage } from "@/lib/ai/access";
-import { answerGarageChat, prepareGarageAnswer, streamOpenAIText } from "@/lib/ai/agent";
 import { aiConfig } from "@/lib/ai/config";
 import type { GarageChatRequest } from "@/lib/ai/types";
 
@@ -59,6 +58,8 @@ export async function POST(request: Request) {
     async start(controller) {
       const encoder = new TextEncoder();
       try {
+        const { answerGarageChat, prepareGarageAnswer, streamOpenAIText } = await import("@/lib/ai/agent");
+
         if (aiConfig.openAiApiKey) {
           const prepared = await prepareGarageAnswer(body);
           if (!prepared.query || prepared.disabled) {
