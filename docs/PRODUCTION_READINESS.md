@@ -263,7 +263,7 @@ Local worker verification:
 - Local `/en/ai-garage`: PASS, HTTP `200`.
 - Local `/en/morocco-customs`: PASS, HTTP `200`.
 
-Controlled live Mercedes simulation from the local worker:
+Initial controlled live Mercedes simulation from the local worker, before the deep-debug fix:
 
 - Request:
   - Manufacturer: `MERCEDES`
@@ -275,6 +275,7 @@ Controlled live Mercedes simulation from the local worker:
 - No customs amount was generated, cached, guessed, or fabricated.
 - Latest structured result: HTTP `502`, code `TIMEOUT`, progress `running-simulation`.
 - Confirmed diagnostic sequence: browser launch, official page open, selection controls loaded, automobile category selected, official simulation submitted.
+- Superseded by the deep-debug update below. The later investigation found the flow was actually blocked while filling the Angular Material date field, before a reliable submit click.
 
 Container verification:
 
@@ -312,13 +313,143 @@ Current worker GO/NO-GO:
 
 - Worker implementation: GO for protected preview and container-host testing.
 - Local official options retrieval through the worker: GO.
-- Local official customs calculation result: NO-GO until the official MCV page returns a real amount within bounded time and the parser validates it.
+- Local official customs calculation result: GO as of the deep-debug update below; a real official amount was returned and parsed.
 - Docker image verification: BLOCKED by local Docker service permissions.
 - Production launch: NO-GO.
+
+## MCV Live Simulation Deep Debug Update
+
+Date: 2026-10-10.
+
+Scope:
+
+- Continued on `codex/mcv-preview-recovery`.
+- No production deployment.
+- No production settings changed.
+- No paid infrastructure provisioned.
+- AI Garage remained in pre-launch mode.
+
+Instrumentation added:
+
+- Development-only browser diagnostics behind `MCV_DEBUG_FLOW=1`.
+- Sanitized diagnostic output for:
+  - page URL snapshots,
+  - navigation events,
+  - official-domain network response status summaries,
+  - failed official-domain requests,
+  - browser console warnings/errors,
+  - JavaScript page errors,
+  - dialogs,
+  - popups,
+  - visible DOM text snippets,
+  - form state snapshots,
+  - sanitized HTML artifacts,
+  - screenshots around the form and submit flow.
+- Debug artifacts are written under `.mcv-debug/`, which is ignored by Git.
+- Diagnostic text redacts bearer tokens and token/session-like URL parameters.
+
+Exact failure cause:
+
+- The earlier timeout was mislabeled as a post-submit timeout because the diagnostic message said `Submitting official MCV simulation` before the code actually filled the remaining required form fields.
+- The real blocking point was the Angular Material first-registration-date input `#mat-input-0`.
+- Playwright's normal `locator("#mat-input-0").fill("01/01/2022")` did not complete reliably in this official page state.
+- Because date entry did not finish, the worker never reliably reached beneficiary selection or the `Valider` click in the failing run.
+
+Observed page behavior before the fix:
+
+- Chromium launched successfully.
+- Official MCV page loaded.
+- The app navigated from `pageId=4` to `pageId=2`.
+- Vehicle flow and official options loaded.
+- The visible page showed:
+  - genre `Tourisme non hybride`,
+  - marque `MERCEDES`,
+  - modèle `C 220D /AMG LINE/ 4MATIC (TYPE AF)`,
+  - type `AF0EB`,
+  - an empty visible date field,
+  - beneficiary `Autre` already selected.
+- Screenshot artifact: `.mcv-debug/attempt-1-014757-before-form-fill.png`.
+
+Network and DOM evidence:
+
+- Captured official-domain network events before the failing form-fill step returned HTTP `200` for the MCV app shell, scripts, styles, language resources, UI page/section resources, and reference-data endpoints.
+- No browser dialog, popup, or page-level JavaScript exception was observed in the captured failure diagnostics.
+- DOM form-state snapshot confirmed `#mat-input-0` existed, was visible, enabled, and empty before the failing step.
+- The old HTML snapshot heuristic captured the warning alert first; this was improved to prefer actual form/result containers containing labels such as `Montant total des droits et des taxes`, `Valeur taxable`, and `Droits d'importation`.
+
+Fix implemented:
+
+- Replaced the fragile date `fill()` operation with an Angular-friendly native input value setter that dispatches `input`, `change`, and `blur` events.
+- Added verification that the input value equals the requested first registration date before continuing.
+- Replaced beneficiary selection by raw `input[value=...]` as the only path with a fallback that clicks the visible official beneficiary label.
+- Split diagnostics into accurate steps:
+  - preparing form,
+  - filling first registration date,
+  - selecting beneficiary type,
+  - clicking `Valider`,
+  - waiting for result signal,
+  - extracting result,
+  - validating amount.
+- Added a separate authenticated live readiness endpoint:
+  - `POST /mcv/readiness/live`,
+  - disabled by default unless `MCV_WORKER_E2E_READINESS=1`,
+  - not used by `/healthz` or `/readyz`,
+  - performs a real official simulation only when explicitly enabled.
+
+Parser findings:
+
+- The existing parser successfully parsed the real official output after the date-entry fix.
+- It handled French labels, DH currency, spaces as thousands separators, multiline text, and the total label.
+- No parser change was needed based on the observed successful official result.
+
+Controlled live simulation result:
+
+- Request:
+  - Manufacturer: `MERCEDES`
+  - Model: `C 220D /AMG LINE/ 4MATIC (TYPE AF)`
+  - Vehicle type: `AF0EB`
+  - First registration: `01/01/2022`
+  - Beneficiary: `AUTRE`
+- Result: SUCCESS from the local dedicated worker.
+- Source URL: `https://www.douane.gov.ma/mcv/#/view?pageId=2`.
+- Worker timestamp: `2026-10-10T18:28:33.910Z`.
+- Official consultation label: `Consultation du 10/10/2026 à 08:28`.
+- Parsed official fields:
+  - `Valeur a l'etat neuf`: `575 600 DH`
+  - `Valeur taxable`: `431 700 DH`
+  - `Droits d'importation`: `75 548 DH`
+  - `TVA`: `106 749 DH`
+  - `Taxe parafiscale`: `1 080 DH`
+  - `Droit de timbre proportionnel`: `25 417 DH`
+  - `Montant total des droits et des taxes`: `208 794 DH`
+- No amount was fabricated or reused; the amount above came from the live official simulation response.
+
+Readiness distinction:
+
+- Process liveness: `/healthz`.
+- Lightweight worker readiness and concurrency state: `/readyz`.
+- Chromium launchability: proven locally by the live worker run.
+- Official website reachability: proven locally by official option lookup and live simulation.
+- Complete MCV simulation success: proven locally by the Mercedes C220d simulation returning `208 794 DH`.
+- Deployed worker/container readiness: not yet proven because Docker Desktop's Linux engine could not be started in this environment and no external worker host was provisioned.
+
+Additional verification after the fix:
+
+- `npm run lint`: PASS.
+- `npm run test`: PASS, 19 tests.
+- `npm run build`: PASS.
+- `POST /mcv/readiness/live` without `MCV_WORKER_E2E_READINESS=1`: PASS, HTTP `403 READINESS_DISABLED`.
+
+Remaining blockers:
+
+- The Docker worker image still needs to be built and run in an environment where Docker Linux containers are available.
+- The worker still needs a protected deployed preview on an approved container host.
+- Vercel preview must then be configured with `MCV_WORKER_URL` and `MCV_WORKER_TOKEN` and tested against the deployed worker.
+- Production remains NO-GO until the deployed worker, not only the local worker, completes a live official simulation and cleanup is verified from logs.
 
 ### GO/NO-GO
 
 - Production promotion: NO-GO.
 - Protected preview preparation: GO.
 - Protected preview deployment: GO only for protected preview, not production, after the worker branch is pushed and a worker host is selected.
-- Full MCV launch: NO-GO until one deployed live official simulation succeeds and logs confirm stable browser cleanup.
+- Full MCV launch: NO-GO until one deployed live official simulation succeeds through the protected preview and logs confirm stable browser cleanup.

@@ -8,6 +8,7 @@ const TOKEN = process.env.MCV_WORKER_TOKEN || "";
 const MAX_BODY_BYTES = 8_000;
 const MAX_CONCURRENCY = Math.max(1, Math.min(3, Number(process.env.MCV_WORKER_CONCURRENCY || 1)));
 const REQUEST_TIMEOUT_MS = Math.max(10_000, Math.min(120_000, Number(process.env.MCV_WORKER_TIMEOUT_MS || 90_000)));
+const E2E_READINESS_ENABLED = process.env.MCV_WORKER_E2E_READINESS === "1";
 
 let activeRequests = 0;
 let shuttingDown = false;
@@ -168,6 +169,36 @@ async function handle(request: IncomingMessage, response: ServerResponse) {
     }
 
     log("info", "mcv calculation started", { correlationId });
+    const result = await guarded(correlationId, () => calculateMcv(input));
+    sendJson(response, resultStatus(result.body as { status?: string; code?: string }), result.body, correlationId);
+    return;
+  }
+
+  if (request.method === "POST" && url.pathname === "/mcv/readiness/live") {
+    if (!E2E_READINESS_ENABLED) {
+      sendJson(response, 403, {
+        status: "error",
+        code: "READINESS_DISABLED",
+        message: "Live MCV readiness checks are disabled.",
+      }, correlationId);
+      return;
+    }
+
+    let payload: Record<string, unknown>;
+    try {
+      payload = await readJson(request);
+    } catch {
+      sendJson(response, 400, { status: "error", code: "VALIDATION_ERROR", message: "Invalid request body." }, correlationId);
+      return;
+    }
+
+    const input = validateCalculation(payload);
+    if ("error" in input) {
+      sendJson(response, 400, { status: "error", code: "VALIDATION_ERROR", message: input.error }, correlationId);
+      return;
+    }
+
+    log("info", "live mcv readiness started", { correlationId });
     const result = await guarded(correlationId, () => calculateMcv(input));
     sendJson(response, resultStatus(result.body as { status?: string; code?: string }), result.body, correlationId);
     return;

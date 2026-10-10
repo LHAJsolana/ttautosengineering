@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import type { Browser, Page } from "playwright";
 import { extractResultFromText } from "./parser";
 import {
@@ -18,6 +20,8 @@ const USER_AGENT =
 const JOB_TIMEOUT_MS = Math.max(60_000, Math.min(110_000, Number(process.env.MCV_JOB_TIMEOUT_MS || 95_000)));
 const RESULT_TIMEOUT_MS = Math.max(20_000, Math.min(60_000, Number(process.env.MCV_RESULT_TIMEOUT_MS || 45_000)));
 const MAX_ATTEMPTS = Math.max(1, Math.min(3, Number(process.env.MCV_MAX_ATTEMPTS || 2)));
+const DEBUG_FLOW = process.env.MCV_DEBUG_FLOW === "1";
+const DEBUG_DIR = process.env.MCV_DEBUG_DIR || path.join(process.cwd(), ".mcv-debug");
 let activeJobs = 0;
 let chromiumLoader: Promise<typeof import("playwright")["chromium"]> | null = null;
 
@@ -75,6 +79,179 @@ function record(context: McvRunContext, step: McvProgressStep, message: string) 
   });
 }
 
+function sanitizeDebugText(input: string, max = 700) {
+  return input
+    .replace(/Bearer\s+[A-Za-z0-9._~+/=-]+/gi, "Bearer [redacted]")
+    .replace(/([?&](?:token|session|sid|jsessionid|auth|key)=)[^&\s]+/gi, "$1[redacted]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, max);
+}
+
+function officialUrl(input: string) {
+  try {
+    const url = new URL(input);
+    return url.hostname.endsWith("douane.gov.ma");
+  } catch {
+    return false;
+  }
+}
+
+async function writeDebugArtifact(context: McvRunContext, name: string, extension: "html" | "png" | "txt", data: string | Buffer) {
+  if (!DEBUG_FLOW) return;
+  await fs.mkdir(DEBUG_DIR, { recursive: true }).catch(() => undefined);
+  const file = `attempt-${context.attempt}-${String(Date.now() - context.startedAt).padStart(6, "0")}-${name}.${extension}`;
+  const target = path.join(DEBUG_DIR, file);
+  await fs.writeFile(target, data).catch(() => undefined);
+  record(context, "running-simulation", `Debug artifact written: ${path.relative(process.cwd(), target)}`);
+}
+
+async function debugTimeout<T>(work: Promise<T>, timeoutMs: number, fallback: T): Promise<T> {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+  try {
+    return await Promise.race([
+      work,
+      new Promise<T>((resolve) => {
+        timeout = setTimeout(() => resolve(fallback), timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timeout) clearTimeout(timeout);
+  }
+}
+
+async function captureDebugPageState(page: Page, context: McvRunContext, label: string) {
+  if (!DEBUG_FLOW) return;
+  record(context, "running-simulation", `Debug capture starting: ${label}`);
+  const url = sanitizeDebugText(page.url(), 500);
+  const visibleText = await debugTimeout(
+    page.locator("body").innerText({ timeout: 4_000 }).catch((error) => `body text unavailable: ${diagnosticMessage(error)}`),
+    5_000,
+    "body text timed out"
+  );
+  const html = await debugTimeout(
+    page.locator("body").evaluate((body) => {
+      const interestingText = [
+        "Montant total des droits et des taxes",
+        "Valeur taxable",
+        "Droits d'importation",
+        "INFORMATIONS SUR LE VÉHICULE",
+        "INFORMATIONS SUR LE BENEFICIAIRE",
+        "INFORMATIONS SUR LE BÉNÉFICIAIRE",
+      ];
+      const allElements = [...body.querySelectorAll("section, article, main, form, table, mat-card, .row, .container, div")];
+      const resultElement = allElements.find((element) => {
+        const text = element.textContent?.replace(/\s+/g, " ").trim() || "";
+        return interestingText.some((needle) => text.includes(needle));
+      });
+      if (resultElement) return resultElement.outerHTML.slice(0, 20_000);
+
+      const selectors = [
+        ".mat-mdc-dialog-container",
+        "mat-dialog-container",
+        ".error",
+        ".mat-mdc-form-field-error",
+        ".mat-error",
+        ".mat-mdc-card",
+        "form",
+        "body",
+      ];
+      for (const selector of selectors) {
+        const element = body.querySelector(selector);
+        if (element?.textContent?.trim()) return element.outerHTML.slice(0, 20_000);
+      }
+      return body.outerHTML.slice(0, 20_000);
+    }).catch((error) => `html unavailable: ${diagnosticMessage(error)}`),
+    5_000,
+    "html capture timed out"
+  );
+  const formState = await debugTimeout(
+    page.evaluate(() => {
+      const inputs = [...document.querySelectorAll("input")].map((input) => ({
+        id: input.id,
+        name: input.getAttribute("name"),
+        type: input.type,
+        value: input.type === "radio" || input.type === "checkbox" ? String(input.checked) : input.value,
+        disabled: input.disabled,
+        ariaInvalid: input.getAttribute("aria-invalid"),
+      }));
+      const buttons = [...document.querySelectorAll("button")].map((button) => ({
+        text: button.textContent?.replace(/\s+/g, " ").trim().slice(0, 80),
+        disabled: button.disabled,
+        type: button.type,
+      }));
+      return { inputs, buttons };
+    }).catch((error) => ({ error: diagnosticMessage(error) })),
+    5_000,
+    { error: "form capture timed out" }
+  );
+
+  record(context, "running-simulation", `Debug ${label}: url=${url}; visible="${sanitizeDebugText(visibleText)}"`);
+  record(context, "running-simulation", `Debug ${label}: form=${sanitizeDebugText(JSON.stringify(formState), 900)}`);
+  await writeDebugArtifact(context, label, "html", sanitizeDebugText(html, 20_000));
+  const screenshot = await debugTimeout(page.screenshot({ fullPage: false }).catch(() => null), 6_000, null);
+  if (screenshot) await writeDebugArtifact(context, label, "png", screenshot);
+  record(context, "running-simulation", `Debug capture finished: ${label}`);
+}
+
+async function waitForMcvCompletion(page: Page, context: McvRunContext, submitUrl: string) {
+  const resultText = page.getByText("Montant total des droits et des taxes");
+  const knownValidation = page.getByText(/(obligatoire|erreur|invalide|required|veuillez|aucun|indisponible)/i);
+  const dialog = page.locator("mat-dialog-container, .mat-mdc-dialog-container").first();
+
+  const outcome = await Promise.race([
+    resultText.waitFor({ timeout: RESULT_TIMEOUT_MS }).then(() => "result"),
+    knownValidation.waitFor({ timeout: RESULT_TIMEOUT_MS }).then(() => "validation"),
+    dialog.waitFor({ state: "visible", timeout: RESULT_TIMEOUT_MS }).then(() => "dialog"),
+    page.waitForURL((url) => url.href !== submitUrl, { timeout: RESULT_TIMEOUT_MS }).then(() => "url-change"),
+  ]).catch(() => "timeout");
+
+  record(context, "running-simulation", `Post-submit completion signal: ${outcome}; url=${sanitizeDebugText(page.url(), 500)}`);
+  return outcome;
+}
+
+function attachDebugListeners(page: Page, context: McvRunContext) {
+  if (!DEBUG_FLOW) return;
+  const networkEvents: string[] = [];
+  const pushNetwork = (message: string) => {
+    networkEvents.push(message);
+    if (networkEvents.length > 40) networkEvents.shift();
+  };
+
+  page.on("console", (message) => {
+    const type = message.type();
+    if (["error", "warning"].includes(type)) {
+      record(context, "running-simulation", `Console ${type}: ${sanitizeDebugText(message.text(), 500)}`);
+    }
+  });
+  page.on("pageerror", (error) => {
+    record(context, "running-simulation", `Page error: ${sanitizeDebugText(error.message, 500)}`);
+  });
+  page.on("dialog", async (dialog) => {
+    record(context, "running-simulation", `Dialog ${dialog.type()}: ${sanitizeDebugText(dialog.message(), 500)}`);
+    await dialog.dismiss().catch(() => undefined);
+  });
+  page.on("popup", (popup) => {
+    record(context, "running-simulation", `Popup opened: ${sanitizeDebugText(popup.url(), 500)}`);
+  });
+  page.on("framenavigated", (frame) => {
+    if (frame === page.mainFrame()) record(context, "running-simulation", `Navigation: ${sanitizeDebugText(frame.url(), 500)}`);
+  });
+  page.on("requestfailed", (request) => {
+    const url = request.url();
+    if (officialUrl(url)) pushNetwork(`FAILED ${request.method()} ${sanitizeDebugText(url, 500)} ${request.failure()?.errorText || ""}`);
+  });
+  page.on("response", (response) => {
+    const url = response.url();
+    if (officialUrl(url)) pushNetwork(`${response.status()} ${response.request().method()} ${sanitizeDebugText(url, 500)}`);
+  });
+  page.once("close", () => {
+    if (networkEvents.length) {
+      record(context, "running-simulation", `Recent official network: ${sanitizeDebugText(networkEvents.join(" | "), 1800)}`);
+    }
+  });
+}
+
 async function getChromium() {
   if (process.env.VERCEL && !process.env.PLAYWRIGHT_BROWSERS_PATH) {
     process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
@@ -121,6 +298,7 @@ async function withBrowser<T>(context: McvRunContext, work: (page: Page) => Prom
       userAgent: USER_AGENT,
       locale: "fr-FR",
     });
+    attachDebugListeners(page, context);
     page.setDefaultTimeout(20_000);
     return await Promise.race([
       work(page),
@@ -173,6 +351,41 @@ async function selectOption(page: Page, label: string) {
   await page.getByText(label, { exact: true }).click();
   await page.waitForLoadState("networkidle", { timeout: 8_000 }).catch(() => undefined);
   await page.waitForTimeout(700);
+}
+
+async function fillDateInput(page: Page, date: string) {
+  const input = page.locator("#mat-input-0");
+  await input.waitFor({ state: "visible", timeout: 20_000 });
+  await input.scrollIntoViewIfNeeded();
+  await input.evaluate((element, value) => {
+    const inputElement = element as HTMLInputElement;
+    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+    setter?.call(inputElement, value);
+    inputElement.dispatchEvent(new Event("input", { bubbles: true }));
+    inputElement.dispatchEvent(new Event("change", { bubbles: true }));
+    inputElement.dispatchEvent(new Event("blur", { bubbles: true }));
+  }, date);
+  await page.waitForTimeout(300);
+  const actual = await input.inputValue().catch(() => "");
+  if (actual.trim() !== date) {
+    throw new Error(`MCV_DATE_NOT_SET:${actual}`);
+  }
+}
+
+async function selectBeneficiary(page: Page, beneficiaryType: McvCalculationRequest["beneficiaryType"]) {
+  const labels: Record<McvCalculationRequest["beneficiaryType"], RegExp> = {
+    MRE: /MRE.*60 ans/i,
+    MRED: /MRE.*retournant/i,
+    PBS: /PBS.*besoins/i,
+    AUTRE: /Autre.*D[ée]douanement/i,
+  };
+  const byValue = page.locator(`input[value="${beneficiaryType}"]`);
+  if ((await byValue.count().catch(() => 0)) > 0) {
+    await byValue.first().check({ force: true });
+    return;
+  }
+  await page.getByText(labels[beneficiaryType]).click();
+  await page.waitForTimeout(300);
 }
 
 async function getVisibleOptions(page: Page, selectIndex: number) {
@@ -321,12 +534,28 @@ export async function calculateMcv(input: McvCalculationRequest): Promise<McvApi
             selectedVehicleType = vehicleType;
           }
 
-          record(context, "running-simulation", "Submitting official MCV simulation");
-          await page.locator("#mat-input-0").fill(input.firstRegistrationDate);
-          await page.locator(`input[value="${input.beneficiaryType}"]`).check({ force: true });
+          record(context, "running-simulation", "Preparing official MCV simulation form");
+          await captureDebugPageState(page, context, "before-form-fill");
+          record(context, "running-simulation", "Filling first registration date");
+          await fillDateInput(page, input.firstRegistrationDate);
+          record(context, "running-simulation", "First registration date filled");
+          record(context, "running-simulation", `Selecting beneficiary type ${input.beneficiaryType}`);
+          await selectBeneficiary(page, input.beneficiaryType);
+          record(context, "running-simulation", "Beneficiary type selected");
+          await captureDebugPageState(page, context, "before-submit");
+          const submitStartedAt = Date.now();
+          const submitUrl = page.url();
+          record(context, "running-simulation", `Clicking Valider at ${new Date(submitStartedAt).toISOString()}; url=${sanitizeDebugText(submitUrl, 500)}`);
           await page.getByRole("button", { name: /Valider/i }).click();
+          record(context, "running-simulation", `Clicked Valider in ${Date.now() - submitStartedAt}ms; url=${sanitizeDebugText(page.url(), 500)}`);
+          await page.waitForTimeout(1_500);
+          await captureDebugPageState(page, context, "after-submit");
           try {
-            await page.getByText("Montant total des droits et des taxes").waitFor({ timeout: RESULT_TIMEOUT_MS });
+            const outcome = await waitForMcvCompletion(page, context, submitUrl);
+            if (outcome !== "result") {
+              await captureDebugPageState(page, context, `completion-${outcome}`);
+              throw new Error(`MCV_COMPLETION_${outcome.toUpperCase()}`);
+            }
           } catch (error) {
             const bodyText = await page.locator("body").innerText({ timeout: 5_000 }).catch(() => "");
             const snippet = bodyText.replace(/\s+/g, " ").trim().slice(0, 300);
@@ -335,6 +564,7 @@ export async function calculateMcv(input: McvCalculationRequest): Promise<McvApi
               "running-simulation",
               `Result text did not appear within ${RESULT_TIMEOUT_MS}ms${snippet ? `; page text: ${snippet}` : ""}`
             );
+            await captureDebugPageState(page, context, "timeout");
             throw error;
           }
           record(context, "extracting-results", "Extracting official result text");

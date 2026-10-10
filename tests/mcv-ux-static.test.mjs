@@ -34,10 +34,23 @@ test("MCV worker is authenticated and containerized", () => {
   assert.match(worker, /MAX_CONCURRENCY/);
   assert.match(worker, /\/healthz/);
   assert.match(worker, /\/readyz/);
+  assert.match(worker, /MCV_WORKER_E2E_READINESS/);
+  assert.match(worker, /\/mcv\/readiness\/live/);
+  assert.match(worker, /READINESS_DISABLED/);
   assert.match(worker, /calculateMcv\(input\)/);
   assert.match(dockerfile, /mcr\.microsoft\.com\/playwright:v1\.64\.0-noble/);
   assert.match(workerClient, /MCV_WORKER_URL/);
   assert.match(workerClient, /Authorization: `Bearer \$\{config\.token\}`/);
+});
+
+test("MCV live diagnostics stay development gated", () => {
+  const client = source("src/lib/mcv/client.ts");
+
+  assert.match(client, /MCV_DEBUG_FLOW/);
+  assert.match(client, /\.mcv-debug/);
+  assert.match(client, /sanitizeDebugText/);
+  assert.match(client, /page\.on\("console"/);
+  assert.match(client, /requestfailed/);
 });
 
 test("homepage promotes Morocco Customs with localized CTA labels", () => {
