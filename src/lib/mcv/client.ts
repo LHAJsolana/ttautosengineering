@@ -1,5 +1,5 @@
 import type { Browser, Page } from "playwright";
-import { extractResultFromText } from "@/lib/mcv/parser";
+import { extractResultFromText } from "./parser";
 import {
   MCV_OFFICIAL_URL,
   MCV_SOURCE_URL,
@@ -11,11 +11,12 @@ import {
   type McvOptionsRequest,
   type McvOptionsResult,
   type McvProgressStep,
-} from "@/lib/mcv/types";
+} from "./types";
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
-const JOB_TIMEOUT_MS = 70_000;
+const JOB_TIMEOUT_MS = Math.max(60_000, Math.min(110_000, Number(process.env.MCV_JOB_TIMEOUT_MS || 95_000)));
+const RESULT_TIMEOUT_MS = Math.max(20_000, Math.min(60_000, Number(process.env.MCV_RESULT_TIMEOUT_MS || 45_000)));
 const MAX_ATTEMPTS = Math.max(1, Math.min(3, Number(process.env.MCV_MAX_ATTEMPTS || 2)));
 let activeJobs = 0;
 let chromiumLoader: Promise<typeof import("playwright")["chromium"]> | null = null;
@@ -324,7 +325,18 @@ export async function calculateMcv(input: McvCalculationRequest): Promise<McvApi
           await page.locator("#mat-input-0").fill(input.firstRegistrationDate);
           await page.locator(`input[value="${input.beneficiaryType}"]`).check({ force: true });
           await page.getByRole("button", { name: /Valider/i }).click();
-          await page.getByText("Montant total des droits et des taxes").waitFor({ timeout: 25_000 });
+          try {
+            await page.getByText("Montant total des droits et des taxes").waitFor({ timeout: RESULT_TIMEOUT_MS });
+          } catch (error) {
+            const bodyText = await page.locator("body").innerText({ timeout: 5_000 }).catch(() => "");
+            const snippet = bodyText.replace(/\s+/g, " ").trim().slice(0, 300);
+            record(
+              context,
+              "running-simulation",
+              `Result text did not appear within ${RESULT_TIMEOUT_MS}ms${snippet ? `; page text: ${snippet}` : ""}`
+            );
+            throw error;
+          }
           record(context, "extracting-results", "Extracting official result text");
           const text = await page.locator("body").innerText();
           const extracted = extractResultFromText(text, {

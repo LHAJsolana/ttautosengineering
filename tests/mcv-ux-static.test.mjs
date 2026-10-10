@@ -17,9 +17,27 @@ test("MCV API routes fail closed without top-level Playwright loading", () => {
   assert.ok(!optionsRoute.includes('import { getMcvOptions } from "@/lib/mcv/client"'));
   assert.match(calculateRoute, /await import\("@\/lib\/mcv\/client"\)/);
   assert.match(optionsRoute, /await import\("@\/lib\/mcv\/client"\)/);
+  assert.match(calculateRoute, /calculateMcvWithWorker/);
+  assert.match(optionsRoute, /getMcvOptionsWithWorker/);
   assert.match(calculateRoute, /No customs amount was generated/);
   assert.match(optionsRoute, /Cache-Control/);
   assert.match(optionsRoute, /Retry-After/);
+});
+
+test("MCV worker is authenticated and containerized", () => {
+  const worker = source("worker/mcv-worker.ts");
+  const dockerfile = source("Dockerfile.mcv-worker");
+  const workerClient = source("src/lib/mcv/workerClient.ts");
+
+  assert.match(worker, /MCV_WORKER_TOKEN/);
+  assert.match(worker, /timingSafeEqual/);
+  assert.match(worker, /MAX_CONCURRENCY/);
+  assert.match(worker, /\/healthz/);
+  assert.match(worker, /\/readyz/);
+  assert.match(worker, /calculateMcv\(input\)/);
+  assert.match(dockerfile, /mcr\.microsoft\.com\/playwright:v1\.64\.0-noble/);
+  assert.match(workerClient, /MCV_WORKER_URL/);
+  assert.match(workerClient, /Authorization: `Bearer \$\{config\.token\}`/);
 });
 
 test("homepage promotes Morocco Customs with localized CTA labels", () => {

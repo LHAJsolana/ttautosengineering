@@ -226,9 +226,99 @@ Option B: dedicated Node.js Playwright worker.
 - Worker must require server-to-server authentication, hardcode the official MCV destination, validate requests, bound concurrency, use limited retries, clean up browser resources, return structured errors, and never invent customs values.
 - Expected recurring cost: a small container or managed browser service, depending on provider and traffic. Approval is required before provisioning.
 
+## Dedicated Playwright Worker Update
+
+Implemented on `codex/mcv-preview-recovery` after the Vercel-only attempts:
+
+- Added a container-oriented Node.js worker at `worker/mcv-worker.ts`.
+- Added `src/lib/mcv/workerClient.ts` so the Next.js API routes can call the worker through server-to-server HTTP when `MCV_WORKER_URL` and `MCV_WORKER_TOKEN` are configured.
+- Preserved the existing in-process MCV client as a local fallback when no worker is configured.
+- Added `Dockerfile.mcv-worker` using the official Playwright container base image.
+- Added `worker/README.md` with deployment and configuration notes.
+- Added `worker:dev` and `worker:start` scripts.
+- Kept `AI_GARAGE_PUBLIC_ENABLED=false`; no AI Garage public launch behavior was changed.
+
+Worker security and reliability properties:
+
+- `/mcv/calculate` and `/mcv/options` require `Authorization: Bearer <MCV_WORKER_TOKEN>`.
+- `/healthz` and `/readyz` are unauthenticated health endpoints only.
+- Request bodies are size-limited.
+- Vehicle simulation inputs are validated before browser work starts.
+- Browser concurrency is bounded with `MCV_WORKER_CONCURRENCY`, default `1`, capped at `3`.
+- Worker request timeout is bounded with `MCV_WORKER_TIMEOUT_MS`, capped at `120000`.
+- MCV engine attempts remain bounded with `MCV_MAX_ATTEMPTS`, capped at `3`.
+- The result wait and overall browser job timeout are configurable through `MCV_RESULT_TIMEOUT_MS` and `MCV_JOB_TIMEOUT_MS`, both capped.
+- Responses are structured JSON with `Cache-Control: no-store` and correlation IDs.
+- Logs are JSON and redact token/authorization-like fields.
+
+Local worker verification:
+
+- `GET http://127.0.0.1:8787/healthz`: PASS, HTTP `200`.
+- `GET http://127.0.0.1:8787/readyz`: PASS, HTTP `200`.
+- Unauthenticated `GET /mcv/options`: PASS, HTTP `401 UNAUTHORIZED`.
+- Invalid authenticated `POST /mcv/calculate`: PASS, HTTP `400 VALIDATION_ERROR`.
+- Next.js API route with `MCV_WORKER_URL=http://127.0.0.1:8787`: PASS, invalid calculation returns structured `400`.
+- Next.js `/api/mcv/options?manufacturer=MERCEDES&modelQuery=C%20220D` through the worker: PASS, HTTP `200`, official options returned.
+- Public `/api/ai/chat`: PASS, HTTP `403` with `coming_soon`.
+- Local `/en/ai-garage`: PASS, HTTP `200`.
+- Local `/en/morocco-customs`: PASS, HTTP `200`.
+
+Controlled live Mercedes simulation from the local worker:
+
+- Request:
+  - Manufacturer: `MERCEDES`
+  - Model: `C 220D /AMG LINE/ 4MATIC (TYPE AF)`
+  - Vehicle type: `AF0EB`
+  - First registration: `01/01/2022`
+  - Beneficiary: `AUTRE`
+- Result: NO-GO. The worker successfully launched Chromium, opened the official MCV site, selected the vehicle flow, and submitted the official simulation, but no official customs amount was returned before the bounded timeout.
+- No customs amount was generated, cached, guessed, or fabricated.
+- Latest structured result: HTTP `502`, code `TIMEOUT`, progress `running-simulation`.
+- Confirmed diagnostic sequence: browser launch, official page open, selection controls loaded, automobile category selected, official simulation submitted.
+
+Container verification:
+
+- Docker CLI is installed: `Docker version 29.5.3`.
+- Docker build was attempted with `docker build -f Dockerfile.mcv-worker -t ttautos-mcv-worker:preview .`.
+- Blocker: Docker Desktop Linux engine is not running on this Windows machine.
+- Attempting to start `com.docker.service` from this shell failed with `Cannot open com.docker.service service on computer '.'`.
+- Therefore the container image has been authored but not locally built or run in Docker from this environment.
+
+Checks after the worker implementation:
+
+- `npm run lint`: PASS.
+- `npm run test`: PASS, 18 tests.
+- `npm run build`: PASS.
+
+Recommended hosting architecture:
+
+- Keep Vercel for the TT AUTO'S Next.js website.
+- Host the MCV worker as a private container service with no public browser UI and no direct frontend access.
+- Configure Vercel environment variables only after the worker is deployed:
+  - `MCV_WORKER_URL`
+  - `MCV_WORKER_TOKEN`
+  - optionally `MCV_WORKER_TIMEOUT_MS`
+- Keep a low worker concurrency limit until the official MCV site behavior is proven under preview traffic.
+- Add a shared distributed throttle in front of `/api/mcv/options` and `/api/mcv/calculate` before public launch; the current process-local limiter is not enough for multi-instance production.
+
+Provider notes, checked on 2026-10-10:
+
+- Fly.io can run small container Machines and lists the smallest always-on app at about `$2.19/month`, with larger memory sizes such as `shared-cpu-1x` 1GB around `$6.70/month`; browser automation will likely need at least 1GB RAM in practice. Source: [Fly.io Resource Pricing](https://docs.fly.io/about/pricing).
+- Railway supports usage-based container hosting. The Hobby plan is `$5/month` and includes usage credit; resource usage is billed on top of plan rules. Source: [Railway Pricing Plans](https://docs.railway.com/pricing/plans).
+- Google Cloud Run supports container scale-to-zero and pay-per-use. Google lists a request-based serverless example at `$7.25/month` for 10M very small requests, and a single always-running worker-pool example at `$11.61/month`; real Playwright cost depends on CPU, memory, region, cold starts, and request volume. Source: [Cloud Run pricing](https://cloud.google.com/run/pricing).
+- Render supports Docker web services, private services, background workers, and preview environments, but exact compute pricing should be confirmed in the dashboard before provisioning. Source: [Render pricing](https://render.com/pricing).
+
+Current worker GO/NO-GO:
+
+- Worker implementation: GO for protected preview and container-host testing.
+- Local official options retrieval through the worker: GO.
+- Local official customs calculation result: NO-GO until the official MCV page returns a real amount within bounded time and the parser validates it.
+- Docker image verification: BLOCKED by local Docker service permissions.
+- Production launch: NO-GO.
+
 ### GO/NO-GO
 
 - Production promotion: NO-GO.
 - Protected preview preparation: GO.
-- Protected preview deployment: BLOCKED pending explicit user approval and access to the correct Vercel project/team.
+- Protected preview deployment: GO only for protected preview, not production, after the worker branch is pushed and a worker host is selected.
 - Full MCV launch: NO-GO until one deployed live official simulation succeeds and logs confirm stable browser cleanup.

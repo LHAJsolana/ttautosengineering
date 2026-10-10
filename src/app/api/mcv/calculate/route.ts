@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { McvCalculationRequest } from "@/lib/mcv/types";
+import { calculateMcvWithWorker } from "@/lib/mcv/workerClient";
 
 export const runtime = "nodejs";
 export const maxDuration = 90;
@@ -94,8 +95,13 @@ export async function POST(request: NextRequest) {
 
   let result;
   try {
-    const { calculateMcv } = await import("@/lib/mcv/client");
-    result = await calculateMcv(input);
+    const workerResult = await calculateMcvWithWorker(input);
+    if (workerResult) {
+      result = workerResult.body;
+    } else {
+      const { calculateMcv } = await import("@/lib/mcv/client");
+      result = await calculateMcv(input);
+    }
   } catch {
     return NextResponse.json(
       {

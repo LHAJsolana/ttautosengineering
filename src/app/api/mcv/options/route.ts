@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getMcvOptionsWithWorker } from "@/lib/mcv/workerClient";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -46,11 +47,14 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = request.nextUrl;
   try {
-    const { getMcvOptions } = await import("@/lib/mcv/client");
-    const result = await getMcvOptions({
+    const input = {
       manufacturer: clean(searchParams.get("manufacturer")),
       modelQuery: clean(searchParams.get("modelQuery"), 180),
-    });
+    };
+    const workerResult = await getMcvOptionsWithWorker(input);
+    const result = workerResult
+      ? workerResult.body
+      : await import("@/lib/mcv/client").then(({ getMcvOptions }) => getMcvOptions(input));
     return NextResponse.json(result, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return NextResponse.json(

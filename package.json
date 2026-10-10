@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "worker:dev": "tsx worker/mcv-worker.ts",
+    "worker:start": "tsx worker/mcv-worker.ts",
     "prebuild": "node scripts/ensure-playwright-browsers.mjs",
     "build": "next build",
     "start": "next start",
@@ -30,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
