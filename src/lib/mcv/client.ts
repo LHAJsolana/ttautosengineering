@@ -1,4 +1,4 @@
-import { chromium, type Browser, type Page } from "playwright";
+import type { Browser, Page } from "playwright";
 import { extractResultFromText } from "@/lib/mcv/parser";
 import {
   MCV_OFFICIAL_URL,
@@ -18,6 +18,7 @@ const USER_AGENT =
 const JOB_TIMEOUT_MS = 70_000;
 const MAX_ATTEMPTS = Math.max(1, Math.min(3, Number(process.env.MCV_MAX_ATTEMPTS || 2)));
 let activeJobs = 0;
+let chromiumLoader: Promise<typeof import("playwright")["chromium"]> | null = null;
 
 function normalize(input: string) {
   return input
@@ -73,12 +74,47 @@ function record(context: McvRunContext, step: McvProgressStep, message: string) 
   });
 }
 
+async function getChromium() {
+  if (process.env.VERCEL && !process.env.PLAYWRIGHT_BROWSERS_PATH) {
+    process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
+  }
+  chromiumLoader ??= import("playwright").then((mod) => mod.chromium);
+  return chromiumLoader;
+}
+
+function diagnosticMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  return message
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 3)
+    .join(" | ")
+    .slice(0, 600);
+}
+
 async function withBrowser<T>(context: McvRunContext, work: (page: Page) => Promise<T>): Promise<T> {
   let browser: Browser | null = null;
   let timeout: ReturnType<typeof setTimeout> | null = null;
   try {
+    const chromium = await getChromium();
     record(context, "connecting", "Launching browser");
-    browser = await chromium.launch({ headless: true });
+    const executablePath = chromium.executablePath();
+    record(context, "connecting", `Chromium executable path: ${executablePath}`);
+    try {
+      browser = await chromium.launch({
+        headless: true,
+        executablePath,
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+        ],
+      });
+    } catch (error) {
+      record(context, "connecting", `Browser launch failed: ${diagnosticMessage(error)}`);
+      throw error;
+    }
     const page = await browser.newPage({
       viewport: { width: 1365, height: 1000 },
       userAgent: USER_AGENT,
@@ -306,7 +342,7 @@ export async function calculateMcv(input: McvCalculationRequest): Promise<McvApi
         if (!["TIMEOUT", "SIMULATION_FAILED", "MCV_UNAVAILABLE"].includes(result.code)) return result;
         lastRetryable = result;
       } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
+        const message = diagnosticMessage(error);
         const code = /MCV_TIMEOUT|Timeout/i.test(message) ? "TIMEOUT" : "SIMULATION_FAILED";
         lastRetryable = fail(
           code,

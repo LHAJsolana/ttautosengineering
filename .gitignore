@@ -49,3 +49,4 @@ next-env.d.ts
 /scripts/.translation-cache.json
 
 .vercel
+.env*.local

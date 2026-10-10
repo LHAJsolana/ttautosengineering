@@ -9,6 +9,19 @@ function source(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
 }
 
+test("MCV API routes fail closed without top-level Playwright loading", () => {
+  const calculateRoute = source("src/app/api/mcv/calculate/route.ts");
+  const optionsRoute = source("src/app/api/mcv/options/route.ts");
+
+  assert.ok(!calculateRoute.includes('import { calculateMcv } from "@/lib/mcv/client"'));
+  assert.ok(!optionsRoute.includes('import { getMcvOptions } from "@/lib/mcv/client"'));
+  assert.match(calculateRoute, /await import\("@\/lib\/mcv\/client"\)/);
+  assert.match(optionsRoute, /await import\("@\/lib\/mcv\/client"\)/);
+  assert.match(calculateRoute, /No customs amount was generated/);
+  assert.match(optionsRoute, /Cache-Control/);
+  assert.match(optionsRoute, /Retry-After/);
+});
+
 test("homepage promotes Morocco Customs with localized CTA labels", () => {
   const home = source("src/app/[locale]/page.tsx");
   assert.match(home, /Importing a car to Morocco\?/);

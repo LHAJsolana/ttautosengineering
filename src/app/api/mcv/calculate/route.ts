@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { calculateMcv } from "@/lib/mcv/client";
 import type { McvCalculationRequest } from "@/lib/mcv/types";
 
 export const runtime = "nodejs";
@@ -38,7 +37,7 @@ export async function POST(request: NextRequest) {
   if (contentLength > MAX_BODY_BYTES) {
     return NextResponse.json(
       { status: "error", code: "VALIDATION_ERROR", message: "Request body is too large." },
-      { status: 413 }
+      { status: 413, headers: { "Cache-Control": "no-store" } }
     );
   }
 
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
         code: "CONCURRENCY_LIMIT",
         message: "Too many MCV requests. Please wait before trying again.",
       },
-      { status: 429, headers: { "Retry-After": "600" } }
+      { status: 429, headers: { "Cache-Control": "no-store", "Retry-After": "600" } }
     );
   }
 
@@ -60,17 +59,53 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json(
       { status: "error", code: "VALIDATION_ERROR", message: "Invalid request body." },
-      { status: 400 }
+      { status: 400, headers: { "Cache-Control": "no-store" } }
     );
   }
 
-  const result = await calculateMcv({
+  const input = {
     manufacturer: clean(payload.manufacturer),
     model: clean(payload.model, 180),
     vehicleType: clean(payload.vehicleType, 120),
     firstRegistrationDate: clean(payload.firstRegistrationDate, 20),
     beneficiaryType: clean(payload.beneficiaryType, 10) as McvCalculationRequest["beneficiaryType"],
-  });
+  };
+
+  if (!input.manufacturer || !input.model) {
+    return NextResponse.json(
+      { status: "error", code: "VALIDATION_ERROR", message: "Manufacturer and model are required." },
+      { status: 400, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
+  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(input.firstRegistrationDate)) {
+    return NextResponse.json(
+      { status: "error", code: "VALIDATION_ERROR", message: "First registration date must use DD/MM/YYYY." },
+      { status: 400, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
+  if (!["AUTRE", "MRE", "MRED", "PBS"].includes(input.beneficiaryType)) {
+    return NextResponse.json(
+      { status: "error", code: "VALIDATION_ERROR", message: "Unsupported beneficiary type." },
+      { status: 400, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
+  let result;
+  try {
+    const { calculateMcv } = await import("@/lib/mcv/client");
+    result = await calculateMcv(input);
+  } catch {
+    return NextResponse.json(
+      {
+        status: "error",
+        code: "MCV_UNAVAILABLE",
+        message: "The official MCV automation runtime is unavailable. No customs amount was generated.",
+      },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
+    );
+  }
 
   const status =
     result.status === "success"
@@ -82,6 +117,6 @@ export async function POST(request: NextRequest) {
           : result.code === "CONCURRENCY_LIMIT"
             ? 429
             : 502;
-  return NextResponse.json(result, { status });
+  return NextResponse.json(result, { status, headers: { "Cache-Control": "no-store" } });
 }
 
